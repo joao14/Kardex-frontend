@@ -3,43 +3,68 @@
     <div class="ui-g-12 ui-lg-6">
         <p-toolbar>
             <div class="p-toolbar-group-left">
-                <button (click)="save()" pButton class="ui-button-success" icon="pi pi-check" label="Guardar"
+                <button (click)="save()" pButton class="ui-button-success" icon="pi pi-check" [label]="'Guardar' | translate"
                     *ngIf="!edit"></button> &nbsp;
 
-                <button (click)="modificar()" pButton class="ui-button-primary" icon="pi pi-pencil" label="Modificar"
+                <button (click)="modificar()" pButton class="ui-button-primary" icon="pi pi-pencil" [label]="'Modificar' | translate"
                     *ngIf="edit"></button> &nbsp;
 
                 <button (click)="cancelar()" pButton class="ui-button-warning" icon="pi pi-arrow-left"
-                    label="Atrás"></button> &nbsp;
+                    [label]="'Atrás' | translate"></button> &nbsp;
 
             </div>
         </p-toolbar>
         <div class="card card-w-title ui-fluid">
 
-            <h1 *ngIf="!edit">Agregar nueva flor</h1>
-            <h1 *ngIf="edit">Editar Flor</h1>
+            <h1 *ngIf="!edit">{{'Agregar nueva flor' | translate }}</h1>
+            <h1 *ngIf="edit">{{'Editar flor' | translate}}</h1>
             <div class="ui-g form-group">
                 <div class="ui-g-12 ui-md-6">
-                    <label for="nombre">Nombre</label>
+                    <label for="nombre">{{'Nombre' | translate}}</label>
                     <input type="text" name="nombre" pInputText autocomplete="off" maxlength="100"
                         [(ngModel)]="flower.name" />
                 </div>
                 <div class="ui-g-12 ui-md-6">
-                    <label for="estado">Estado</label>
+                    <label for="estado">{{'Estado' | translate}}</label>
                     <p-selectButton [options]="options" [(ngModel)]="flower.state"></p-selectButton>
                 </div>
-                <div class="ui-g-12 ui-md-12">
-                    <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" [expandable]="true" (change)="onSelect($event)">
+                <div class="ui-g-12 ui-md-12" *ngIf="edit">
+                    <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" [expandable]="true"
+                        (change)="onSelect($event)">
                         <ngx-dropzone-label>
                             <div>
-                                <h2>My custom dropzone of images</h2>
+                                <h2>{{'Mi zona de imagenes' | translate}}</h2>
                             </div>
                         </ngx-dropzone-label>
                         <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
-                            [file]="f" [removable]="true" (removed)="onRemove(f)">
+                            [file]="f">
                             <ngx-dropzone-label class="text">{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                         </ngx-dropzone-image-preview>
                     </div>
+                </div> 
+                <div class="ui-g-12 ui-md-12" *ngIf="edit && flower.images.length > 0">
+                    <p-dataView [value]="flower.images">
+                        <p-header>
+                            <div class="ui-helper-clearfix">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-12" style="text-align: center;">
+                                        <label>{{'Recursos agregados' | translate }} [{{flower.images.length}}]</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-header>
+                        <ng-template let-image pTemplate="listItem">
+                            <div class="ui-g-12">
+                                <div class="card" style="padding: 10px !important;"> 
+                                    <div class="flower-grid-item-content">
+                                        <button pButton class="ui-button-danger" icon="fa fa-trash" style="position: absolute;float: right;"
+                                        (click)="remove(image)"></button>
+                                        <img [src]="image.atributo" style="width: 100%;height: 100%;object-fit: contain;">
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-dataView>
                 </div>
             </div>
         </div>

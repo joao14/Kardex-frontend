@@ -18,4 +18,5 @@ export interface client {
     credito: number;
     debito: number;
     balance:number;
+    paiscity?: string;
 }

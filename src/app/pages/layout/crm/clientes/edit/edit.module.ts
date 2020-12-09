@@ -10,7 +10,7 @@ import { EditComponent } from './edit.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditRoutingModule } from './edit-routing.module';
-import { SelectButtonModule, InputTextareaModule, BlockUIModule, FieldsetModule, PickListModule, KeyFilterModule } from 'primeng';
+import { SelectButtonModule, InputTextareaModule, BlockUIModule, FieldsetModule, PickListModule, KeyFilterModule, TooltipModule } from 'primeng';
 
 @NgModule({
   declarations: [EditComponent],
@@ -30,7 +30,8 @@ import { SelectButtonModule, InputTextareaModule, BlockUIModule, FieldsetModule,
     BlockUIModule,
     FieldsetModule,
     PickListModule,
-    KeyFilterModule
+    KeyFilterModule,
+    TooltipModule
   ]
 })
 export class EditModule { }

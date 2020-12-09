@@ -10,10 +10,10 @@ export interface client {
     entiId: string;
     entiDni: string;
     estado: string;
+    pais: string;
     ciudad: string;
     direccion: string;
     nombres: string;
-    apellidos: string;
     razosoci: string;
     tipo: any;
     email: string;
@@ -44,16 +44,15 @@ export class EditComponent implements OnInit {
     marksdisabled: mark[] = [];
     selectmark: mark;
     name: string;
+    city: string;
+    direction: string;
 
     constructor(private api: ApisService, private router: Router, private messageService: MessageService) {
         if (this.router.getCurrentNavigation().extras.state != null) {
-            console.log('EDITAR..');
             this.client_ = JSON.parse(this.router.getCurrentNavigation().extras.state.user);
-            console.log(this.client_);
             this.edit = true;
             this.getMarcks();
         } else {
-            console.log('CREATE');
             this.edit = false;
         }
         this.inicializateValores();
@@ -64,12 +63,8 @@ export class EditComponent implements OnInit {
     }
 
     modificarclient() {
-        console.log('[Modificar el cliente]');
-        console.log(this.client);
-        this.client.tipo = this.client.tipo.code;
-        this.client.tipo == 'J' ? this.client.nombres = this.client.razosoci : '';
+        this.client.tipo = this.client.tipo.code;       
         this.api.updateclient(this.client, localStorage.getItem("token")).then(data => {
-            console.log("Modificando el cliente");
             if (data.headerApp.code === 200) {
                 this.router.navigate(['clientes']);
                 this.inicializateValores();
@@ -87,11 +82,11 @@ export class EditComponent implements OnInit {
     }
 
     saveclient() {
-        console.log('[Guardando el usuario]');
+
         this.client.tipo = this.client.tipo.code;
         this.client.tipo == 'J' ? this.client.nombres = this.client.razosoci : '';
         this.api.addclient(this.client, localStorage.getItem("token")).then(data => {
-            console.log("Guardar cliente");
+
             if (data.headerApp.code === 200) {
                 this.router.navigate(['clientes']);
                 this.inicializateValores();
@@ -120,19 +115,16 @@ export class EditComponent implements OnInit {
             entiId: this.client_ != null ? this.client_['id'] : "",
             entiDni: this.client_ != null ? this.client_['identification'] : "",
             estado: this.client_ != null ? this.client_['status'] == 'Activo' ? "A" : "I" : "A",
+            pais: this.client_ != null ? this.client_['pais'] : "",
             ciudad: this.client_ != null ? this.client_['city'] : "",
             direccion: this.client_ != null ? this.client_['direction'] : "",
             nombres: this.client_ != null ? this.client_['name'] : "",
-            apellidos: this.client_ != null ? this.client_['lastname'] : "",
             razosoci: this.client_ != null ? this.client_['razosoci'] : "",
             tipo: this.client_ != null ? this.getType(this.client_['tipo'])[0] : { name: 'Persona Natural', code: 'N' },
             email: this.client_ != null ? this.client_['email'] : "",
             phone: this.client_ != null ? this.client_['phone'] : "",
             tipoenti: "C"
         };
-
-        console.log('ESTE ES EL CLIENTE');
-        console.log(this.client);
 
         this.options = [{ label: 'Activo', value: 'A' }, { label: 'Inactivo', value: 'I' }];
         this.tipos = [
@@ -153,8 +145,7 @@ export class EditComponent implements OnInit {
 
     onConfirm() {
         this.blockedPanel = false;
-        console.log('[Modificando el usuario]');
-        console.log(this.client);
+
         this.api.updateclient(this.client, localStorage.getItem("token")).then(data => {
             console.log("Actualizar cliente");
             if (data.headerApp.code === 200) {
@@ -201,15 +192,20 @@ export class EditComponent implements OnInit {
     guardar() {
         let mark: mark = {
             nombre: this.name,
+            ciudad: this.city,
+            direccion: this.direction,
             estado: 'A',
             entiId: this.client_['id']
         }
+
         this.api.addmark(mark, localStorage.getItem("token")).then(data => {
             console.log(data);
             if (data.headerApp.code === 200) {
                 this.messageService.add({ severity: 'success', summary: 'Rosa Mística', detail: 'Se ha agregado una nueva marca al cliente' });
                 this.getMarcks();
                 this.name = "";
+                this.city = "";
+                this.direction = "";
 
             }
         }).catch(err => {
@@ -281,11 +277,16 @@ export class EditComponent implements OnInit {
             entiId: this.selectmark.entiId,
             marcId: this.selectmark.marcId,
             nombre: this.name,
+            ciudad: this.city,
+            direccion: this.direction,
             estado: this.selectmark.estado
         }
         await this.api.updatemark(mark, localStorage.getItem("token")).then((data) => {
             if (data.headerApp.code === 200) {
                 console.log('Actualizado correctamente');
+                this.name = "";
+                this.city = "";
+                this.direction = "";
             }
         }).catch(err => {
             console.log(err);
@@ -298,7 +299,7 @@ export class EditComponent implements OnInit {
         await this.getMarcks();
         this.messageService.add({ severity: 'success', summary: 'Rosa Mística', detail: 'Se actualizado la marca ' + this.selectmark.nombre });
         this.selectmark = null;
-        this.name = "";
+
     }
 
     selected(mark: mark) {
@@ -307,12 +308,16 @@ export class EditComponent implements OnInit {
         } else {
             this.selectmark = mark;
             this.name = this.selectmark.nombre;
+            this.city = this.selectmark.ciudad;
+            this.direction = this.selectmark.direccion;
         }
     }
 
     cancelarmark() {
         this.selectmark = null;
         this.name = "";
+        this.city = "";
+        this.direction = "";
     }
 
 }

@@ -81,6 +81,11 @@ body .ui-table .ui-table-summary {
     display: none;
 }
 
+.sms-configuration{
+    text-align: center;
+    font-size: 14px;
+}
+
 @media only screen and (max-width: 40rem) {
     .p-datatable-responsive-demo {
         display: none;

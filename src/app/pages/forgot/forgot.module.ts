@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { ForgotRoutingModule } from './forgot-routing.module';
+import { ButtonModule, ProgressSpinnerModule, ToolbarModule, InputTextModule, ProgressBarModule, KeyFilterModule } from 'primeng';
 
 
 @NgModule({
@@ -14,7 +16,18 @@ import { MessageModule } from 'primeng/message';
     ToastModule,
     MessagesModule,
     MessageModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ForgotRoutingModule,
+    ReactiveFormsModule,
+    ToastModule,
+    MessagesModule,
+    MessageModule,
+    ProgressSpinnerModule,
+    ToolbarModule,
+    InputTextModule,
+    ButtonModule,
+    ProgressBarModule,
+    KeyFilterModule
   ]
 })
 export class ForgotModule { }

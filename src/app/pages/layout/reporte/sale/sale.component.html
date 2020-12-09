@@ -47,25 +47,18 @@
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>
                     <tr>
-                        <th style="width: 5em;"></th>
+                        <th style="width: 8em;"></th>
                         <th>{{'Fecha de transacción' | translate }}</th>
-                        <th>{{'N° de documentos' | translate}}</th>
+                        <th>{{'N° de documento' | translate}}</th>
                         <th>{{'Cliente' | translate}}</th>
                         <th>{{'Total' | translate}}</th>
                         <th>{{'N°. de tallos' | translate}}</th>
                         <th>{{'Secuencial' | translate}}</th>
                     </tr>
                     <tr>
-                        <th></th>                       
+                        <th></th>
                         <th>
-                            <div class="ui-fluid">
-                                <p-calendar (onSelect)="onDateSelect($event)" [readonlyInput]="true"
-                                    (onClearClick)="close()" (onClearClick)="dt.filter('', 'fecha', 'equals')"
-                                    [showButtonBar]="true" styleClass="p-column-filter"
-                                    [placeholder]="'Seleccione' | translate" [readonlyInput]="true"
-                                    dateFormat="yy-mm-dd">
-                                </p-calendar>
-                            </div>
+
                         </th>
                         <th>
                             <div class="ui-fluid">
@@ -106,10 +99,16 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-item>
-                    <tr>
-                        <td>
-                            <button type="button" pButton icon="fa fa-eye" (click)="view(item)"
-                                style="border-radius: 8px;" class="ui-button-info"></button>
+                    <tr style="background-color: white;">
+                        <td *ngIf="item.estado!='T'">
+                            <span  style="font-weight: bold;color: #ff4456;">BORRADOR</span>
+                        </td>
+                        <td *ngIf="item.estado=='T'">
+                            <button type="button" pButton icon="fa fa-eye" (click)="view(item)" 
+                                style="border-radius: 5px;" class="ui-button-success"></button>&nbsp;
+                            <button type="button" pButton icon="fa fa-envelope-o" (click)="send(item)"
+                                style="border-radius: 5px;" class="ui-button-info"></button>
+                            
                         </td>
                         <td><span class="p-column-title">{{item.fecha | date :'dd-MMM-yy h:mm:ss'  }}</span>
                         </td>
@@ -127,7 +126,7 @@
         </div>
 
         <!--Table responsive-->
-        <div class="tbl_responsive">            
+        <div class="tbl_responsive">
             <div class="header" *ngIf="invoices.length > 0">
                 {{ 'Número de registros' | translate }} [<span>{{invoices.length}}</span>]
             </div>
@@ -150,7 +149,8 @@
                         </div>
 
                         <div class="ui-grid-row">
-                            <div class="ui-grid-col-6"><span class="label">{{'N° de documentos' | translate }}</span></div>
+                            <div class="ui-grid-col-6"><span class="label">{{'N° de documentos' | translate }}</span>
+                            </div>
                             <div class="ui-grid-col-6"><span class="value">{{invoice.contdocu}}</span></div>
                         </div>
 
@@ -182,11 +182,44 @@
                 </div>
             </div>
         </div>
-        <p-dialog [header]="claveacceso" [(visible)]="dialogVisible" [style]="{width: '50vw'}"
+        <p-dialog [header]="claveacceso" [(visible)]="dialogVisible" [style]="{width: '50vw'}" [baseZIndex]="10000"
+            [maximizable]="true" [modal]="true" [resizable]="true">
+            <iframe [src]="url | safe" *ngIf="dialogVisible" width="100%" height="500px" style="border-width: 0PX;">
+            </iframe>
+        </p-dialog>
+
+        <p-dialog #email header="Configuración de email" [(visible)]="dialogEmail" [style]="{width: '40vw'}"
             [baseZIndex]="10000" [maximizable]="true" [modal]="true" [resizable]="true">
-            <iframe [src]="url | safe" *ngIf="dialogVisible"    
-                width="100%" height="500px" style="border-width: 0PX;">
-            </iframe>     
+            <div class="ui-grid-row">
+                <p class="sms-configuration">Validar si el correo es el correcto caso contrario cambielo por favor</p>
+            </div>
+            <br>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2"><span class="label">{{'Email' | translate}}</span>
+                </div>
+                <div class="ui-grid-col-7">
+                    <input type="text" [ngModel]="emailuser" pInputText readonly style="width: 100%;">
+                </div>
+                <div class="ui-grid-col-3" style="text-align: center;">
+                    <div class="ui-field-checkbox">
+                        <p-checkbox [(ngModel)]="status" binary="true" inputId="binary"></p-checkbox> &nbsp;
+                        <label for="binary">Cambiar</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="ui-grid-row" *ngIf="status">
+                <div class="ui-grid-col-2"><span class="label">{{'Nuevo email' | translate}}</span>
+                </div>
+                <div class="ui-grid-col-7">
+                    <input type="text" [(ngModel)]="newemailuser" pInputText [readonly]="!status" style="width: 100%;">
+                </div>
+                <div class="ui-grid-col-3">
+                </div>
+            </div>
+            <p-footer>
+                <button type="button" pButton icon="pi pi-check" [label]="'Enviar' | translate" (click)="ok()"></button>
+            </p-footer>
         </p-dialog>
     </div>
 

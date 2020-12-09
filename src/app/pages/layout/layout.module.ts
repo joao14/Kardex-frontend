@@ -12,7 +12,6 @@ import { TableModule } from 'primeng/table';
 import { TopbarComponent } from './component/topbar/topbar.component';
 import { PanelComponent } from './component/panel/panel.component';
 import { MenuComponent } from './component/menu/menu.component';
-import { BreadcrumbComponent } from './component/breadcrumb/breadcrumb.component';
 import { FooterComponent } from './component/footer/footer.component';
 import { AppMenuitemComponent } from './component/menu/app.menuitem.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,13 +26,15 @@ import { RouterModule } from '@angular/router';
 
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
-import { MessageModule, AutoCompleteModule, CardModule, SplitButtonModule, SelectButtonModule, ConfirmDialogModule, CalendarModule, DynamicDialogModule, DialogModule, VirtualScrollerModule, CarouselModule, DataViewModule, FieldsetModule, ProgressBarModule } from 'primeng';
+import { MessageModule, AutoCompleteModule, CardModule, SplitButtonModule, SelectButtonModule, ConfirmDialogModule, CalendarModule, DynamicDialogModule, DialogModule, VirtualScrollerModule, CarouselModule, DataViewModule, FieldsetModule, ProgressBarModule, ChartModule, BreadcrumbModule } from 'primeng';
 import { DragdropDirective } from 'src/app/directive/dragdrop.directive';
 
-// in app.module.ts
+// in app.module.ts   
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { SaleComponent } from './reporte/sale/sale.component';
-import { SafePipe } from 'src/app/pipes/safe.pipe';
+import { BreadComponent } from './component/bread/bread.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { AutomaticComponent } from './report/automatic/automatic.component';
+import { QuestionnaireComponent } from './report/questionnaire/questionnaire.component';
 
 @NgModule({
     imports: [
@@ -68,14 +69,17 @@ import { SafePipe } from 'src/app/pipes/safe.pipe';
         DataViewModule,
         NgxDropzoneModule,
         FieldsetModule,
-        ProgressBarModule
+        ProgressBarModule,
+        ChartModule,
+        BreadcrumbModule,
+        NgxSkeletonLoaderModule
         
     ],   
     declarations: [
         LayoutComponent,
         AppMenuitemComponent,
         FooterComponent,
-        BreadcrumbComponent,
+        BreadComponent,
         MenuComponent,
         TopbarComponent,
         PanelComponent,

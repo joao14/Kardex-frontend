@@ -5,32 +5,19 @@ import { MessageService } from 'primeng';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilService } from 'src/services/util.service';
 
-export interface Empresa {
-  dni: string,
-  entiid: number,
-  nombcome: string,
-  razosoci: string
-}
-
-export interface Roles {
-  estado: string,
-  icono: string,
-  nombre: string,
-  rolId: number,
-  usroId: number
-}
 
 export interface User {
-  nombres: string,
-  apellidos: string,
-  dni: number
-  email: string,
-  nickname: string,
-  token: string,
-  usuaid: string,
-  estado: string,
-  empresa: Empresa,
-  roles: Array<Roles>
+  clave: string;
+  estado: string;
+  nick: string;
+  nombres: string;
+  apellidos: string;
+  celular: string;
+  dni: string;
+  email: string;
+  id: string;
+  photo: string;
+  tipo: string;
 }
 
 @Component({
@@ -43,8 +30,8 @@ export class UsuarioComponent implements OnInit {
 
   users: Array<User> = [];
   identificacion: string = "";
-  constructor(private api: ApisService, private router: Router, private messageService: MessageService, private utilService: UtilService) { 
-   
+  constructor(private api: ApisService, private router: Router, private messageService: MessageService, private utilService: UtilService) {
+
   }
 
   ngOnInit(): void {
@@ -53,45 +40,31 @@ export class UsuarioComponent implements OnInit {
   }
 
   getUsers() {
+    console.log('USUARIOS');
     this.utilService.isLoading.next(true);
     this.api.getUsers(localStorage.getItem('token')).then(users => {
       console.log(users);
       if (users.headerApp.code === 200) {
         let temp: User[] = [];
-        users.data.usuarios.forEach(element => {         
-          let roles: Roles[] = [];
-          element.roles.forEach(rol => {
-            //console.log(rol);            
-            roles.push({
-              rolId: rol.id,
-              usroId: rol.usroId,
-              nombre: rol.rol,
-              estado: "A",
-              icono: null
-            });
-          });
+        users.data.persons.forEach(element => {
           let user: User = {
-            nombres: element.usuario.nombres,
-            apellidos: element.usuario.apellidos,
-            dni: element.usuario.dni,
-            email: element.usuario.email,
-            nickname: element.usuario.nickname,
-            token: element.usuario.token,
-            usuaid: element.usuario.usuaid,
-            estado: element.usuario.estado === 'A' ? 'Activo' : 'Inactivo',
-            empresa: {
-              dni: element.usuario.empresa.dni,
-              entiid: element.usuario.empresa.entiid,
-              nombcome: element.usuario.empresa.nombcome,
-              razosoci: element.usuario.empresa.razosoci
-            },
-            roles: roles
+            clave: element.usuario.clave,
+            estado: element.usuario.estado,
+            nick: element.usuario.nick,
+            nombres: element.usuario.persona.nombres,
+            apellidos: element.usuario.persona.apellidos,
+            celular: element.usuario.persona.celular,
+            dni: element.usuario.persona.dni,
+            email: element.usuario.persona.email,
+            id: element.usuario.persona.id,
+            photo: element.usuario.persona.photo,
+            tipo: element.usuario.persona.tipo
           }
-         
           temp.push(user);
         });
-
         this.users = temp;
+        console.log('Usuarios');
+        console.log(this.users);
         this.utilService.isLoading.next(false);
       }
     }).catch(error => {

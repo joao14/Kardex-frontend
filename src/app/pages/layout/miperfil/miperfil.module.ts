@@ -1,11 +1,12 @@
 import { ToolbarModule } from 'primeng/toolbar';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MiperfilRoutingModule } from './miperfil-routing.module';
 import { MiperfilComponent } from './miperfil.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PasswordModule, ToastModule } from 'primeng';
 
 
 
@@ -17,7 +18,11 @@ import { CommonModule } from '@angular/common';
     InputTextModule,
     ButtonModule,
     ReactiveFormsModule,
-    ToolbarModule
+    ToolbarModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PasswordModule,
+    ToastModule
   ]
 })
 export class MiperfilModule { }

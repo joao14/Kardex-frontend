@@ -4,94 +4,58 @@
         <p-toolbar>
             <div class="p-toolbar-group-left">
                 <button pButton class="ui-button-success" type="button" label="Guardar" (click)="sendData()"
-                    *ngIf="!enabled" icon="pi pi-check" iconPos="left"></button>
+                    *ngIf="!enabled" icon="pi pi-check" iconPos="left"></button> &nbsp;
                 <button pButton class="ui-button-warning" type="button" label="Cancelar" *ngIf="!enabled"
-                    (click)="cancel()" icon="pi pi-times" iconPos="left"></button>
+                    (click)="cancel()" icon="pi pi-times" iconPos="left"></button> &nbsp;
                 <button pButton class="ui-button-primary" type="button" label="Modificar" *ngIf="enabled"
                     (click)="modify()" icon="pi pi-pencil" iconPos="left"></button>
             </div>
         </p-toolbar>
+        <p-toast></p-toast>
         <div class="card no-margin ui-fluid">
-            <!-- <form [formGroup]="profileForm" (ngSubmit)="sendData()">
-                <div class="p-col-12">
-                    <button pButton pRipple style="width:20rem" class="p-mr-2 p-mb-2"
-                        type="submit" label="Guardar" [disabled]="profileForm.invalid"
-                        *ngIf="!enabled" icon="pi pi-check" iconPos="left"
-                        class="p-button-secondary"></button>
-                    <button pButton pRipple style="width:20rem" class="p-mr-2 p-mb-2"
-                        type="button" label="Cancelar"
-                        *ngIf="!enabled" (click)="cancel()" icon="pi pi-times" iconPos="left"
-                        class="p-button-success"></button>
-                    <button pButton pRipple style="width:20rem" class="p-mr-2 p-mb-2"
-                        type="button" label="Modificar"
-                        *ngIf="enabled" (click)="modify()" icon="pi pi-pencil" iconPos="left"
-                        class="p-button-info"></button>
-                </div>
 
-                <input #file type="file" accept='image/*' (change)="preview(file.files)" *ngIf="!enabled" />
-                <img [src]="user.photo" height="250">
-                <div class="p-col-6">
-                    <label for="identification">Identificación</label>
-                    <input type="text" pInputText name="identification" id="identification"
-                    minlength="10" formControl="identification" autocomplete="off"
-                    [readonly]="enabled" required />
-                    <br/>
-                </div>
-                <div class="p-col-6">
-                    <label for="name">Nombres</label>
-                    <input type="text" pInputText [readonly]="enabled"
-                           formControl="name" autocomplete="off"
-                           maxlength="100" name="name" id="name"
-                    />
-                    <br/>
-                </div>
-
-                <div class="p-col-6">
-                    <label for="lastname">Apellidos</label>
-                    <input type="text" pInputText [readonly]="enabled"
-                    formControl="lastname" autocomplete="off"
-                    maxlength="100" name="lastname" id="lastname"
-                    />
-                    <br/>
-                </div>
-
-                <div class="p-col-6">
-                    <label for="email">Email</label>
-                    <input type="text" pInputText autocomplete="off"
-                    formControl="email" [readonly]="enabled" name="email" id="email" />
-                    <br/>
-                </div>
-            </form>
-        -->
-
-            <div class="p-field">
+            <div class="p-field" style="text-align: center;"> 
                 <input #file type="file" accept='image/*' (change)="preview(file.files)" *ngIf="!enabled" />
                 <br>
-                <img [src]="user.photo" height="250">
+                <img [src]="user.photo==null ? '../../../../assets/images/perfil.png':user.photo" height="250">
             </div>
             <div class="p-field">
                 <label for="identification">Identificación</label>
                 <input type="text" pInputText name="identification" id="identification" minlength="10"
-                    autocomplete="off" [(value)]="user.dni" [readonly]="enabled" required />
+                    autocomplete="off" [(ngModel)]="user.dni" readonly required />
                 <br />
             </div>
             <div class="p-field">
                 <label for="name">Nombres</label>
-                <input type="text" pInputText [readonly]="enabled" autocomplete="off" [(value)]="user.name"
+                <input type="text" pInputText [readonly]="enabled" autocomplete="off" [(ngModel)]="user.name"
                     maxlength="100" name="name" id="name" />
                 <br />
             </div>
             <div class="p-field">
                 <label for="lastname">Apellidos</label>
-                <input type="text" pInputText [readonly]="enabled" autocomplete="off" [(value)]="user.lastname"
+                <input type="text" pInputText [readonly]="enabled" autocomplete="off" [(ngModel)]="user.lastname"
                     maxlength="100" name="lastname" id="lastname" />
                 <br />
             </div>
             <div class="p-field">
                 <label for="email">Email</label>
-                <input type="text" pInputText autocomplete="off" [(value)]="user.email" [readonly]="enabled"
+                <input type="text" pInputText autocomplete="off" [(ngModel)]="user.email" [readonly]="enabled"
                     name="email" id="email" />
                 <br />
+            </div>
+            <div class="p-field">
+                <label for="clave">Nickname</label>
+                <input type="text" pInputText autocomplete="off" [(ngModel)]="user.nickname" [readonly]="enabled"
+                    name="clave" id="clave" />
+                <br />
+            </div>
+            <div class="p-field">
+                <label for="clave">Clave</label>
+                <div class="ui-inputgroup">
+                    <input type="password" autocomplete="off" maxlength="100" pPassword [showPassword]="looking" [readonly]="enabled"
+                        [(ngModel)]="user.clave" />
+                    <button type="button" pButton pRipple [icon]="icon" (click)="changelookpasswor()"></button>
+                </div>
             </div>
         </div>
     </div>

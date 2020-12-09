@@ -7,3 +7,14 @@ form{
     height: 75px !important;
     margin-bottom: 20px !important;
 }
+
+.rigth_reserveds {
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    bottom: 0px;
+    margin-bottom: -20px;
+    text-align: center;
+    left: 0px;
+}

@@ -7,8 +7,8 @@
                 <button (click)="saveclient()" pButton class="ui-button-success" icon="pi pi-check" label="Guardar"
                     *ngIf="!edit"></button> &nbsp;
 
-                <button (click)="modificarclient()" pButton class="ui-button-primary" icon="pi pi-pencil" label="Modificar"
-                    *ngIf="edit"></button> &nbsp;
+                <button (click)="modificarclient()" pButton class="ui-button-primary" icon="pi pi-pencil"
+                    label="Modificar" *ngIf="edit"></button> &nbsp;
 
                 <button (click)="cancelar()" pButton class="ui-button-warning" icon="pi pi-arrow-left"
                     label="Atrás"></button> &nbsp;
@@ -21,41 +21,38 @@
             <div class="ui-g form-group">
                 <div class="ui-g-12 ui-md-3">
                     <label for="identification">Identificación</label>
-                    <input type="text" name="identification" pInputText autocomplete="off" maxlength="100" pKeyFilter="int"
-                        [(ngModel)]="client.entiDni" />
+                    <input type="text" name="identification" pInputText autocomplete="off" maxlength="100"
+                        pKeyFilter="int" [(ngModel)]="client.entiDni" />
                 </div>
 
-                <div class="ui-g-12 ui-md-3" >
+                <div class="ui-g-12 ui-md-3">
                     <label for="type">Tipo</label>
                     <p-dropdown [options]="tipos" [(ngModel)]="client.tipo" placeholder="Seleccione"
                         (onChange)="selecttipo($event)" optionLabel="name"></p-dropdown>
                 </div>
 
-                <div class="ui-g-12 ui-md-3" *ngIf="client.tipo.code=='N'">
+                <div class="ui-g-12 ui-md-3" >
                     <label for="name">Nombres</label>
                     <input type="text" name="name" pInputText autocomplete="off" maxlength="100"
                         [(ngModel)]="client.nombres" />
                 </div>
-                <div class="ui-g-12 ui-md-3" *ngIf="client.tipo.code=='N'">
-                    <label for="lastname">Apellidos</label>
-                    <input type="text" name="lastname" pInputText autocomplete="off" maxlength="100"
-                        [(ngModel)]="client.apellidos" />
-                </div>
-
-                <div class="ui-g-12 ui-md-3" *ngIf="client.tipo.code=='J'">
+               
+                <div class="ui-g-12 ui-md-3" >
                     <label for="businessname">Razón Social</label>
                     <input type="text" name="businessname" pInputText autocomplete="off" maxlength="100"
                         [(ngModel)]="client.razosoci" />
                 </div>
-                <div class="ui-g-12 ui-md-3">
-                    <label for="email">Email</label>
-                    <input type="text" name="email" pInputText autocomplete="off" maxlength="50"
-                        [(ngModel)]="client.email" />
-                </div>
+
                 <div class="ui-g-12 ui-md-3">
                     <label for="phone">Teléfono</label>
                     <input type="text" name="phone" pInputText autocomplete="off" maxlength="20"
                         [(ngModel)]="client.phone" pKeyFilter="int" />
+                </div>
+
+                <div class="ui-g-12 ui-md-3">
+                    <label for="country">País</label>
+                    <input type="text" name="country" pInputText autocomplete="off" maxlength="100"
+                        [(ngModel)]="client.pais" />
                 </div>
 
                 <div class="ui-g-12 ui-md-3">
@@ -67,33 +64,46 @@
                     <label for="state">Estado</label>
                     <p-selectButton [options]="options" [(ngModel)]="client.estado"></p-selectButton>
                 </div>
+               
+                <div class="ui-g-12 ui-md-6"> 
+                    <label for="email">Email</label>
+                    <textarea [rows]="3" [cols]="30" name="email" pInputTextarea placeholder="Your emails" 
+                        pTooltip="Para agregar varios emails debe serparar con punto y coma ';' "
+                        tooltipPosition="top" tooltipEvent="focus"
+                        autoResize="autoResize" [(ngModel)]="client.email"></textarea>
+                </div>
 
-                <div class="ui-g-12 ui-md-12">
+                <div class="ui-g-12 ui-md-6">
                     <label for="address">Dirección</label>
-                    <textarea [rows]="3" [cols]="30" name="address" pInputTextarea placeholder="Your Message"
+                    <textarea [rows]="3" [cols]="30" name="address" pInputTextarea placeholder="Your direction"
                         autoResize="autoResize" [(ngModel)]="client.direccion"></textarea>
                 </div>
                 <div class="ui-g-12 ui-md-12" *ngIf="edit">
                     <p-fieldset legend="Marcaciones">
                         <div class="ui-g form-group">
-                            <div class="ui-g-12 ui-md-2"></div>
-                            <div class="ui-g-12 ui-md-4">
+                            <div class="ui-g-12 ui-md-3"></div>
+                            <div class="ui-g-12 ui-md-5">
                                 <label for="nombre">Nombre</label>
                                 <input type="text" name="nombre" pInputText autocomplete="off" maxlength="100"
                                     [(ngModel)]="name" />
+                                <label for="nombre">Ciudad</label>
+                                <input type="text" name="city" pInputText autocomplete="off" maxlength="100"
+                                    [(ngModel)]="city" />
+                                <label for="nombre">Dirección</label>
+                                <input type="text" name="direction" pInputText autocomplete="off" maxlength="100"
+                                    [(ngModel)]="direction" />
                             </div>
                             <div class="ui-g-12 ui-md-4">
                                 <br>
                                 <div class="ui-grid-row">
                                     <div class="ui-grid-col-4"><button label="Guardar" *ngIf="selectmark==null" pButton
-                                            (click)="guardar()"></button>                                    </div>
+                                            (click)="guardar()"></button> </div>
                                     <div class="ui-grid-col-4"> <button label="Modificar" *ngIf="selectmark!=null"
                                             pButton (click)="modificar()"></button></div> &nbsp;
                                     <div class="ui-grid-col-4"><button label="Cancelar" *ngIf="selectmark!=null" pButton
                                             class="ui-button-warning" (click)="cancelarmark()"></button></div>
                                 </div>
                             </div>
-                            <div class="ui-g-12 ui-md-2"></div>
 
                             <div class="ui-g-12 ui-md-12">
                                 <p-pickList [source]="marks" [target]="marksdisabled" sourceHeader="Activos"
@@ -106,7 +116,7 @@
                                     <ng-template let-mark pTemplate="item">
                                         <div class="marks-item">
                                             <div class="mark-list-detail" (click)="selected(mark)">
-                                                <h5 class="p-mb-2">{{mark.nombre | titlecase}}</h5>
+                                                <h5 class="p-mb-2">{{mark.nombre | titlecase}} - {{ mark.ciudad}}</h5>
                                             </div>
                                         </div>
                                     </ng-template>

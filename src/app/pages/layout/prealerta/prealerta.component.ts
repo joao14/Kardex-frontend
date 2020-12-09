@@ -14,6 +14,7 @@ import { mark } from 'src/models/mark';
 import { UtilService } from 'src/services/util.service';
 import { user } from '../../../../models/user';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { environment } from 'src/environments/environment';
 
 export interface Item {
   fecha: string,
@@ -35,6 +36,8 @@ export interface Cabecera {
   fecha: string;
   usuaId: number;
   pralCerrado: string;
+  estado: string;
+  pralId: number;
 }
 
 export interface Detail {
@@ -73,6 +76,39 @@ export interface Response {
   totaltallos: number;
   totalcajas: number;
   numregi: number;
+}
+
+export interface ClientDraft {
+  info: {
+    clieId: number;
+    email: string;
+    nombres: string;
+    pdf: string;
+  },
+  items: Array<{
+    cargname: string;
+    cm: string;
+    farm: string;
+    fincapropia: string;
+    flower: string;
+    hbqb: number;
+    mark: string;
+    pcomp: string;
+    pvp: string;
+    shippingdate: string;
+    status: string;
+    tallos: number;
+    totaltallos: number;
+  }>;
+}
+
+export interface Draft {
+  head: {
+    pralId: number;
+    fecha: string;
+    pdf: string;
+  },
+  clients: Array<ClientDraft>;
 }
 
 @Component({
@@ -116,6 +152,13 @@ export class PrealertaComponent implements OnInit {
   smsvalidate: string;
   dialogVisible: boolean;
   response: Response;
+  step: number;
+  prealertsdraft: Array<Draft> = [];
+  url: string;
+  dialogVisiblePDF: boolean;
+  editPrealert: boolean;
+  idPrealert: number;
+  minDateValue: Date = new Date();
 
   constructor(private messageService: MessageService, private formBuilder: FormBuilder, private confirmationService: ConfirmationService,
     private api: ApisService, private router: Router, private utilService: UtilService, private spinner: NgxSpinnerService) {
@@ -129,6 +172,7 @@ export class PrealertaComponent implements OnInit {
       fincapropia: [false],
       tamanio: [''],
       tallos: ['', Validators.required],
+      totaltallos: ['', Validators.required],
       preciovent: [''],
       preciocomp: [''],
       carga: ['', Validators.required],
@@ -139,11 +183,16 @@ export class PrealertaComponent implements OnInit {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.inicializate();
+    this.prealertdraft();
     this.getServicios();
   }
 
 
   inicializate() {
+    this.idPrealert = 0;
+    this.editPrealert = false;
+    this.dialogVisible = false;
+    this.step = 1;
     this.selectitem = -1;
     this.cantidadPrice = [];
     this.expanded = false;
@@ -196,14 +245,23 @@ export class PrealertaComponent implements OnInit {
 
   }
 
-
-  delay(number) {
-    console.log('PARAMETRO : ' + number);
-    setTimeout(() => {
-      console.log('NUMERO: ' + number);
-      return number * 10;
-    }, 5000)
+  async prealertdraft() {
+    this.prealertsdraft=[];
+    this.utilService.isLoading.next(true);
+    await this.api.getprealertsdraft(localStorage.getItem('token')).then(prealert => {
+      console.log(prealert);
+      if (prealert.headerApp.code == 200) {
+        this.prealertsdraft = prealert.data.prealerts;
+      }
+    }).catch(err => {
+      if (err.error.code == 401) {
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      }
+    })
+    this.utilService.isLoading.next(false);
   }
+
 
   deleteItem(prealert: any) {
     this.items = this.items.filter((element) => element != prealert);
@@ -488,7 +546,9 @@ export class PrealertaComponent implements OnInit {
     let head: Cabecera = {
       fecha: this.getFormatDate(new Date()),
       usuaId: this.user.usuaid,
-      pralCerrado: "N"
+      pralCerrado: "N",
+      estado: "T",
+      pralId: this.idPrealert == undefined ? 0 : this.idPrealert
     }
 
     let detail: Array<Detail> = [];
@@ -518,17 +578,10 @@ export class PrealertaComponent implements OnInit {
       totaltallos += parseInt(data.tallos + "");
     })
 
-    console.log('TOTAL TALLOS');
-    console.log(totaltallos);
-    console.log('TOTAL CAJAS');
-    console.log(totalcajas);
-
     this.prealert = {
       prealerta: head,
       detalle: detail
     }
-
-    console.log(this.prealert);
 
     this.confirmationService.confirm({
       message: "Are you sure to send the prealert?",
@@ -538,15 +591,15 @@ export class PrealertaComponent implements OnInit {
           this.spinner.hide();
           console.log(data);
           if (data.headerApp.code == 200) {
+            this.prealertdraft();
             this.dialogVisible = true;
-            console.log('Se registro la prelaerta');
             this.total = 0;
             this.prealert = null;
+            this.editPrealert=false;
             this.items = [];
-            this.files=[];
+            this.files = [];
             this.prealertForm.get('fecha').setValue(new Date());
             this.messageService.add({ severity: 'success', summary: 'Rosa Mística', detail: 'La prealerta se ha registrado correctamente' });
-            console.log('LISTA..');
             let item: any[] = [];
             data.data.prealert.files.forEach(element => {
               console.log(element);
@@ -560,8 +613,6 @@ export class PrealertaComponent implements OnInit {
               totalcajas: totalcajas,
               numregi: contador
             }
-            console.log('RESPONSE');
-            console.log(this.response);
           }
         }).catch(err => {
           console.log(err);
@@ -707,6 +758,141 @@ export class PrealertaComponent implements OnInit {
 
   getFormatDate(date: Date): string {
     return (moment(date)).format('yyyy-MM-DD HH:mm:ss.SSS');
+  }
+
+  calculate() {
+    this.prealertForm.get('totaltallos').setValue(this.prealertForm.get('HBBQ').value * this.prealertForm.get('tallos').value)
+  }
+
+  next() {
+    console.log('FACTURANDO...');
+    this.step = 2;
+    this.editPrealert = false;
+  }
+
+  finish(draft: Draft) {
+    console.log('DRAFT FINAL');
+
+  }
+
+  back() {
+    this.step = 1;
+    this.prealertdraft();
+    this.editPrealert = false;
+    this.items = [];
+    this.total = 0;
+  }
+
+  viewdraft(draft: Draft) {
+    this.url = environment.url + draft.head.pdf;
+    this.dialogVisiblePDF = true;
+  }
+
+  async edit(draft: Draft) {
+    console.log('EDITANDO');
+    console.log(draft);
+    console.log('*********');
+    this.editPrealert = true;
+    this.step = 2;
+    this.items = [];
+    this.idPrealert = draft.head.pralId;
+    this.utilService.isLoading.next(true);
+    await Promise.all(draft.clients.map(async (client) => {
+      this.total = 0;
+      await Promise.all(client.items.map(async (item) => {
+        let temp = {
+          fecha: item.shippingdate,
+          cliente: await this.getClientbyName(client.info.nombres),
+          fincapropia: item.fincapropia == 'N' ? false : true,
+          finca: await this.getFincabyName(item.farm),
+          marca: await this.getMarcbyName(client.info.clieId, item.mark),
+          HBBQ: item.hbqb.toString(),
+          rosamistica: await this.getFlowerbyName(item.flower),
+          tamanio: item.cm,
+          tallos: item.tallos,
+          preciovent: item.pvp,
+          preciocomp: item.pcomp,
+          carga: await this.getEmpresaCargabyName(item.cargname),
+          status: item.status
+        }
+        this.total += item.tallos;
+        this.items.push(temp);
+      }))
+    }))
+    this.utilService.isLoading.next(false);
+  }
+
+  async saveeraser() {
+    let head: Cabecera = {
+      fecha: this.getFormatDate(new Date()),
+      usuaId: this.user.usuaid,
+      pralCerrado: "N",
+      estado: "B",
+      pralId: this.idPrealert == undefined ? 0 : this.idPrealert
+    }
+
+    let detail: Array<Detail> = [];
+    let contador = 0;
+    let totaltallos = 0;
+    let totalcajas = 0;
+    this.items.forEach(data => {
+      detail.push({
+        line: contador,
+        shippingdate: this.getFormatDate(new Date(data.fecha)),
+        clieId: data.cliente.entiId,
+        fincapropia: data.fincapropia == null ? 'N' : 'S',
+        farmId: data.finca.entiId,
+        marcId: data.marca.marcId,
+        hbqb: parseInt(data.HBBQ),
+        florId: data.rosamistica['florId'],
+        cm: data.tamanio,
+        tallos: data.tallos,
+        totaltallos: data.tallos,
+        pcomp: data.preciocomp,
+        cargcompId: parseInt(data.carga['entiId']),
+        pvp: data.preciovent,
+        status: data.status
+      })
+      contador++;
+      totalcajas += parseInt(data.HBBQ);
+      totaltallos += parseInt(data.tallos + "");
+    })
+
+    console.log('TOTAL TALLOS');
+    console.log(totaltallos);
+    console.log('TOTAL CAJAS');
+    console.log(totalcajas);
+
+    this.prealert = {
+      prealerta: head,
+      detalle: detail
+    }
+
+    console.log(this.prealert);
+
+    this.spinner.show();
+    await this.api.registerPrealert(this.prealert, localStorage.getItem("token")).then(data => {
+      this.spinner.hide();
+      console.log(data);
+      if (data.headerApp.code == 200) {
+        console.log('Se registro la prelaerta del borrador');
+        this.total = 0;
+        this.prealert = null;
+        this.items = [];
+        this.files = [];
+        this.step = 1;
+        this.prealertdraft();
+        this.prealertForm.get('fecha').setValue(new Date());
+        this.messageService.add({ severity: 'success', summary: 'Rosa Mística', detail: 'La prealerta se ha registrado correctamente' });
+      }
+    }).catch(err => {
+      console.log(err);
+      if (err.error.code == 401) {
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      }
+    })
+    this.utilService.isLoading.next(false);
   }
 
 

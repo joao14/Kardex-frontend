@@ -1,7 +1,7 @@
 <div class="ui-g">
     <div class="ui-g-12">
         <div class="card card-w-title">
-            <h1>{{'Saldo del Cliente' | translate}}</h1>
+            <h1>{{'Documentos generados' | translate}}</h1>
             <p-toast></p-toast>
             <div class="ui-g form-group ui-fluid">
                 <div class="ui-g-12 ui-md-2">
@@ -9,20 +9,25 @@
                         class="ui-button-success" (click)="consultar()"></button>
                 </div>
             </div>
+            <p-toast></p-toast>
             <p-accordion>
                 <p-accordionTab [header]="'Datos de la búsqueda' | translate" [selected]="true">
                     <div class="ui-g form-group ui-fluid">
                         <div class="ui-g-12 ui-md-2">
                             <label for="client" class="lbl">{{'Cliente' | translate}}</label>
-                            <p-dropdown [options]="clientes" optionLabel="nombres"
-                                [(ngModel)]="selectClient"
-                                class="form-control" [filter]="true" [placeholder]="'Seleccione' | translate">
-                            </p-dropdown> 
+                            <p-dropdown [options]="clientes" optionLabel="nombres" [(ngModel)]="selectClient"
+                                *ngIf="typerol=='ADM'" class="form-control" [filter]="true"
+                                [placeholder]="'Seleccione' | translate">
+                            </p-dropdown>
+                            <input type="text" pInputText [value]="selectClient?.nombres" readonly
+                                *ngIf="typerol!='ADM'" />
+
                         </div>
                         <div class="ui-g-12 ui-md-2">
                             <label class="lbl">{{'Balance' | translate }}</label>
                             <div class="ui-inputgroup">
-                                <input type="text" pInputText [value]="selectClient?.balance | currency" readonly placeholder="$0.00" />
+                                <input type="text" pInputText [value]="selectClient?.balance | currency" readonly
+                                    placeholder="$0.00" />
                                 <button type="button" pButton pRipple icon="pi pi-money-bill"></button>
                             </div>
                         </div>
@@ -30,7 +35,8 @@
                         <div class="ui-g-12 ui-md-2">
                             <label class="lbl">{{'Débito' | translate }}</label>
                             <div class="ui-inputgroup">
-                                <input type="text" pInputText [value]="selectClient?.debito | currency" readonly placeholder="$0.00" />
+                                <input type="text" pInputText [value]="selectClient?.debito | currency" readonly
+                                    placeholder="$0.00" />
                                 <button type="button" pButton pRipple icon="pi pi-money-bill"></button>
                             </div>
                         </div>
@@ -38,23 +44,24 @@
                         <div class="ui-g-12 ui-md-2">
                             <label class="lbl">{{'Crédito' | translate }}</label>
                             <div class="ui-inputgroup">
-                                <input type="text" pInputText [value]="selectClient?.credito | currency" readonly placeholder="$0.00" />
+                                <input type="text" pInputText [value]="selectClient?.credito | currency" readonly
+                                    placeholder="$0.00" />
                                 <button type="button" pButton pRipple icon="pi pi-money-bill"></button>
                             </div>
                         </div>
 
                         <div class="ui-g-12 ui-md-2">
-                            <label class="lbl">{{'Fecha Inicial' | translate }}</label>
+                            <label class="lbl">{{'Fecha inicial' | translate }}</label>
                             <p-calendar [(ngModel)]="dateIni" [showIcon]="true" [readonlyInput]="true"
                                 [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"></p-calendar>
                         </div>
 
                         <div class="ui-g-12 ui-md-2">
-                            <label class="lbl">{{'Fecha Final' | translate }}</label>
+                            <label class="lbl">{{'Fecha final' | translate }}</label>
                             <p-calendar [(ngModel)]="dateFin" [showIcon]="true" [readonlyInput]="true"
                                 [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"></p-calendar>
                         </div>
-                        
+
                     </div>
                 </p-accordionTab>
             </p-accordion>
@@ -93,15 +100,7 @@
                     <tr>
                         <th>
                         </th>
-                        <th>
-                            <div class="ui-fluid">
-                                <p-calendar (onSelect)="onDateSelect($event)" [readonlyInput]="true"
-                                    (onClearClick)="close()" (onClearClick)="dt.filter('', 'fecha', 'equals')"
-                                    [showButtonBar]="true" styleClass="p-column-filter"
-                                    [placeholder]="'Seleccione' | translate" [readonlyInput]="true"
-                                    dateFormat="yy-mm-dd">
-                                </p-calendar>
-                            </div>
+                        <th>                           
                         </th>
                         <th>
                             <div class="ui-fluid">
@@ -117,7 +116,7 @@
                                     [placeholder]="'Buscar' | translate" class="p-column-filter">
                             </div>
                         </th>
-                       
+
                         <th>
                             <div class="ui-fluid">
                                 <input pInputText type="text"
@@ -128,7 +127,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-item>
-                    <tr>
+                    <tr style="background-color: white;">
                         <td>
                             <button type="button" pButton icon="fa fa-eye" (click)="view(item)"
                                 style="border-radius: 8px;" class="ui-button-info"></button>
@@ -153,7 +152,7 @@
                 </ng-template>-->
             </p-table>
         </div>
-        
+
         <!--Table responsive-->
         <div class="tbl_responsive">
             <!--<p-accordion *ngIf="invoices.length > 0">
@@ -192,7 +191,8 @@
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-6"><span class="label">{{'Fecha' | translate}}</span>
                             </div>
-                            <div class="ui-grid-col-6"><span class="value">{{invoice.fecha | date :'dd-MMM-yy h:mm:ss'}}</span></div>
+                            <div class="ui-grid-col-6"><span
+                                    class="value">{{invoice.fecha | date :'dd-MMM-yy h:mm:ss'}}</span></div>
                         </div>
 
                         <div class="ui-grid-row">
@@ -202,13 +202,14 @@
                         </div>
 
                         <div class="ui-grid-row">
-                            <div class="ui-grid-col-6"><span class="label">{{'N° de documento' | translate }}</span></div>
-                            <div class="ui-grid-col-6"><span
-                                    class="value">{{invoice.numedocu}}</span></div>
+                            <div class="ui-grid-col-6"><span class="label">{{'N° de documento' | translate }}</span>
+                            </div>
+                            <div class="ui-grid-col-6"><span class="value">{{invoice.numedocu}}</span></div>
                         </div>
 
                         <div class="ui-grid-row">
-                            <div class="ui-grid-col-6"><span class="label">{{'Tipo transacción' | translate }}</span></div>
+                            <div class="ui-grid-col-6"><span class="label">{{'Tipo transacción' | translate }}</span>
+                            </div>
                             <div class="ui-grid-col-6"><span class="value">{{invoice.tipo}}</span></div>
                         </div>
                     </div>
@@ -218,10 +219,9 @@
                 {{ 'Número de registros' | translate }} [<span>{{invoices.length}}</span>]
             </div>
         </div>
-        <p-dialog [header]="numedocu" [(visible)]="dialogVisible" [style]="{width: '50vw'}"
-            [baseZIndex]="10000" [maximizable]="true" [modal]="true" [resizable]="true">
-            <iframe [src]="url | safe"
-                width="100%" height="500px" style="border-width: 0PX;">
+        <p-dialog [header]="numedocu" [(visible)]="dialogVisible" [style]="{width: '50vw'}" [baseZIndex]="10000"
+            [maximizable]="true" [modal]="true" [resizable]="true">
+            <iframe [src]="url | safe" width="100%" height="500px" style="border-width: 0PX;">
             </iframe>
         </p-dialog>
     </div>

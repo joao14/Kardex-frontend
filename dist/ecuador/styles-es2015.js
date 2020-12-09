@@ -642,15 +642,15 @@ if (content.locals) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/ROSA MISTICA/ecuador-ng-9.0.0/node_modules/primeng/resources/primeng.min.css */"./node_modules/primeng/resources/primeng.min.css");
-__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/ROSA MISTICA/ecuador-ng-9.0.0/node_modules/@fullcalendar/core/main.min.css */"./node_modules/@fullcalendar/core/main.min.css");
-__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/ROSA MISTICA/ecuador-ng-9.0.0/node_modules/@fullcalendar/daygrid/main.min.css */"./node_modules/@fullcalendar/daygrid/main.min.css");
-__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/ROSA MISTICA/ecuador-ng-9.0.0/node_modules/@fullcalendar/timegrid/main.min.css */"./node_modules/@fullcalendar/timegrid/main.min.css");
-__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/ROSA MISTICA/ecuador-ng-9.0.0/node_modules/quill/dist/quill.snow.css */"./node_modules/quill/dist/quill.snow.css");
-__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/ROSA MISTICA/ecuador-ng-9.0.0/node_modules/font-awesome/css/font-awesome.min.css */"./node_modules/font-awesome/css/font-awesome.min.css");
-__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/ROSA MISTICA/ecuador-ng-9.0.0/node_modules/primeicons/primeicons.css */"./node_modules/primeicons/primeicons.css");
-__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/ROSA MISTICA/ecuador-ng-9.0.0/src/assets/demo/css/codehighlight.css */"./src/assets/demo/css/codehighlight.css");
-module.exports = __webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/ROSA MISTICA/ecuador-ng-9.0.0/src/styles.css */"./src/styles.css");
+__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/GIZ/giz-ng-9.0.0/node_modules/primeng/resources/primeng.min.css */"./node_modules/primeng/resources/primeng.min.css");
+__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/GIZ/giz-ng-9.0.0/node_modules/@fullcalendar/core/main.min.css */"./node_modules/@fullcalendar/core/main.min.css");
+__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/GIZ/giz-ng-9.0.0/node_modules/@fullcalendar/daygrid/main.min.css */"./node_modules/@fullcalendar/daygrid/main.min.css");
+__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/GIZ/giz-ng-9.0.0/node_modules/@fullcalendar/timegrid/main.min.css */"./node_modules/@fullcalendar/timegrid/main.min.css");
+__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/GIZ/giz-ng-9.0.0/node_modules/quill/dist/quill.snow.css */"./node_modules/quill/dist/quill.snow.css");
+__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/GIZ/giz-ng-9.0.0/node_modules/font-awesome/css/font-awesome.min.css */"./node_modules/font-awesome/css/font-awesome.min.css");
+__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/GIZ/giz-ng-9.0.0/node_modules/primeicons/primeicons.css */"./node_modules/primeicons/primeicons.css");
+__webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/GIZ/giz-ng-9.0.0/src/assets/demo/css/codehighlight.css */"./src/assets/demo/css/codehighlight.css");
+module.exports = __webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/GIZ/giz-ng-9.0.0/src/styles.css */"./src/styles.css");
 
 
 /***/ })

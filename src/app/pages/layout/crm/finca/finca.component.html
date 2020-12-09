@@ -10,8 +10,8 @@
                 </div>
             </p-toolbar>
 
-            <p-table #dt [value]="fincas" [paginator]="true" [rows]="10"
-                [showCurrentPageReport]="true" class="p-datatable-responsive-demo"
+            <p-table #dt [value]="fincas" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                class="p-datatable-responsive-demo"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [rowsPerPageOptions]="[10,25,50,100]">
 
@@ -21,8 +21,9 @@
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>
-                    <tr> 
+                    <tr>
                         <th> {{'Nombre' | translate}}</th>
+                        <th> {{'Razón Social' | translate}}</th>
                         <th> {{'Teléfono' | translate}}</th>
                         <th> {{'País' | translate}}</th>
                         <th> {{'Ciudad' | translate}}</th>
@@ -36,6 +37,13 @@
                             <div class="ui-fluid">
                                 <input pInputText type="text"
                                     (input)="dt.filter($event.target.value, 'nombres', 'contains')"
+                                    placeholder="Search by Name" class="p-column-filter">
+                            </div>
+                        </th>
+                        <th>
+                            <div class="ui-fluid">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'razosoci', 'contains')"
                                     placeholder="Search by Name" class="p-column-filter">
                             </div>
                         </th>
@@ -73,8 +81,9 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-finca let-columns="columns">
-                    <tr [pSelectableRow]="finca" [pEditableRow]="finca">
+                    <tr [pSelectableRow]="finca" [pEditableRow]="finca" style="background-color: white;">
                         <td>{{finca.nombres | titlecase}}</td>
+                        <td>{{finca.razosoci | titlecase}}</td>
                         <td>{{finca.phone}}</td>
                         <td>{{finca.pais | titlecase }}</td>
                         <td>{{finca.ciudad | titlecase }}</td>
@@ -99,11 +108,11 @@
             <div class="tbl_responsive">
                 <p-accordion>
                     <p-accordionTab header="Filtros de búsqueda" [selected]="true">
-                        <div class="ui-g form-group ui-fluid">   
+                        <div class="ui-g form-group ui-fluid">
                             <div class="ui-g-12 ui-md-4">
                                 <label for="client" class="lbl">{{'Nombres' | translate}}</label>
-                                <input type="text" pInputText [(ngModel)]="name" placeholder="Nombre de finca"
-                                    required pKeyFilter="int" />
+                                <input type="text" pInputText [(ngModel)]="name" placeholder="Nombre de finca" required
+                                    pKeyFilter="int" />
                             </div>
                             <div class="ui-g-12 ui-md-4">
                                 <button pButton type="button" [label]="'Consultar' | translate" icon="fa fa-search"
@@ -111,7 +120,7 @@
                             </div>
                         </div>
                     </p-accordionTab>
-                </p-accordion>                
+                </p-accordion>
                 <div *ngIf="fincas.length <=0" style="text-align: center;">
                     <br>
                     <label class="messageData">{{'Información no encontrada' | translate}}</label>
@@ -127,7 +136,8 @@
 
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-6"><span class="label">{{'Nombres' | translate}}</span></div>
-                            <div class="ui-grid-col-6"><span class="value" style="word-break: break-all;">{{finca.nombres | titlecase}}</span></div>
+                            <div class="ui-grid-col-6"><span class="value"
+                                    style="word-break: break-all;">{{finca.nombres | titlecase}}</span></div>
                         </div>
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-6"><span class="label">{{'Teléfono' | translate}}</span></div>

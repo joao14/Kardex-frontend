@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DocumentoComponent } from './documento.component';
 import { DocumentoRoutingModule } from './documento-routing.module';
-import { InputTextModule, PanelModule, AccordionModule, InputTextareaModule, RadioButtonModule, ButtonModule, AutoCompleteModule, DropdownModule, TableModule, ToolbarModule, CardModule, SplitButtonModule, SelectButtonModule, ToastModule, ConfirmDialogModule, CalendarModule, DynamicDialogModule, DialogModule, VirtualScrollerModule, FieldsetModule } from 'primeng';
+import { InputTextModule, PanelModule, AccordionModule, InputTextareaModule, RadioButtonModule, ButtonModule, AutoCompleteModule, DropdownModule, TableModule, ToolbarModule, CardModule, SplitButtonModule, SelectButtonModule, ToastModule, ConfirmDialogModule, CalendarModule, DynamicDialogModule, DialogModule, VirtualScrollerModule, FieldsetModule, CheckboxModule } from 'primeng';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -24,7 +24,7 @@ import { SharedModule } from 'src/app/shared.module';
     ButtonModule,
     FormsModule,
     AutoCompleteModule,
-    DropdownModule,
+    DropdownModule, 
     TableModule,
     ToolbarModule,
     CardModule,
@@ -38,7 +38,8 @@ import { SharedModule } from 'src/app/shared.module';
     VirtualScrollerModule,
     TranslateModule,
     NgxSpinnerModule,
-    FieldsetModule
+    FieldsetModule,
+    CheckboxModule
   ]
 })
 export class DocumentoModule { }

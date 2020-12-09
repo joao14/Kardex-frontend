@@ -9,20 +9,28 @@
             <div class="ui-g form-group ui-fluid">
                 <div class="ui-g-12 ui-md-8">
                     <div>
-                        <h1 style="font-weight: bold;">{{'Pre-alerta' | translate}} &nbsp;<span>{{prealerts[0]?.head.pralId}}</span></h1>
+                        <h1 style="font-weight: bold;">{{'Prealerta' | translate}} &nbsp;<span
+                                style="background-color: #ff4456;color: white;width: 50%;padding: 5px;border-radius: 5px;">{{prealerts[0]?.head.pralId}}</span>
+                        </h1>
                     </div>
                     <div>
-                        <h1 style="font-weight: bold;">{{'Fecha' | translate}} &nbsp;<span>{{prealerts[0]?.head.fecha}}</span></h1>
+                        <h1 style="font-weight: bold;">{{'Fecha' | translate}}
+                            &nbsp;<span>{{prealerts[0]?.head.fecha}}</span></h1>
                     </div>
                 </div>
                 <div class="ui-g-12 ui-md-2">
-                    <button pButton type="button" [label]="'Descargar reporte' | translate" icon="pi pi-download" iconPos="left"
-                        class="ui-button-danger" (click)="downlaodTotal(prealerts[0]?.head)"
+                    <button pButton type="button" [label]="'Descargar reporte' | translate" icon="pi pi-download"
+                        iconPos="left" class="ui-button-danger" (click)="downlaodTotal(prealerts[0]?.head)"
                         style="border-radius: 7px;"></button>
                 </div>
-                <div class="ui-g-12 ui-md-2">
+                <div class="ui-g-12 ui-md-2" *ngIf="rol=='ADM'">
                     <button pButton type="button" [label]="'Enviar email' | translate" icon="pi pi-envelope"
-                        iconPos="left" class="ui-button-info" (click)="downlaodTotal(prealerts[0]?.head)"
+                        iconPos="left" class="ui-button-info" (click)="sendGeneral(prealerts[0]?.head, rol)"
+                        style="border-radius: 7px;"></button>
+                </div>
+                <div class="ui-g-12 ui-md-2" *ngIf="rol!='ADM'">
+                    <button pButton type="button" [label]="'Enviar email' | translate" icon="pi pi-envelope"
+                        iconPos="left" class="ui-button-info" (click)="sendGeneral(prealerts[0]?.head , rol)"
                         style="border-radius: 7px;"></button>
                 </div>
 
@@ -32,25 +40,26 @@
                     <div class="ui-g form-group ui-fluid">
                         <div class="ui-g-12 ui-md-11">
                             <div>
-                                {{'Número de clientes para la prealerta' | translate }} [ {{prealerts[0]?.clients.length}} ]
+                                {{'Número de clientes para la prealerta' | translate }} [
+                                {{prealerts[0]?.clients.length}} ]
                             </div>
                         </div>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>
                     <tr>
-                        <th>{{'Fecha de envío' | translate}}</th>
+                        <th>{{'Fecha de envio' | translate}}</th>
                         <th>{{'Variedad' | translate}}</th>
                         <th>{{'Finca' | translate}}</th>
                         <th>{{'Marca' | translate}}</th>
                         <th>{{'Empresa carga' | translate}}</th>
                         <th>{{'HQ/QB' | translate}}</th>
-                        <th>{{'CM' | translate}}</th>
-                        <th>{{'Stem' | translate}}</th>
-                        <th>{{'T. Stem' | translate}}</th>
-                        <th>{{'Precio Venta' | translate}}</th>
-                        <th>{{'Precio Compra' | translate}}</th>
-                        <th>{{'Estados' | translate}}</th>
+                        <th>{{'Tamaño' | translate}}</th>
+                        <th>{{'Total' | translate}}</th>
+                        <th>{{'Total tallos' | translate}}</th>
+                        <th>{{'Precio venta' | translate}}</th>
+                        <th>{{'Precio compra' | translate}}</th>
+                        <th>{{'Estado' | translate}}</th>
                     </tr>
 
                 </ng-template>
@@ -70,7 +79,12 @@
                                                 class="ui-button-success" style="border: 1px solid;border-radius: 7px;"
                                                 (click)="selectItem(item.info)"></button>
                                         </div>
-                                        <div class="ui-grid-col-6">
+                                        <div class="ui-grid-col-6" *ngIf="rol=='ADM'">
+                                            <button pButton type="button" icon="pi pi-envelope" iconPos="left"
+                                                class="ui-button-info" style="border: 1px solid;border-radius: 7px;"
+                                                (click)="sendEmail(item.info)"></button>
+                                        </div>
+                                        <div class="ui-grid-col-6" *ngIf="rol!='ADM'">
                                             <button pButton type="button" icon="pi pi-envelope" iconPos="left"
                                                 class="ui-button-info" style="border: 1px solid;border-radius: 7px;"
                                                 (click)="sendEmail(item.info)"></button>
@@ -109,11 +123,148 @@
 
                 </ng-template>
             </p-table>
+            <!--Table responsive-->
+            <div class="tbl_responsive">
+                <div class="header" *ngIf="prealerts[0]?.clients.length > 0">
+                    {{'Número de clientes para la prealerta' | translate }} [
+                    {{prealerts[0]?.clients.length}} ]
+                </div>
+                <div style="overflow-y: scroll; height: 500px;width: 100%;" *ngIf="prealerts[0]?.clients.length > 0">
+                    <div class="ui-grid ui-grid-responsive ui-fluid" class="data"
+                        *ngFor="let client of prealerts[0]?.clients">
+                        <div class="target ui-grid-row">
+                            <div class="ui-grid-col-8">
+                                <span class="p-column-title"
+                                    class="nametitle">{{client.info.nombres | titlecase}}</span>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <button pButton type="button" icon="pi pi-download" iconPos="left"
+                                    class="ui-button-success" style="border: 1px solid;border-radius: 7px;"
+                                    (click)="selectItem(client.info)"></button>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <button pButton type="button" icon="pi pi-envelope" iconPos="left"
+                                    class="ui-button-info" style="border: 1px solid;border-radius: 7px;"
+                                    (click)="sendEmail(client.info)"></button>
+                            </div>
+                        </div>
+                        <div class="target" *ngFor="let item of client.items">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'Fecha de envio' | translate}}</span>
+                                </div>
+                                <div class="ui-grid-col-6"><span
+                                        class="value">{{item.shippingdate | date :'dd/MM/yyyy'}}</span>
+                                </div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'Flor' | translate }}</span></div>
+                                <div class="ui-grid-col-6"><span class="value">{{item.flower}}</span></div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'Finca' | translate }}</span></div>
+                                <div class="ui-grid-col-6"><span class="value">{{item.farm | titlecase}}</span>
+                                </div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'E. de carga' | translate}}</span>
+                                </div>
+                                <div class="ui-grid-col-6"><span class="value">{{item.cargname | titlecase}}</span>
+                                </div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'HQ/BQ' | translate}}</span>
+                                </div>
+                                <div class="ui-grid-col-6"><span class="total_value">{{item.hbqb }}</span>
+                                </div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'Tamaño' | translate}}</span></div>
+                                <div class="ui-grid-col-6"><span class="total_value">{{item.cm}}</span>
+                                </div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'Total' | translate}}</span></div>
+                                <div class="ui-grid-col-6"><span class="total_value">{{item.tallos}}</span>
+                                </div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'Total tallos' | translate}}</span>
+                                </div>
+                                <div class="ui-grid-col-6"><span class="total_value">{{item.totaltallos}}</span>
+                                </div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'Precio venta' | translate}}</span>
+                                </div>
+                                <div class="ui-grid-col-6"><span class="total_value">{{item.pvp}}</span>
+                                </div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'Precio compra' | translate}}</span>
+                                </div>
+                                <div class="ui-grid-col-6"><span class="total_value">{{item.pcomp}}</span>
+                                </div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><span class="label">{{'Estado' | translate}}</span></div>
+                                <div class="ui-grid-col-6"><span class="total_value">{{item.status | titlecase}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <p-dialog [header]="titledialog" [(visible)]="dialogVisible" [style]="{width: '50vw'}" [baseZIndex]="10000"
             [maximizable]="true" [modal]="true" [resizable]="true">
             <iframe [src]="url | safe" width="100%" height="500px" style="border-width: 0PX;">
             </iframe>
+        </p-dialog>
+
+        <p-dialog #email header="Configuración de email" [(visible)]="dialogEmail" [style]="{width: '40vw'}"
+            [baseZIndex]="10000" [maximizable]="true" [modal]="true" [resizable]="true">
+            <div class="ui-grid-row">
+                <p class="sms-configuration">Validar si el correo es el correcto caso contrario cambielo por favor</p>
+            </div>
+            <br>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2"><span class="label">{{'Email' | translate}}</span>
+                </div>
+                <div class="ui-grid-col-7">
+                    <input type="text" [ngModel]="emailuser" pInputText readonly style="width: 100%;">
+                </div>
+                <div class="ui-grid-col-3" style="text-align: center;">
+                    <div class="ui-field-checkbox">
+                        <p-checkbox [(ngModel)]="status" binary="true" inputId="binary"></p-checkbox> &nbsp;
+                        <label for="binary">Cambiar</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="ui-grid-row" *ngIf="status">
+                <div class="ui-grid-col-2"><span class="label">{{'Nuevo email' | translate}}</span>
+                </div>
+                <div class="ui-grid-col-7">
+                    <input type="text" [(ngModel)]="newemailuser" pInputText [readonly]="!status" style="width: 100%;">
+                </div>
+                <div class="ui-grid-col-3">
+                </div>
+            </div>
+            <p-footer>
+                <button type="button" pButton icon="pi pi-check" [label]="'Enviar' | translate" (click)="ok()"></button>
+            </p-footer>
         </p-dialog>
     </div>
 

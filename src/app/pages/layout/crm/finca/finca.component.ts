@@ -34,6 +34,7 @@ export class FincaComponent implements OnInit {
     this.apis.getfinca(localStorage.getItem("token")).then(data => {
       console.log(data);
       if (data.headerApp.code == 200) {
+        let fincaTemp: finca[] = [];
         data.data.farms.forEach(element => {
           let finca = {
             apellidos: element.apellidos,
@@ -53,9 +54,11 @@ export class FincaComponent implements OnInit {
             tipo: element.tipo,
             tipoenti: element.tipoenti
           }
-          this.fincas.push(finca);
+          fincaTemp.push(finca);
         });
-         this.utilservice.isLoading.next(false);
+        this.fincas = fincaTemp;
+        this.utilservice.isLoading.next(false);
+        
         console.log('FINCAS..');
         console.log(this.fincas);
 

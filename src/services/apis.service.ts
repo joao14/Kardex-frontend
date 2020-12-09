@@ -67,6 +67,22 @@ export class ApisService {
             .pipe(retry(2), catchError(this.handleError)).toPromise();
     }
 
+    public resetpassword(email: string, token: string): Promise<any> {
+        let opt = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        }
+        return new Promise<any>((resolve, reject) => {
+            this.http.get<any>(environment.resetpassword + email, opt).toPromise().then(email => {
+                resolve(email);
+            }).catch(error => {
+                reject(error);
+            })
+        });
+    }
+
     public getUsers(token: string): Promise<any> {
         let opt = {
             headers: new HttpHeaders({
@@ -75,7 +91,55 @@ export class ApisService {
             })
         }
         return new Promise<any>((resolve, reject) => {
-            this.http.get<any>(environment.users, opt).toPromise().then(users => {
+            this.http.get<any>(environment.getusers, opt).toPromise().then(users => {
+                resolve(users);
+            }).catch(error => {
+                reject(error);
+            })
+        });
+    }
+
+    public getQuestionnariesActive(token: string): Promise<any> {
+        let opt = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        }
+        return new Promise<any>((resolve, reject) => {
+            this.http.get<any>(environment.questionnaries + 'A', opt).toPromise().then(users => {
+                resolve(users);
+            }).catch(error => {
+                reject(error);
+            })
+        });
+    }
+
+    public getQUsersByQuestionnaries(id: string, token: string): Promise<any> {
+        let opt = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        }
+        return new Promise<any>((resolve, reject) => {
+            this.http.get<any>(environment.usersbyquestionnaries + id, opt).toPromise().then(users => {
+                resolve(users);
+            }).catch(error => {
+                reject(error);
+            })
+        });
+    }
+
+    public registerusers(users: any[], token: string): Promise<any> {
+        let opt = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        }
+        return new Promise<any>((resolve, reject) => {
+            this.http.post<any>(environment.register, users, opt).toPromise().then(users => {
                 resolve(users);
             }).catch(error => {
                 reject(error);
@@ -281,6 +345,38 @@ export class ApisService {
             })
         });
 
+    }
+
+    public addResourcesflowers(flower: any, token: string): Promise<any> {
+        let opt = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        }
+        return new Promise<any>((resolve, reject) => {
+            this.http.post<any>(environment.addresourcesflower, flower, opt).toPromise().then(flower => {
+                resolve(flower);
+            }).catch(error => {
+                reject(error);
+            })
+        });
+    }
+
+    public removeResourcesflowers(idResource: number, token: string): Promise<any> {
+        let opt = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        }
+        return new Promise<any>((resolve, reject) => {
+            this.http.post<any>(environment.removeresourcesflower + idResource, null, opt).toPromise().then(flower => {
+                resolve(flower);
+            }).catch(error => {
+                reject(error);
+            })
+        });
     }
 
 
@@ -563,6 +659,73 @@ export class ApisService {
 
     }
 
+
+    public sendEmail(email: any, token: string): Promise<any> {
+        let opt = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        }
+        return new Promise<any>((resolve, reject) => {
+            this.http.post<any>(environment.sendEmail, email, opt).toPromise().then(email => {
+                resolve(email);
+            }).catch(error => {
+                reject(error);
+            })
+        });
+    }
+
+    public getinvoicesdraft(token: string): Promise<any> {
+        let opt = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        }
+        return new Promise<any>((resolve, reject) => {
+            this.http.get<any>(environment.invoicesdrafts, opt).toPromise().then(invoice => {
+                resolve(invoice);
+            }).catch(error => {
+                reject(error);
+            })
+        });
+
+    }
+
+    public getcharts(token: string): Promise<any> {
+        let opt = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        }
+        return new Promise<any>((resolve, reject) => {
+            this.http.get<any>(environment.charts, opt).toPromise().then(invoice => {
+                resolve(invoice);
+            }).catch(error => {
+                reject(error);
+            })
+        });
+
+    }
+
+    public getprealertsdraft(token: string): Promise<any> {
+        let opt = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        }
+        return new Promise<any>((resolve, reject) => {
+            this.http.get<any>(environment.prealertdrafts, opt).toPromise().then(prealert => {
+                resolve(prealert);
+            }).catch(error => {
+                reject(error);
+            })
+        });
+
+    }
 
 
 

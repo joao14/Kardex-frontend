@@ -1,34 +1,27 @@
 <div class="layout-topbar">
-   <p-progressBar [mode]="estado?'indeterminate':'determinate'" [style]="{'height': '6px'}"></p-progressBar>
+    <p-progressBar [mode]="estado?'indeterminate':'determinate'" [style]="{'height': '6px'}"></p-progressBar>
 
     <a href="#" id="topbar-menu-button" (click)="app.onMenuButtonClick($event)">
-        <i class="fa fa-angle-left arrow"></i>
-        <i class="fa fa-angle-up mobile"></i>
+        <i class="fa fa-bars arrow"></i>
+        <i class="fa fa-bars mobile"></i>
     </a>
 
-    <!--<div class="search-input">
-        <i class="fa fa-search icon-search"></i>
-        <input type="text" />
-    </div>-->
 
     <a href="/" class="logo-container">
         <!--<img src="assets/layout/images/ecuador-logo.png" alt="ecuador-layout" />-->
-        <span style="color: white;font-weight: bold;font-size: 1.5rem;">ROSA MISTICA</span>
-    </a>
+        <span style="color: white;font-weight: bold;font-size: 1.5rem;">DEVELOPER GIZ</span>
+    </a>  
 
-    <div class="search-input languajes">
-        <i class="fa fa-language" aria-hidden="true" style="color: white;"></i> &nbsp;
-        <select name="miselect" (change)="onChange($event)" class="fixed">
-            <option value="es" selected="selected">Español</option>
-            <option value="en">English</option>
-            <option value="ru">Rusia</option>
-            <option value="ch">日本人</option>
-        </select>
-    </div>
+    <a id="topbar-profile-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)" class="mobile">
+        <span>{{name | titlecase }}</span>
+        <img [src]="user.photo" alt="ecuador-layout" class="topbar-profile" />
+        <i class="fa fa-sort-desc"></i>
+    </a>
 
     <a id="topbar-profile-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)">
         <span>{{name | titlecase }}</span>
-        <img [src]="user.photo" alt="ecuador-layout" class="topbar-profile" />
+        <i class="pi pi-user" *ngIf="user.photo==null" style="font-size: 2rem"></i>
+        <img  *ngIf="user.photo!=null" [src]="user.photo" alt="ecuador-layout" class="topbar-profile" />
         <i class="fa fa-sort-desc"></i>
     </a>
 
@@ -39,125 +32,24 @@
                 <span class="topbar-item-name">{{ 'Perfil' | translate }}</span>
             </a>
         </li>
-        <!--<li #settings [ngClass]="{'menuitem-active':app.activeTopbarItem === settings}">
-            <a href="#" (click)="app.onTopbarItemClick($event, settings)">
-                <i class="fa fa-fw fa-cog"></i>
-                <span class="topbar-item-name">Settings</span>
-                <span class="topbar-submenuitem-badge">2</span>
-            </a>
-            <ul>
-                <li role="menuitem">
-                    <a href="#" (click)="app.onTopbarSubItemClick($event)">
-                        <i class="fa fa-fw fa-paint-brush"></i>
-                        <span>Change</span>
-                    </a>
-                </li>
-                <li role="menuitem">
-                    <a href="#" (click)="app.onTopbarSubItemClick($event)">
-                        <i class="fa fa-fw fa-star-o"></i>
-                        <span>Favorites</span>
-                    </a>
-                </li>
-                <li role="menuitem">
-                    <a href="#" (click)="app.onTopbarSubItemClick($event)">
-                        <i class="fa fa-fw fa-lock"></i>
-                        <span>Lock Screen</span>
-                    </a>
-                </li>
-                <li role="menuitem">
-                    <a href="#" (click)="app.onTopbarSubItemClick($event)">
-                        <i class="fa fa-fw fa-picture-o"></i>
-                        <span>Wallpaper</span>
-                    </a>
-                </li>
-            </ul>
-        </li>-->
-        <!--<li #messages [ngClass]="{'menuitem-active':app.activeTopbarItem === messages}">
-            <a href="#" (click)="app.onTopbarItemClick($event, messages)">
-                <i class="fa fa-fw fa-envelope-o"></i>
-                <span class="topbar-item-name">Messages</span>
-            </a>
-            <ul>
-                <li role="menuitem">
-                    <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClick($event)">
-                        <img src="assets/layout/images/avatar-brooke.png" alt="ecuador-layout" width="25" />
-                        <span>Give me a call</span>
-                    </a>
-                </li>
-            </ul>
-        </li>-->
-        <li #roles [ngClass]="{'menuitem-active':app.activeTopbarItem === roles}" *ngIf="user.roles.length > 1">
-            <a href="#" (click)="app.onTopbarItemClickRoles($event, roles)">
+        <li #roles [ngClass]="{'menuitem-active':menu=='ROL'}" (click)="selectSubItem('ROL')"
+            *ngIf="user.roles.length > 1">
+            <a href="#" (click)="app.onTopbarItemClickRoles($event, roles)"
+                [class]="menu=='ROL'?'menuitem-active-a':'menuitem-no-active-a'">
                 <i class="fa fa-chain-broken"></i>
                 <span class="topbar-item-name">Roles </span>
+                <i [ngStyle]="{'color':menu === 'ROL'? 'white': '#828282'}" style="float: right;"
+                    [class]="menu=='ROL'?'fa fa-fw fa-angle-up layout-menuitem-toggler': 'fa fa-fw fa-angle-down layout-menuitem-toggler'"></i>
             </a>
             <ul *ngFor="let rol of user.roles">
                 <li role="menuitem">
                     <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClickRoles($event)">
-                        <span>{{rol.rol}}</span>
+                        <span>{{rol.rol }}</span>
+                        <i *ngIf="rol.shorcut==typerol" style="float: right;font-size: 1rem" class="pi pi-check" ></i>
                     </a>
                 </li>
             </ul>
-        </li>
-        <li #languajes [ngClass]="{'menuitem-active':app.activeTopbarItem === languajes}" class="languajes_menu">
-            <a href="#" (click)="app.onTopbarItemClickLanguajes($event, languajes)">
-                <i class="fa fa-fw fa-globe"></i>
-                <span class="topbar-item-name">Languajes</span>
-            </a>
-            <ul>
-                <li role="menuitem">
-                    <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClickLanguajes($event)">
-                        <span>Español</span>
-                    </a>
-                </li>
-            </ul>
-            <ul>
-                <li role="menuitem">
-                    <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClickLanguajes($event)">
-                        <span>English</span>
-                    </a>
-                </li>
-            </ul>
-            <ul>
-                <li role="menuitem">
-                    <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClickLanguajes($event)">
-                        <span>日本人</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!--<li #notifications [ngClass]="{'menuitem-active':app.activeTopbarItem === notifications}">
-            <a href="#" (click)="app.onTopbarItemClick($event, notifications)">
-                <i class="fa fa-fw fa-bell-o"></i>
-                <span class="topbar-item-name">Notifications</span>
-            </a>
-            <ul>
-                <li role="menuitem">
-                    <a href="#" (click)="app.onTopbarSubItemClick($event)">
-                        <i class="fa fa-fw fa-tasks"></i>
-                        <span>Pending tasks</span>
-                    </a>
-                </li>
-                <li role="menuitem">
-                    <a href="#" (click)="app.onTopbarSubItemClick($event)">
-                        <i class="fa fa-fw fa-calendar-check-o"></i>
-                        <span>Meeting today</span>
-                    </a>
-                </li>
-                <li role="menuitem">
-                    <a href="#" (click)="app.onTopbarSubItemClick($event)">
-                        <i class="fa fa-fw fa-download"></i>
-                        <span>Download</span>
-                    </a>
-                </li>
-                <li role="menuitem">
-                    <a href="#" (click)="app.onTopbarSubItemClick($event)">
-                        <i class="fa fa-fw fa-plane"></i>
-                        <span>Book flight</span>
-                    </a>
-                </li>
-            </ul>
-        </li>-->
+        </li> 
         <li>
             <a href="#" (click)="app.singout()">
                 <i class="fa fa-fw fa-sign-out"></i>
@@ -165,10 +57,4 @@
             </a>
         </li>
     </ul>
-
-    <a href="#" id="right-panel-button" [ngClass]="{'menu-button-rotate': app.rightPanelActive}"
-        (click)="app.onRightPanelButtonClick($event)">
-        <i class="fa fa-angle-double-left"></i>
-    </a>
-
 </div>

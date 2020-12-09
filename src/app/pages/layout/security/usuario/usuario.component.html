@@ -9,7 +9,6 @@
                         (click)="addUser()"></button>
                 </div>
             </p-toolbar>
-            <br>
             <p-table #dt styleClass="ui-table-cars" [value]="users" [paginator]="true" [rows]="10"
                 [showCurrentPageReport]="true" class="p-datatable-responsive-demo"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -26,8 +25,8 @@
                         <th> {{'Nombres' | translate}}</th>
                         <th> {{'Apellidos' | translate}}</th>
                         <th> {{'Email' | translate}}</th>
-                        <th> {{'Nickname' | translate}}</th>
-                        <th> {{'Empresa' | translate}}</th>
+                        <th> {{'Celular' | translate}}</th>
+                        <th> {{'Nickname' | translate}}</th>                       
                         <th> {{'Estado' | translate}}</th>
                         <th style="width: 8em; text-align: center;">
                             <button pButton type="button" icon="pi pi-cog"></button>
@@ -65,14 +64,14 @@
                         <th>
                             <div class="ui-fluid">
                                 <input pInputText type="text"
-                                    (input)="dt.filter($event.target.value, 'nickname', 'contains')"
+                                    (input)="dt.filter($event.target.value, 'nick', 'contains')"
                                     placeholder="Search by nickname">
                             </div>
                         </th>
                         <th>
                             <div class="ui-fluid">
                                 <input pInputText type="text"
-                                    (input)="dt.filter($event.target.value, 'empresa.nombcome', 'contains')"
+                                    (input)="dt.filter($event.target.value, 'celular', 'contains')"
                                     placeholder="Search by business">
                             </div>
                         </th>
@@ -89,16 +88,16 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-user let-columns="columns">
-                    <tr [pSelectableRow]="user" [pEditableRow]="user">
+                    <tr [pSelectableRow]="user" [pEditableRow]="user" style="background-color: white;">
                         <td>{{user.dni}}</td>
                         <td>{{user.nombres | titlecase }}</td>
                         <td>{{user.apellidos | titlecase }}</td>
                         <td style="word-wrap: break-word;">{{user.email}}</td>
-                        <td style="word-wrap: break-word;">{{user.nickname}}</td>
-                        <td style="word-wrap: break-word;">{{user.empresa.nombcome | titlecase}}</td>
+                        <td style="word-wrap: break-word;">{{user.nick}}</td>
+                        <td style="word-wrap: break-word;">{{user.celular}}</td>
                         <td style="text-align: center;">
-                            <div [class]="user.estado=='Activo'?'active-badge':'inactive-badge'">
-                                <span>{{user.estado}}</span>
+                            <div [class]="user.estado=='A'?'active-badge':'inactive-badge'">
+                                <span>{{user.estado=='A'?'Activo':'Inactivo'}}</span>
                             </div>
                         </td>
                         <td>

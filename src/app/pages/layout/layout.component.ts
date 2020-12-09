@@ -39,6 +39,10 @@ export class LayoutComponent implements OnInit {
 
     rolselected: string;
 
+    type: string;
+
+    typerol: string;
+
     constructor(
         private menuService: MenuService,
         private router: Router,
@@ -48,9 +52,23 @@ export class LayoutComponent implements OnInit {
         this.utilservice.rolselected.subscribe(data => {
             this.rolselected = data;
         })
+
+        this.utilservice.typerolselected.subscribe(data => {
+            this.type = data;
+        })
+
     }
 
     ngOnInit() {
+        this.typerol = JSON.parse(localStorage.getItem('user')).roles[0].shorcut;
+        localStorage.setItem("rolactive", this.typerol);
+
+        if (JSON.parse(localStorage.getItem('user')).roles.length > 1) {
+            this.utilservice.typerolselected.next(this.typerol);
+        }
+
+        this.utilservice.itemsSource.next([
+            { label: 'Dashboard' }]);
     }
 
 
@@ -121,7 +139,32 @@ export class LayoutComponent implements OnInit {
     }
 
     onTopbarSubItemClickRoles(event) {
+       
         this.utilservice.rolselected.next(event.target.textContent);
+        switch ((event.target.textContent).toUpperCase()) {
+            case "ADMINISTRADOR":
+                this.utilservice.typerolselected.next('ADM');
+                localStorage.setItem("rolactive", 'ADM');
+                this.router.navigate(['/']);
+                break;
+            case "CLIENTE":
+                this.utilservice.typerolselected.next('CLI');
+                localStorage.setItem("rolactive", 'CLI');
+                this.router.navigate(['/']);
+                break;
+            case "COMPRAS":
+                this.utilservice.typerolselected.next('COM');
+                localStorage.setItem("rolactive", 'COM');
+                this.router.navigate(['/']);
+                break;
+            case "FACTURACIÓN":
+                this.utilservice.typerolselected.next('FAC');
+                localStorage.setItem("rolactive", 'FAC');
+                this.router.navigate(['/']);
+                break;
+            default:
+                break;
+        }
         event.preventDefault();
     }
 
@@ -136,6 +179,7 @@ export class LayoutComponent implements OnInit {
     }
 
     onTopbarItemClick(event, item) {
+
         this.topbarItemClick = true;
 
         if (this.activeTopbarItem === item) {
@@ -145,12 +189,14 @@ export class LayoutComponent implements OnInit {
         }
 
         event.preventDefault();
+        this.utilservice.itemsSource.next([{'label':' Perfil'}])
         this.router.navigate(["miperfil"]);
     }
 
     singout() {
+        console.log('Saliendo...');        
         localStorage.clear();
-        this.router.navigate(["/"]);
+        this.router.navigate(["/login"]);
     }
 
     onTopbarSubItemClick(event) {

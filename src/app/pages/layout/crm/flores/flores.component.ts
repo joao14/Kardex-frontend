@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { SelectItem, MessageService } from 'primeng';
 import { TranslateService } from '@ngx-translate/core';
 import { flower } from 'src/models/flower';
+import { environment} from 'src/environments/environment';
+import { UtilService } from 'src/services/util.service';
 
 export interface Flower {
   id: number;
@@ -28,34 +30,36 @@ export class FloresComponent implements OnInit {
   dialogVisible: boolean;
   sortField: string;
   sortOrder: string;
-  loading: boolean;
+  typerol: string;
+  
 
-  constructor(private apis: ApisService, private router: Router) {
+  constructor(private apis: ApisService, private router: Router, private utilservice: UtilService) {
   }
 
   ngOnInit(): void {
-    console.log('INICIALIZATE');
+    console.log('INICIALIZATE FLORES ');
+    this.typerol = localStorage.getItem("rolactive");
+    console.log(this.typerol);
+    console.log('********');
     this.sortField = "";
     this.sortOrder = "";
     this.inicializate();
   }
 
-  inicializate() {
+  async inicializate() {
     this.options = [{ label: 'Todos', value: null }, { label: 'Activo', value: 'A' }, { label: 'Inactivo', value: 'I' }];
     this.dialogVisible = false;
-    console.log(localStorage.getItem("token"));
-    this.loading = true;
-    console.log('FLORES');
-    this.apis.getflowers(localStorage.getItem("token")).then(data => {
-      console.log(data);
+    this.utilservice.isLoading.next(true);
+    await this.apis.getflowers(localStorage.getItem("token")).then(data => {
       if (data.headerApp.code == 200) {
-      let temp: Array<flower>=[];
+        let temp: Array<flower> = [];
         data.data.flowers.forEach(element => {
           let images_: any[] = [];
           element.recursos.forEach(recurso => {
             let images = {
-              atributo: recurso.atributo,
-              descripcion: recurso.descripcion
+              atributo: environment.url + recurso.atributo,
+              descripcion: recurso.descripcion,
+              reflId: recurso.reflId
             }
             images_.push(images);
           });
@@ -68,22 +72,23 @@ export class FloresComponent implements OnInit {
           }
           temp.push(flower);
         });
-        this.loading = false;
-        this.flowers=temp;
+        this.flowers = temp;
       }
-      console.log('Finalizando los documentos');     
+      console.log('Finalizando los documentos');
       console.log('FLORES');
       console.log(this.flowers);
-      
+
     }).catch(err => {
       console.log(err);
-      this.loading = false;
       if (err.error.code == 401) {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
 
     })
+
+    this.utilservice.isLoading.next(false);
+    
   }
 
   onRepresentativeChange(event) {

@@ -1,10 +1,10 @@
 <body class="login-body">
     <div class="login-topbar">
         <a href="#" class="logo">
-            <img src="../../../assets/layout/images/ecuador-logo.png" alt="ecuador-layout" />
-        </a>
+            <span style="color: white;font-weight: bold;font-size: 1.5rem;">ROSA MISTICA</span>
+        </a>        
     </div>
-
+    <p-progressBar [mode]="estado" [style]="{'height': '6px'}"></p-progressBar>
     <div class="login-image">
         <div class="login-panel">
             <p-toast position="top-right" [baseZIndex]="10000"></p-toast>
@@ -15,22 +15,27 @@
 
                 <div class="ui-g-12">
                     <div class="input-wrapper">
-                        <input type="text" autocomplete="off" placeholder="email" class="ui-inputtext ui-widget"
+                        <input type="text" autocomplete="off" pInputText placeholder="email" class="ui-inputtext ui-widget"
+                        pKeyFilter="email" 
                         formControlName="email">
                     </div>
                 </div>
 
-                <div class="checkbox-container">
-                    <button type="submit" [disabled]="!checkoutForm.valid"
-                        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-                        <span class="ui-button-text ui-c">Send</span>
-                    </button>
-                </div>
+                <button pButton pRipple type="submit" label="Enviar" style="width: 50%;" styleClass="ui-button-lg" 
+                    [disabled]="!checkoutForm.valid"
+                    icon="pi pi-sign-in"></button>
 
-
+                
                 <div class="separator"></div>
 
+                <a routerLink="/dashboard" routerLinkActive="active" class="subinfo">
+                    <span>Turn to home page</span>
+                </a>
+
             </form>
+            <div class="rigth_reserveds">
+                <span>Addsoft-tech 2020 Todos los derechos reservados</span>
+            </div>
 
         </div>
     </div>

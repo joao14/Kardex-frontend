@@ -50,11 +50,9 @@ export class ClientesComponent implements OnInit {
         this.getClients();
     }
 
-    async getClients() {
+    async getClients() {        
         this.utilservice.isLoading.next(true);
         await this.api.getclients(localStorage.getItem('token')).then(clientes => {
-            console.log(clientes);
-            
             if (clientes.headerApp.code === 200) {
                 let temp: User[] = [];
                 clientes.data.clientes.forEach(element => {
@@ -65,6 +63,7 @@ export class ClientesComponent implements OnInit {
                         lastname: element.cliente.apellidos,
                         phone: element.cliente.phone,
                         direction: element.cliente.direccion,
+                        pais: element.cliente.pais,
                         city: element.cliente.ciudad,
                         email: element.cliente.email,
                         status: element.cliente.estado === 'A' ? 'Activo' : 'Inactivo',
@@ -89,38 +88,26 @@ export class ClientesComponent implements OnInit {
     }
 
     addClient() {
-        console.log('Editando el cliente');
         this.router.navigate(['/edit']);
     }
 
     desactivate(user: User) {
-        console.log('Se esta desactivando ek usuario');
-        console.log(user);
         this.router.navigate(['/edit'], { state: { user: JSON.stringify(user) } });
     }
 
     consultarMobile() {
-        console.log('Consultar los datos');
-        console.log(this.identificacion);
-
         if (this.identificacion == undefined || this.identificacion == '') {
-            this.users = [];
-            console.log('Consultar');
+            this.users = [];            
             this.getClients();
             return;
         }
 
         this.users.filter(user => {
-            console.log('Este es el usuario');
-            console.log(user);
-            console.log(this.identificacion);
             if (user.identification == this.identificacion) {
                 this.users = [];
-                console.log('Son iguales');
                 this.users.push(user)
             }
         });
-        console.log('Usuarios finales');
         console.log(this.users);
     }
 

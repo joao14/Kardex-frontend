@@ -1,175 +1,60 @@
-<div class="layout-dashboard">
+<div class="layout-dashboard" *ngIf="user?.roles[0].shorcut=='ADM'">
     <div class="ui-g">
-        <div class="ui-g-12 ui-lg-2"></div>
-        <div class="ui-g-12 ui-lg-8">
-            <input type="text" pInputText placeholder="Buscar" style="width: 100%;height: 35px;border-radius: 5px;" />
-        </div>
-        <div class="ui-g-12 ui-lg-2"></div>
-        <div class="ui-g-12 ui-md-12 ui-lg-12">
-            <div class="card">
-                <p-carousel [value]="listaflores" [numVisible]="3" [numScroll]="1" [circular]="true"
-                    [autoplayInterval]="3000" class="web">
-                    <ng-template pTemplate="header">
-                        <h5>Lista de flores</h5>
-                    </ng-template>
-                    <ng-template let-flor pTemplate="item">
-                        <div class="product-item">
-                            <div class="product-item-content">
-                                <div class="p-mb-3">
-                                    <img [src]="flor.images[0]" [alt]="flor.name" class="product-image" />
-                                </div>
-                                <div>
-                                    <h4 class="p-mb-1 title">{{flor.name | titlecase}}</h4>
-                                    <div [class]="flor.state=='A'?'product-status-active':'product-status-inactive'">
-                                        {{flor.state=='A'?'Activo':'Inactivo'}}</div>
-                                    <div class="car-buttons p-mt-5">
-                                        <br>
-                                        <p-button type="button" class="p-button-rounded" icon="pi pi-search"></p-button>
-
-                                        <!--<p-button type="button" styleClass="p-button-success p-button-rounded p-mr-2"
-                                            icon="pi pi-star"></p-button>
-                                        <p-button type="button" styleClass="p-button-help p-button-rounded"
-                                            icon="pi pi-cog"></p-button>-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-template>
-                </p-carousel>
-                <!--mobile-->
-                <p-carousel [value]="listaflores" orientation="vertical" [style]="{'max-width':'400px'}"
-                    verticalViewPortHeight="290px" [numVisible]="1" [numScroll]="1" class="mobile">
-                    <ng-template pTemplate="header">
-                        <h5>Vertical</h5>
-                    </ng-template>
-                    <ng-template let-flor pTemplate="item">
-                        <div class="product-item">
-                            <div class="product-item-content">
-                                <div class="p-mb-3">
-                                    <img [src]="flor.images[0]" [alt]="flor.name" class="product-image" />
-                                </div>
-                                <div>
-                                    <h4 class="p-mb-1 title">{{flor.name | titlecase}}</h4>
-                                    <div [class]="flor.state=='A'?'product-status-active':'product-status-inactive'">
-                                        {{flor.state=='A'?'Activo':'Inactivo'}}</div>
-                                    <div class="car-buttons p-mt-5">
-                                        <br>
-                                        <p-button type="button" class="p-button-rounded" icon="pi pi-search"></p-button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-template>
-                </p-carousel>
-            </div>
-        </div>
         <div class="ui-g-12 ui-md-6 ui-lg-3">
-            <div class="overview-box sales">
-                <img src="assets/layout/images/icon-sales.png" alt="ecuador-layout" class="image-icon" />
-                <div class="overview-title">DELIVERIES</div>
+            <div class="overview-box sales">                
+                <i class="fa fa-plane" aria-hidden="true" style="font-size: 2rem; float: right;padding-right: 20px;"></i>                
+                <div class="overview-title"></div>
                 <div class="overview-numbers">
-                    {{deliveries}}
+                    {{'Usuarios' | translate }}
                 </div>
-                <div class="overview-subinfo">
-                    <div class="ui-g-6 progressbar">
-                        <div class="progress sale"></div>
-                    </div>
-                    <span class="ui-g-6">23% more</span>
+                <div class="overview-subinfo user stock">
+                    <i class="fa fa-plane"></i>
+                    <span># 100</span>
                 </div>
             </div>
         </div>
         <div class="ui-g-12 ui-md-6 ui-lg-3">
             <div class="overview-box views">
-                <img src="assets/layout/images/icon-views.png" alt="ecuador-layout" style="margin-top:10px" />
-                <div class="overview-title">FLORES</div>
+                <i class="fa fa-pagelines" aria-hidden="true"
+                    style="font-size: 2rem; float: right;padding-right: 20px;"></i>
+                <div class="overview-title"></div>
                 <div class="overview-numbers">
-                    {{flores}}
+                    {{'Pruebas' | translate }}
                 </div>
-                <div class="overview-subinfo">
-                    <div class="ui-g-6 progressbar">
-                        <div class="progress view"></div>
-                    </div>
-                    <span class="ui-g-6">7% more</span>
+                <div class="overview-subinfo user stock">
+                    <i class="fa fa-circle"></i>
+                    <span># 88</span>
                 </div>
             </div>
         </div>
         <div class="ui-g-12 ui-md-6 ui-lg-3">
             <div class="overview-box users">
-                <img src="assets/layout/images/icon-users.png" alt="ecuador-layout" />
-                <div class="overview-title">CLIENTES</div>
+                <i class="fa fa-user-circle" aria-hidden="true"
+                    style="font-size: 2rem; float: right;padding-right: 20px;"></i>
+                <div class="overview-title"></div>
                 <div class="overview-numbers">
-                    {{clientes}}
+                    {{'Empresas' | translate }}
                 </div>
-                <div class="overview-subinfo user">
+                <div class="overview-subinfo user stock">
                     <i class="fa fa-circle"></i>
-                    <span>Same</span>
+                    <span>#45 </span>
                 </div>
             </div>
         </div>
         <div class="ui-g-12 ui-md-6 ui-lg-3">
             <div class="overview-box checkins">
-                <img src="assets/layout/images/icon-checkin.png" alt="ecuador-layout" class="image-icon" />
-                <div class="overview-title">FINCAS</div>
+                <i class="fa fa-university" aria-hidden="true"
+                    style="font-size: 2rem; float: right;padding-right: 20px;"></i>
+                <div class="overview-title"></div>
                 <div class="overview-numbers">
-                    {{fincas}}
+                    {{'Fincas' | translate }}
                 </div>
-                <div class="overview-subinfo checkin">
+                <div class="overview-subinfo checkin stock">
                     <i class="fa fa-circle"></i>
-                    <span>Same</span>
+                    <span># 108</span>
                 </div>
             </div>
         </div>
-        <!--<div class="ui-g-12 ui-md-12 ui-lg-4">
-            <p-panel header="Contacts" styleClass="contacts">
-                <ul>
-                    <li>
-                        <img src="assets/layout/images/avatar-brooke.png" alt="ecuador-layout" />
-                        <div class="separator"></div>
-                        <div class="team-box">
-                            <span class="team-member">Brooke Wright</span>
-                            <div>
-                                <i class="fa fa-envelope"></i>
-                                <span class="team-member-mail">brooke@test.com</span>
-                            </div>
-                            <div>
-                                <i class="fa fa-map-pin"></i>
-                                <span class="team-member-address">153 Cold Valley Road</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="assets/layout/images/avatar-maggie.png" alt="ecuador-layout" />
-                        <div class="separator"></div>
-                        <div class="team-box">
-                            <span class="team-member">Maggie Walker</span>
-                            <div>
-                                <i class="fa fa-envelope"></i>
-                                <span class="team-member-mail">maggie@test.com</span>
-                            </div>
-                            <div>
-                                <i class="fa fa-map-pin"></i>
-                                <span class="team-member-address">5698 Anderson Street</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="assets/layout/images/avatar-tom.png" alt="ecuador-layout" />
-                        <div class="separator"></div>
-                        <div class="team-box">
-                            <span class="team-member">Tom Baker</span>
-                            <div>
-                                <i class="fa fa-envelope"></i>
-                                <span class="team-member-mail">tom@example.com</span>
-                            </div>
-                            <div>
-                                <i class="fa fa-map-pin"></i>
-                                <span class="team-member-address">2304 Billy Bill Lane</span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </p-panel>
-        </div>-->
-
+       
     </div>
 </div>

@@ -2,7 +2,171 @@
     <div class="layout-menu-title">{{nameRol}}</div>
     <div class="menu-scroll-content">
         <ul class="layout-menu">
-            <li app-menuitem *ngFor="let item of model; let i = index;" [item]="item" [index]="i" [root]="true"></li>            
-        </ul>  
+            <li> <a routerLink="/" routerLinkActive="active" style="font-size: 14px;" (click)="activeMenu('DASH')"
+                    [class]="activeMenuItem=='DASH'?'is-active':'no-active'">
+                    <i class="fa fa-fw fa-tachometer"
+                        [ngStyle]="{'color':activeMenuItem === 'DASH'? 'white': '#828282'}"></i>
+                    <span>{{ 'Tablero' | translate }} </span>
+                </a>
+            </li>
+            <li *ngIf="typerol=='ADM'"> <a (click)="itemClick('SG')" style="font-size: 14px;"
+                    [class]="activeSubMenu=='SG'?'is-active':'no-active'">
+                    <i class="fa fa-fw fa-cogs" [ngStyle]="{'color':activeSubMenu === 'SG'? 'white': '#828282'}"></i>
+                    <span>{{ 'Seguridad' | translate }}</span>
+                    <i [ngStyle]="{'color':activeSubMenu === 'SG'? 'white': '#828282'}"
+                        [class]="activeSubMenu=='SG'?'fa fa-fw fa-angle-up layout-menuitem-toggler': 'fa fa-fw fa-angle-down layout-menuitem-toggler'"></i>
+                </a>
+            </li>
+            <li *ngIf="activeSubMenu=='SG'">
+                <ul>
+                    <li *ngIf="typerol=='ADM'">
+                        <a routerLink="/usuario" routerLinkActive="active" style="font-size: 14px;"
+                            [class]="activeItem=='EC'?'active-item':'no-active-item'" (click)="selectItemMenu('EC')">
+                            <i class="fa fa-fw fa-users"
+                                [ngStyle]="{'color':activeItem ==='EC'? '#ff4456': '#828282'}"></i>
+                            <span>{{ 'Usuarios' | translate }} </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li *ngIf="typerol=='ADM'"> <a routerLink="/questionnaire" routerLinkActive="active" style="font-size: 14px;"
+                    (click)="activeMenu('QUESTIONNAIRE')" [class]="activeMenuItem=='QUESTIONNAIRE'?'is-active':'no-active'">
+                    <i class="fa fa-fw fa-pencil-square-o"
+                        [ngStyle]="{'color':activeMenuItem === 'QUESTIONNAIRE'? 'white': '#828282'}"></i>
+                    <span>{{ 'Cuestionarios' | translate }} </span>
+                </a>
+            </li>            
+            <!--<li *ngIf="typerol=='ADM' || typerol=='CLI' || typerol=='FAC' || typerol=='COM'"> <a
+                    (click)="itemClick('CAT')" style="font-size: 14px;"
+                    [class]="activeSubMenu=='CAT'?'is-active':'no-active'">
+                    <i class="fa fa-fw fa-table" [ngStyle]="{'color':activeSubMenu === 'CAT'? 'white': '#828282'}"></i>
+                    <span>{{ 'Catálogos' | translate }}</span>
+                    <i [class]="activeSubMenu=='CAT'?'fa fa-fw fa-angle-up layout-menuitem-toggler': 'fa fa-fw fa-angle-down layout-menuitem-toggler'"
+                        [ngStyle]="{'color':activeSubMenu === 'CAT'? 'white': '#828282'}"></i>
+                </a>
+            </li>
+            <li *ngIf="activeSubMenu=='CAT'">
+                <ul>
+                    <li *ngIf="typerol=='ADM' || typerol=='CLI' || typerol=='FAC' || typerol=='COM'">
+                        <a routerLink="/flores" routerLinkActive="active" style="font-size: 14px;"
+                            [class]="activeItem=='FL'?'active-item':'no-active-item'" (click)="selectItemMenu('FL')">
+                            <i class="fa fa-fw fa-cubes"
+                                [ngStyle]="{'color':activeItem ==='FL'? '#ff4456': '#828282'}"></i>
+                            <span>{{ 'Flores' | translate }} </span>
+                        </a>
+                    </li>
+                    <li *ngIf="typerol=='ADM' || typerol=='FAC' || typerol=='COM'">
+                        <a routerLink="/fincas" routerLinkActive="active" style="font-size: 14px;"
+                            [class]="activeItem=='FI'?'active-item':'no-active-item'" (click)="selectItemMenu('FI')">
+                            <i class="fa fa-fw fa-building-o"
+                                [ngStyle]="{'color':activeItem ==='FI'? '#ff4456': '#828282'}"></i>
+                            <span>{{ 'Fincas'| translate }}</span>
+                        </a>
+                    </li>
+                    <li *ngIf="typerol=='ADM' || typerol=='FAC' || typerol=='COM'">
+                        <a routerLink="/delivery" routerLinkActive="active" style="font-size: 14px;"
+                            [class]="activeItem=='ECA'?'active-item':'no-active-item'" (click)="selectItemMenu('ECA')">
+                            <i class="fa fa-fw fa-truck"
+                                [ngStyle]="{'color':activeItem ==='ECA'? '#ff4456': '#828282'}"></i>
+                            <span>{{ 'E.Carga' | translate }} </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>-->
+            <!--<li *ngIf="typerol=='ADM' || typerol=='FAC'"> <a (click)="itemClick('VENT')" style="font-size: 14px;"
+                    [class]="activeSubMenu=='VENT'?'is-active':'no-active'">
+                    <i class="fa fa-money" [ngStyle]="{'color':activeSubMenu === 'VENT'? 'white': '#828282'}"></i>
+                    <span>{{ 'Ventas' | translate }}</span>
+                    <i [class]="activeSubMenu=='VENT'?'fa fa-fw fa-angle-up layout-menuitem-toggler': 'fa fa-fw fa-angle-down layout-menuitem-toggler'"
+                        [ngStyle]="{'color':activeSubMenu === 'VENT'? 'white': '#828282'}"></i>
+                </a>
+            </li>
+            <li *ngIf="activeSubMenu=='VENT'">
+                <ul>
+                    <li *ngIf="typerol=='ADM'">
+                        <a routerLink="/clientes" routerLinkActive="active" style="font-size: 14px;"
+                            [class]="activeItem=='CL'?'active-item':'no-active-item'" (click)="selectItemMenu('CL')">
+                            <i class="fa fa-fw fa-user-circle-o"
+                                [ngStyle]="{'color':activeItem ==='CL'? '#ff4456': '#828282'}"></i>
+                            <span>{{ 'Clientes' | translate }} </span>
+                        </a>
+                    </li>
+                    <li *ngIf="typerol=='ADM' || typerol=='FAC'">
+                        <a routerLink="/factura" routerLinkActive="active" style="font-size: 14px;"
+                            [class]="activeItem=='FAC'?'active-item':'no-active-item'" (click)="selectItemMenu('FAC')">
+                            <i class="fa fa-fw fa-pencil-square-o"
+                                [ngStyle]="{'color':activeItem ==='FAC'? '#ff4456': '#828282'}"></i>
+                            <span>{{ 'Facturación' | translate }} </span>
+                        </a>
+                    </li>
+                    <li *ngIf="typerol=='ADM'">
+                        <a routerLink="/pagoreclamo" routerLinkActive="active" style="font-size: 14px;"
+                            [class]="activeItem=='ASIE'?'active-item':'no-active-item'"
+                            (click)="selectItemMenu('ASIE')">
+                            <i class="fa fa-fw fa-ticket"
+                                [ngStyle]="{'color':activeItem ==='ASIE'? '#ff4456': '#828282'}"></i>
+                            <span>{{ 'Registro asientos' | translate }} </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>-->
+            <!--<li *ngIf="typerol=='ADM' || typerol=='COM'"> <a routerLink="/prealerta" routerLinkActive="active"
+                    style="font-size: 14px;" (click)="activeMenu('PREALERT')"
+                    [class]="activeMenuItem=='PREALERT'?'is-active':'no-active'">
+                    <i class="fa fa-fw fa-pencil-square-o"
+                        [ngStyle]="{'color':activeMenuItem === 'PREALERT'? 'white': '#828282'}"></i>
+                    <span>{{ 'Generar prealertas' | translate }} </span>
+                </a>
+            </li>-->
+            <li *ngIf="typerol=='ADM'"> <a routerLink="/automatic" routerLinkActive="active" style="font-size: 14px;"
+                    (click)="activeMenu('AUTOMATIC')" [class]="activeMenuItem=='AUTOMATIC'?'is-active':'no-active'">
+                    <i class="fa fa-fw fa-pencil-square-o"
+                        [ngStyle]="{'color':activeMenuItem === 'AUTOMATIC'? 'white': '#828282'}"></i>
+                    <span>{{ 'Generar carga de archivo' | translate }} </span>
+                </a>
+            </li>
+            <!--<li *ngIf="typerol=='ADM' || typerol=='CLI' || typerol=='COM'"> <a (click)="itemClick('REP')"
+                    style="font-size: 14px;" [class]="activeSubMenu=='REP'?'is-active':'no-active'">
+                    <i class="fa fa-fw fa-wpforms"
+                        [ngStyle]="{'color':activeSubMenu === 'REP'? 'white': '#828282'}"></i>
+                    <span>{{ 'Reportes' | translate }}</span>
+                    <i [class]="activeSubMenu=='REP'?'fa fa-fw fa-angle-up layout-menuitem-toggler': 'fa fa-fw fa-angle-down layout-menuitem-toggler'"
+                        [ngStyle]="{'color':activeSubMenu === 'REP'? 'white': '#828282'}"></i>
+                </a>
+            </li>
+            <li *ngIf="activeSubMenu=='REP'">
+                <ul>
+                    <li *ngIf="typerol=='ADM'">
+                        <a routerLink="/sales" routerLinkActive="active" style="font-size: 14px;"
+                            [class]="activeItem=='VD'?'active-item':'no-active-item'" (click)="selectItemMenu('VD')">
+                            <i class="fa fa-fw fa-file-text-o"
+                                [ngStyle]="{'color':activeItem ==='VD'? '#ff4456': '#828282'}"></i>
+                            <span>{{ 'Venta diarias de flores' | translate }} </span>
+                        </a>
+                    </li>
+                    <li *ngIf="typerol=='ADM' || typerol=='CLI'">
+                        <a routerLink="/balance" routerLinkActive="active" style="font-size: 14px;"
+                            [class]="activeItem=='DC'?'active-item':'no-active-item'" (click)="selectItemMenu('DC')">
+                            <i class="fa fa-fw fa-file-text-o"
+                                [ngStyle]="{'color':activeItem ==='DC'? '#ff4456': '#828282'}"></i>
+                            <span>{{ 'Documentos clientes / Balance' | translate}} </span>
+                        </a>
+                    </li>
+                    <li *ngIf="typerol=='ADM' || typerol=='COM'">
+                        <a routerLink="/documento" routerLinkActive="active" style="font-size: 14px;"
+                            [class]="activeItem=='RPL'?'active-item':'no-active-item'" (click)="selectItemMenu('RPL')">
+                            <i class="fa fa-fw fa-file-text-o"
+                                [ngStyle]="{'color':activeItem ==='RPL'? '#ff4456': '#828282'}"></i>
+                            <span>{{ 'Reporte prealerta' | translate }} </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>-->
+        </ul>
+
     </div>
 </div>

@@ -10,15 +10,15 @@
 
     <app-topbar></app-topbar>
 
-    <app-panel></app-panel>
+    <!--<app-panel></app-panel>-->
 
-    <app-menu [rol]="rolselected"></app-menu>
+    <app-menu [rol]="rolselected" [typerol]="type"></app-menu>
 
     <div class="layout-main">
-        <app-breadcrumb></app-breadcrumb>
+        <app-bread></app-bread>
 
         <div class="layout-content">
-            <router-outlet></router-outlet>
+            <router-outlet></router-outlet>  
         </div>
 
         <!--<app-footer></app-footer>-->

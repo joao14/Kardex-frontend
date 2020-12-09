@@ -5,6 +5,8 @@ import { ApisService } from './../../../services/apis.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { UtilService } from 'src/services/util.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-login',
@@ -15,26 +17,26 @@ import { MessageService } from 'primeng/api';
 export class LoginComponent implements OnInit {
 
     checkoutForm: FormGroup;
-    estado:string="determinate";
+    estado: string = "determinate";
 
-    constructor(private formBuilder: FormBuilder, private messageService: MessageService, private api: ApisService, private router: Router) {
+    constructor(private formBuilder: FormBuilder, private messageService: MessageService,
+        private api: ApisService, private router: Router, private utilService: UtilService) {
         this.checkoutForm = this.formBuilder.group({
             username: '',
             password: ''
         });
     }
 
-    ngOnInit(): void {
-
-    }
+    ngOnInit() { }
 
     onSubmit() {
-        this.estado="indeterminate";
+        console.log('VALORES');
+        this.estado = "indeterminate";
         console.log('Your order has been submitted 2.....');
         console.log(this.checkoutForm.get("username").value);
-        
+
         this.api.login(this.checkoutForm.get("username").value, this.checkoutForm.get("password").value).then(data => {
-        //this.api.login('test5', 'abc123').then(data => {
+            //this.api.login('test5', 'abc123').then(data => {
             console.log("Data response");
             console.log(data);
             if (data.headerApp.code === 200) {
@@ -48,31 +50,38 @@ export class LoginComponent implements OnInit {
                     roles_.push(rol);
                 });
                 let user: user = {
-                    usuaid: data.data.usuario.usuaid,
-                    dni: data.data.usuario.dni,
-                    email: data.data.usuario.email,
-                    state: data.data.usuario.estado,
-                    name: data.data.usuario.nombres,
-                    lastname: data.data.usuario.apellidos,
+                    clave: data.data.usuario.clave,
+                    email: data.data.usuario.persona.email,
+                    estado: data.data.usuario.estado,
+                    nombres: data.data.usuario.persona.nombres,
+                    apellidos: data.data.usuario.persona.apellidos,
+                    id: data.data.usuario.persona.id,
+                    nick: data.data.usuario.nick,
+                    token: data.data.usuario.token,
                     roles: roles_,
-                    photo: 'https://previews.123rf.com/images/djvstock/djvstock1508/djvstock150806855/44096519-web-developer-design-vector-illustration-eps-10-.jpg'
-                                }
+                    photo: data.data.usuario.photo,
+                    tipo: data.data.usuario.tipo,
+                    celular: data.data.usuario.persona.celular,
+                    identificacion: data.data.usuario.persona.dni
+                }
+
                 localStorage.setItem("user", JSON.stringify(user));
                 localStorage.setItem("token", data.data.usuario.token);
-                this.estado="determinate";
+                this.estado = "determinate";
                 this.router.navigate(['/dashboard']);
 
+
             } else {
-                this.estado="determinate";
+                this.estado = "determinate";
                 console.log('No se puede loguear');
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Rosa Mística',
-                    detail: 'Usuario/Password incorrectos'
+                    detail: data.headerApp.message
                 });
             }
         }).catch(err => {
-            this.estado="determinate";
+            this.estado = "determinate";
             this.messageService.add({
                 severity: 'error',
                 summary: 'Rosa Mística',
@@ -84,10 +93,6 @@ export class LoginComponent implements OnInit {
 
     }
 
-    forgot(){
-        console.log('Olvido ..');
-        this.router.navigate(['/forgot']);
-    }
 
 
 }

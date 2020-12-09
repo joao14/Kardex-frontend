@@ -2,6 +2,8 @@ import { LayoutComponent } from './../../layout.component';
 import { Router } from '@angular/router';
 
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { user } from 'src/models/user';
+import { UtilService } from 'src/services/util.service';
 
 @Component({
     selector: 'app-menu',
@@ -13,80 +15,50 @@ export class MenuComponent implements OnInit, OnChanges {
     model: any[];
     selectItem: string = '';
     @Input() rol: string;
+    @Input() typerol: string;
     nameRol: string;
+    activeMenuItem: string;
+    activeSubMenu: string;
+    activeItem: string;
+    user: user;
 
     constructor(public app: LayoutComponent, public router: Router) {
-
+        this.app.utilservice.rolselected.subscribe(rol => {
+            this.nameRol = rol;
+            this.activeMenuItem = 'DASH';
+            this.activeItem = "";
+            this.activeSubMenu = "";
+            this.app.utilservice.itemsSource.next([{ 'label': 'Dashboard' }]);
+        })
     }
 
     ngOnInit() {
-        this.nameRol=JSON.parse(localStorage.getItem('user')).roles[0].rol;
-
-        switch ((JSON.parse(localStorage.getItem('user')).roles[0].rol).toUpperCase()) {
-            case 'ADMINISTRADOR':
-                this.getAdministrador();
-                break;
-            case 'CLIENTE':
-                this.getCliente();
-                break;
-            default:
-                console.log('No se encuentra el perfil');
-                break;
-        }
+        this.nameRol = JSON.parse(localStorage.getItem('user')).roles[0].rol;
+        this.typerol = JSON.parse(localStorage.getItem('user')).roles[0].shorcut;
+        this.activeMenuItem = "DASH";
+        this.activeSubMenu = "";
+        this.activeItem = "";
     }
 
 
     ngOnChanges() {
-        console.log('SE HA GENERADO UN CAMBIO');
-        if (this.rol == undefined) {
-            return
-        }
 
-        this.nameRol=this.rol;
-        switch (this.rol.toUpperCase()) {
-            case 'ADMINISTRADOR':
-                this.getAdministrador();
-                break;
-            case 'CLIENTE':
-                this.getCliente();
-                break;
-            default:
-                console.log('No se encuentra el perfil');
-
-                break;
-        }
+        /* this.nameRol = this.rol;
+         switch (this.rol.toUpperCase()) {
+             case 'ADMINISTRADOR':
+                 this.getAdministrador();
+                 break;
+             case 'CLIENTE':
+                 this.getCliente();
+                 break;
+             default:
+                 console.log('No se encuentra el perfil');
+ 
+                 break;
+         }*/
 
     }
 
-    getCliente() {
-        this.model = [
-            { label: 'Dashboard', icon: 'fa fa-fw fa-tachometer', routerLink: '/' },
-            {
-                label: 'Catálogos', icon: 'fa fa-fw fa-table',
-                items: [
-                    { label: 'Flores', icon: 'fa fa-fw fa-cubes', routerLink: '/flores' },
-                ]
-            },
-            {
-                label: 'Reportes', icon: 'fa fa-fw fa-wpforms',
-                items: [  
-                    { label: 'Venta diaria de flores', icon: 'fa fa-fw fa-file-text-o', routerLink: '/sales' },
-                    { label: 'Documentos clientes', icon: 'fa fa-fw fa-file-text-o', routerLink: '/balance' },
-                    { label: 'Reporte prealerta', icon: 'fa fa-fw fa-file-text-o', routerLink: '/documento' },
-                ]
-            },
-            {
-                label: 'Layouts', icon: 'fa fa-fw fa-cog',
-                items: [
-                    { label: 'Static', icon: 'fa fa-fw fa-bars', command: event => this.app.menuMode = 'static' },
-                    { label: 'Overlay', icon: 'fa fa-fw fa-bars', command: event => this.app.menuMode = 'overlay' },
-                    { label: 'Slim', icon: 'fa fa-fw fa-bars', command: event => this.app.menuMode = 'slim' },
-                    { label: 'Horizontal', icon: 'fa fa-fw fa-bars', command: event => this.app.menuMode = 'horizontal' }
-                ]
-            },
-        ];
-
-    }
 
     getAdministrador() {
         this.model = [
@@ -542,5 +514,78 @@ export class MenuComponent implements OnInit, OnChanges {
     change(url: string) {
         this.router.navigate([url]);
     }
+
+    activeMenu(menu: string) {
+        if (menu == 'DASH') {
+            this.app.utilservice.itemsSource.next([{ 'label': 'Dashboard' }])
+        } else if (menu == 'AUTOMATIC') {
+            this.app.utilservice.itemsSource.next([{ 'label': 'Carga de archivo' }])
+        }else if (menu == 'QUESTIONNAIRE') {
+            this.app.utilservice.itemsSource.next([{ 'label': 'Cuestionarios' }])
+        }
+
+        if (this.activeMenuItem == menu) {
+            this.activeMenuItem = "";
+            this.activeSubMenu = "";
+            this.activeItem = "";
+        } else {
+            this.activeMenuItem = menu;
+            this.activeSubMenu = "";
+            this.activeItem = "";
+        }
+    }
+
+    itemClick(menu: string) {
+        if (this.activeSubMenu == menu) {
+            this.activeSubMenu = "";
+            this.activeMenuItem = "";
+        } else {
+            this.activeSubMenu = menu;
+            this.activeMenuItem = "";
+        }
+    }
+
+    selectItemMenu(item: string) {
+        if (item == 'EC') {
+            this.app.utilservice.itemsSource.next([{ 'label': 'Seguridad' }, { 'label': 'Usuarios' }])
+        } else
+            if (item == 'FL') {
+                this.app.utilservice.itemsSource.next([{ 'label': 'Cátalogos' }, { 'label': 'Flores' }])
+            } else
+                if (item == 'FI') {
+                    this.app.utilservice.itemsSource.next([{ 'label': 'Cátalogos' }, { 'label': 'Fincas' }])
+                } else
+                    if (item == 'ECA') {
+                        this.app.utilservice.itemsSource.next([{ 'label': 'Cátalogos' }, { 'label': 'Empresas de Cargas' }])
+                    }
+                    else
+                        if (item == 'CL') {
+                            this.app.utilservice.itemsSource.next([{ 'label': 'Ventas' }, { 'label': 'Clientes' }])
+                        }
+                        else
+                            if (item == 'FAC') {
+                                this.app.utilservice.itemsSource.next([{ 'label': 'Ventas' }, { 'label': 'Facturación' }])
+                            } else
+                                if (item == 'ASIE') {
+                                    this.app.utilservice.itemsSource.next([{ 'label': 'Ventas' }, { 'label': 'Registro de asientos' }])
+                                } else
+                                    if (item == 'VD') {
+                                        this.app.utilservice.itemsSource.next([{ 'label': 'Reportes' }, { 'label': 'Ventas Diarias' }])
+                                    } else
+                                        if (item == 'DC') {
+                                            this.app.utilservice.itemsSource.next([{ 'label': 'Reportes' }, { 'label': 'Documentos de clientes' }])
+                                        } else
+                                            if (item == 'RPL') {
+                                                this.app.utilservice.itemsSource.next([{ 'label': 'Reportes' }, { 'label': 'Prealertas' }])
+                                            }
+
+        if (this.activeItem == item) {
+            this.activeItem = "";
+        } else {
+            this.activeItem = item;
+        }
+
+    }
+
 
 }

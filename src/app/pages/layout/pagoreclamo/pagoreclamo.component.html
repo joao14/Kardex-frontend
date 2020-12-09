@@ -7,7 +7,7 @@
                 [fullScreen]="true">
                 <p style="color: white"> Loading... </p>
             </ngx-spinner>
-            <p-fieldset legend="Detalles del reclamo">
+            <p-fieldset [legend]="'Detalles del reclamo' | translate">
                 <div class="ui-g form-group ui-fluid">
                     <div class="ui-g-12 ui-md-6">
                         <form [formGroup]="formGroup" (ngSubmit)="save()">
@@ -18,7 +18,7 @@
                                     class="form-control" (onChange)='onOptionsSelected()' [filter]="true"
                                     placeholder="Seleccione"></p-dropdown>
                                 <div *ngIf="submit && f.cliente.errors" class="invalid-feedback">
-                                    <div *ngIf="f.cliente.errors.required">Cliente es requerido</div>
+                                    <div *ngIf="f.cliente.errors.required">{{'Cliente es requerido' | translate}}</div>
                                 </div>
                             </div>
                             <div class="ui-g-12 ui-md-6">
@@ -28,7 +28,7 @@
                                     formControlName="tipodocumento" class="form-control" [filter]="true"
                                     placeholder="Seleccione"></p-dropdown>
                                 <div *ngIf="submit && f.tipodocumento.errors" class="invalid-feedback">
-                                    <div *ngIf="f.tipodocumento.errors.required">Tipo de documento es requerido</div>
+                                    <div *ngIf="f.tipodocumento.errors.required">{{'Tipo de documento es requerido' | translate}}</div>
                                 </div>
                             </div>
                             <div class="ui-g-12 ui-md-6">
@@ -38,54 +38,54 @@
                                     (onChange)='onOptionsSelectedFactura()' class="form-control" [filter]="true"
                                     placeholder="Seleccione"></p-dropdown>
                                 <div *ngIf="submit && f.numfactura.errors" class="invalid-feedback">
-                                    <div *ngIf="f.numfactura.errors.required">Número de factura es requerido</div>
+                                    <div *ngIf="f.numfactura.errors.required">{{'Número de factura es requerido' | translate}}</div>
                                 </div>
                             </div>
 
                             <div class="ui-g-12 ui-md-6">
-                                <label class="lbl">N°. Documento</label>
+                                <label class="lbl">{{'N°. Documento' | translate}}</label>
                                 <input type="text" pInputText formControlName="numdocumento"
                                     [ngClass]="{ 'is-invalid': submit && f.numdocumento.errors }"
                                     class="form-control" />
                                 <div *ngIf="submit && f.numdocumento.errors" class="invalid-feedback">
-                                    <div *ngIf="f.numdocumento.errors.required">N° Documento es requerido</div>
+                                    <div *ngIf="f.numdocumento.errors.required">{{'N° Documento es requerido' | translate}}</div>
                                 </div>
                             </div>
 
                             <div class="ui-g-12 ui-md-6">
-                                <label class="lbl">Fecha</label>
+                                <label class="lbl">{{'Fecha' | translate}}</label>
                                 <p-calendar [readonlyInput]="true" formControlName="fecha"
                                     [ngClass]="{ 'is-invalid': submit && f.fecha.errors }" class="form-control">
                                 </p-calendar>
                                 <div *ngIf="submit && f.fecha.errors" class="invalid-feedback">
-                                    <div *ngIf="f.fecha.errors.required">Fecha es requerido</div>
+                                    <div *ngIf="f.fecha.errors.required">{{'Fecha es requerido' | translate}}</div>
                                 </div>
                             </div>
 
                             <div class="ui-g-12 ui-md-6">
-                                <label class="lbl">Valor</label>
+                                <label class="lbl">{{'Valor' | translate}}</label>
                                 <input type="text" pInputText placeholder="0.0" pKeyFilter="money"
                                     formControlName="valor" [ngClass]="{ 'is-invalid': submit && f.valor.errors }"
                                     class="form-control" />
                                 <div *ngIf="submit && f.valor.errors" class="invalid-feedback">
-                                    <div *ngIf="f.valor.errors.required">Valor es requerido</div>
+                                    <div *ngIf="f.valor.errors.required">{{'Valor es requerido' | translate}}</div>
                                 </div>
                             </div>
 
 
 
                             <div class="ui-g-12 ui-md-12">
-                                <label class="lbl">Descripción</label>
+                                <label class="lbl">{{'Descripción' | translate}}</label>
                                 <textarea pInputTextarea formControlName="descripcion"
                                     [ngClass]="{ 'is-invalid': submit && f.descripcion.errors }"
                                     class="form-control"></textarea>
                                 <div *ngIf="submit && f.descripcion.errors" class="invalid-feedback">
-                                    <div *ngIf="f.descripcion.errors.required">Descripción es requerido</div>
+                                    <div *ngIf="f.descripcion.errors.required">{{'Descripción es requerido' | translate}}</div>
                                 </div>
                             </div>
 
                             <div class="ui-g-12 ui-md-12" *ngIf="files.length > 0">
-                                <label class="lbl">Nombre del documento</label>
+                                <label class="lbl">{{'Nombre del documento' | translate}}</label>
                                 <input type="text" pInputText readonly
                                     [value]="files[0].name"  class="form-control" />
                             </div>
@@ -96,7 +96,7 @@
                                     [expandable]="true" (change)="onSelect($event)">
                                     <ngx-dropzone-label>
                                         <div>
-                                            <h2>My custom dropzone of documentos</h2>
+                                            <h2>{{'Mi zona de entrega personalizada de documentos' | translate}}</h2>
                                         </div>
                                     </ngx-dropzone-label>
                                     <ngx-dropzone-preview *ngFor="let f of files" [file]="f" [removable]="true"
@@ -111,7 +111,7 @@
                                     <div class="ui-grid-col-8"></div>
                                     <div class="ui-grid-col-4">
                                         <button pButton icon="pi pi-arrow-right" class="ui-button-help btn_enviar"
-                                            label="Enviar"></button>
+                                            [label]="'Enviar' | translate"></button>
                                     </div>
                                 </div>
                             </div>
@@ -119,56 +119,56 @@
                     </div>
                     <div class="ui-g-12 ui-md-6">
                         <p-accordion [multiple]="true">
-                            <p-accordionTab header="Datos del Cliente" [selected]="true">
+                            <p-accordionTab [header]="'Datos del cliente' | translate" [selected]="true">
                                 <div class="ui-g form-group ui-fluid">
                                     <div class="ui-g-12 ui-md-6">
-                                        <label class="lbl">Identificación</label>
+                                        <label class="lbl">{{'Identificación' | translate}}</label>
                                         <input type="text" pInputText [value]="selectclient?.entiDni" readonly />
                                     </div>
                                     <div class="ui-g-12 ui-md-6">
-                                        <label class="lbl">Nombres</label>
+                                        <label class="lbl">{{'Nombres' | translate}}</label>
                                         <input type="text" pInputText [value]="selectclient?.nombres" readonly />
                                     </div>
                                     <div class="ui-g-12 ui-md-6">
-                                        <label class="lbl">Razón Social</label>
+                                        <label class="lbl">{{'Razón Social' | translate}}</label>
                                         <input type="text" pInputText [value]="selectclient?.razosoci" readonly />
                                     </div>
                                     <div class="ui-g-12 ui-md-6">
-                                        <label class="lbl">Email</label>
+                                        <label class="lbl">{{'Email' | translate}}</label>
                                         <input type="text" pInputText [value]="selectclient?.email" readonly />
                                     </div>
                                     <div class="ui-g-12 ui-md-6">
-                                        <label class="lbl">Teléfono</label>
+                                        <label class="lbl">{{'Teléfono' | translate}}</label>
                                         <input type="text" pInputText [value]="selectclient?.phone" readonly />
                                     </div>
                                     <div class="ui-g-12 ui-md-6">
-                                        <label class="lbl">Ciudad</label>
+                                        <label class="lbl">{{'Ciudad' | translate}}</label>
                                         <input type="text" pInputText [value]="selectclient?.ciudad" readonly />
                                     </div>
                                     <div class="ui-g-12 ui-md-12">
-                                        <label class="lbl">Dirección</label>
+                                        <label class="lbl">{{'Dirección' | translate}}</label>
                                         <input type="text" pInputText [value]="selectclient?.direccion" readonly />
                                     </div>
                                 </div>
-                            </p-accordionTab>
-                            <p-accordionTab header="Balance General" [selected]="true">
+                            </p-accordionTab> 
+                            <p-accordionTab [header]="'Balance general' | translate" [selected]="true">
                                 <div class="ui-g form-group ui-fluid">
                                     <div class="ui-g-12 ui-md-4">
-                                        <label class="lbl">Débitos</label>
+                                        <label class="lbl">{{'Débitos' | translate}}</label>
                                     </div>
                                     <div class="ui-g-12 ui-md-8">
                                         <input type="text" pInputText [value]="selectclient?.debito | currency:'USD'"
                                             readonly />
                                     </div>
                                     <div class="ui-g-12 ui-md-4">
-                                        <label class="lbl">Créditos</label>
+                                        <label class="lbl">{{'Créditos' | translate}}</label>
                                     </div>
                                     <div class="ui-g-12 ui-md-8">
                                         <input type="text" pInputText [value]="selectclient?.credito | currency:'USD'"
                                             readonly />
                                     </div>
                                     <div class="ui-g-12 ui-md-4">
-                                        <label class="lbl">Balance</label>
+                                        <label class="lbl">{{'Balance' | translate}}</label>
                                     </div>
                                     <div class="ui-g-12 ui-md-8">
                                         <input type="text" pInputText [value]="selectclient?.balance | currency:'USD'"
@@ -184,9 +184,9 @@
          <!--Confirmar cuadro de dialogo confirm-->
          <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
             <p-footer>
-                <button type="button" pButton icon="pi pi-times" class="ui-button-danger" label="No"
+                <button type="button" pButton icon="pi pi-times" class="ui-button-danger" [label]="'No' | translate"
                     (click)="cd.reject()"></button>
-                <button type="button" pButton icon="pi pi-check" class="ui-button-success" label="Yes"
+                <button type="button" pButton icon="pi pi-check" class="ui-button-success" [label]="'Yes' | translate"
                     (click)="cd.accept()"></button>
             </p-footer>
         </p-confirmDialog>

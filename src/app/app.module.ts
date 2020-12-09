@@ -1,4 +1,3 @@
-import { BreadcrumbService } from './../services/breadcrumb.service';
 import { CommonModule } from '@angular/common';
 import { CustomTranslateLoader } from './custom-translate-loader';
 import { SharedModule } from 'primeng/primeng';
@@ -8,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutes } from './app.routes';
 
 
 // Application Components
@@ -17,15 +15,15 @@ import { AppComponent } from './app.component';
 //Para traducir
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { SafePipe } from './pipes/safe.pipe';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
     imports: [
         CommonModule,
         BrowserModule,
         FormsModule,
-        AppRoutes,
         HttpClientModule,
+        AppRoutingModule,
         SharedModule,
         BrowserAnimationsModule,
         RegisterModule,
@@ -36,13 +34,11 @@ import { SafePipe } from './pipes/safe.pipe';
                 useClass: CustomTranslateLoader
             }
         })
-    ],
+    ],    
     declarations: [
-        AppComponent,
+        AppComponent,        
     ],
-    providers: [
-        BreadcrumbService
-    ],
+    providers: [ ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3052,7 +3052,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/ROSA MISTICA/ecuador-ng-9.0.0/src/polyfills.ts */"./src/polyfills.ts");
+module.exports = __webpack_require__(/*! /home/alex/Documentos/AddSofTech/Aplicaciones web/GIZ/giz-ng-9.0.0/src/polyfills.ts */"./src/polyfills.ts");
 
 
 /***/ })

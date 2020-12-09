@@ -73,7 +73,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-delivery let-columns="columns">
-                    <tr [pSelectableRow]="delivery" [pEditableRow]="delivery">
+                    <tr [pSelectableRow]="delivery" [pEditableRow]="delivery" style="background-color: white;">
                         <td>{{delivery.nombres | titlecase}}</td>
                         <td>{{delivery.phone}}</td>
                         <td>{{delivery.pais | titlecase}}</td>

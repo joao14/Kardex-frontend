@@ -37,12 +37,12 @@ export class EditComponent implements OnInit {
 
   inicializateValores() {
     console.log('Inicializando los valores');
-    this.mark = {
+    /*this.mark = {
       marcId: this.markTemp != null ? this.markTemp['marcId'] : null,
       nombre: this.markTemp != null ? this.markTemp['nombre'] : "",
       entiId: this.markTemp != null ? this.markTemp['entiId'] : null,
       estado: this.markTemp != null ? this.markTemp['estado'] : "A"
-    };
+    };*/
     console.log(this.mark);
 
     this.options = [{ label: 'Activo', value: 'A' }, { label: 'Inactivo', value: 'I' }];

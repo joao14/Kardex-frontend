@@ -81,7 +81,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-user let-columns="columns">
-                    <tr [pSelectableRow]="user" [pEditableRow]="user">
+                    <tr [pSelectableRow]="user" [pEditableRow]="user"  style="background-color: white;">
                         <td>{{user.identification}}</td>
                         <td>{{user.name | titlecase }}</td>
                         <td>{{user.razosoci | titlecase }}</td>

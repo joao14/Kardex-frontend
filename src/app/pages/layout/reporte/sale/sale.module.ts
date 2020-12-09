@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SaleRoutingModule } from './sale-routing.module';
 import { SaleComponent } from './sale.component';
-import { InputTextModule, PanelModule, AccordionModule, InputTextareaModule, RadioButtonModule, ButtonModule, AutoCompleteModule, DropdownModule, TableModule, ToolbarModule, VirtualScrollerModule, DialogModule, DynamicDialogModule, CalendarModule, ConfirmDialogModule, ToastModule, CardModule, SplitButtonModule, SelectButtonModule } from 'primeng';
+import { InputTextModule, PanelModule, AccordionModule, InputTextareaModule, RadioButtonModule, ButtonModule, AutoCompleteModule, DropdownModule, TableModule, ToolbarModule, VirtualScrollerModule, DialogModule, DynamicDialogModule, CalendarModule, ConfirmDialogModule, ToastModule, CardModule, SplitButtonModule, SelectButtonModule, CheckboxModule } from 'primeng';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared.module';
@@ -37,7 +37,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     VirtualScrollerModule,
     TranslateModule,
     SharedModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    CheckboxModule
   ]
 })
 export class SaleModule { }

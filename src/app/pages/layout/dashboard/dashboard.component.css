@@ -47,6 +47,16 @@
     height: 2.357rem;
 }
 
+.stock{
+    font-size: 20px !important;
+    font-weight: bold;
+}
+
+.number_sales{
+    font-size: 16px !important;
+}
+
+
 @media only screen and (max-width: 40rem) {
     .web {
         display: none;

@@ -1,115 +1,200 @@
 <div class="ui-g">
     <div class="ui-g-12">
         <div class="card card-w-title">
-            <h1>Facturación Cliente</h1>
+            <p-toast></p-toast>
             <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box"
                 [fullScreen]="true">
                 <p style="color: white"> Loading... </p>
             </ngx-spinner>
-            <p-toast></p-toast>
-            <form [formGroup]="facturaForm" (ngSubmit)="save()">
-                <p-accordion>
-                    <p-accordionTab header="Datos del Cliente" [selected]="true">
-                        <div class="ui-g form-group ui-fluid">
-                            <div class="ui-g-12 ui-md-2">
-                                <label for="client" class="lbl">Cliente</label>
-                                <p-dropdown [options]="clientes" optionLabel="nombres" formControlName="cliente"
-                                    [ngClass]="{ 'is-invalid': submittedFactura && fr.cliente.errors }"
-                                    class="form-control" class="form-control" (onChange)='onOptionsSelected()'
-                                    [filter]="true" placeholder="Seleccione"></p-dropdown>
-                                <div *ngIf="submittedFactura && fr.cliente.errors" class="invalid-feedback">
-                                    <div *ngIf="fr.cliente.errors.required">Cliente es requerido</div>
-                                </div>
-                            </div>
-
-                            <div class="ui-g-12 ui-md-2">
-                                <label for="mark" class="lbl">Marca</label>
-                                <p-dropdown [options]="marks" optionLabel="nombre" formControlName="marca"
-                                    [ngClass]="{ 'is-invalid': submittedFactura && fr.marca.errors }"
-                                    class="form-control" class="form-control" [filter]="true" placeholder="Seleccione">
-                                </p-dropdown>
-                                <div *ngIf="submittedFactura && fr.marca.errors" class="invalid-feedback">
-                                    <div *ngIf="fr.marca.errors.required">Cliente es requerido</div>
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-2">
-                                <label for="mawba" class="lbl"># Mawba</label>
-                                <input type="text" id="mawba" pInputText formControlName="mawba"
-                                    [ngClass]="{ 'is-invalid': submittedFactura && fr.mawba.errors }"
-                                    class="form-control">
-                                <div *ngIf="submittedFactura && fr.mawba.errors" class="invalid-feedback">
-                                    <div *ngIf="fr.mawba.errors.required">Mawba es requerido</div>
-                                </div>
-                            </div>
-
-                            <div class="ui-g-12 ui-md-2">
-                                <label for="freightforwarder" class="lbl">Empresa de carga</label>
-                                <p-dropdown [options]="deliveries" optionLabel="nombres" class="form-control"
-                                    (onChange)='onOptionsSelected()' formControlName="empresacargo"
-                                    [ngClass]="{ 'is-invalid': submittedFactura && fr.empresacargo.errors }"
-                                    class="form-control" [filter]="true" placeholder="Seleccione"></p-dropdown>
-                                <div *ngIf="submittedFactura && fr.empresacargo.errors" class="invalid-feedback">
-                                    <div *ngIf="fr.empresacargo.errors.required">Empresa carga es requerida</div>
-                                </div>
-                            </div>
-
-                            <div class="ui-g-12 ui-md-2">
-                                <label for="phone" class="lbl">Teléfono</label>
-                                <input type="text" id="phone" pInputText [value]="selectclient?.phone" readonly>
-                            </div>
-
-                            <div class="ui-g-12 ui-md-2">
-                                <label for="email" class="lbl">Email</label>
-                                <input type="text" id="email" pInputText [value]="selectclient?.email" readonly>
-                            </div>
-
-                            <div class="ui-g-12 ui-md-2">
-                                <label for="razonsocial" class="lbl">Razón Social</label>
-                                <input type="text" id="razonsocial" pInputText [value]="selectclient?.razosoci"
-                                    readonly>
-                            </div>
-
-                            <div class="ui-g-12 ui-md-2">
-                                <label for="ciudad" class="lbl">Ciudad</label>
-                                <input type="text" id="ciudad" pInputText [value]="selectclient?.ciudad" readonly>
-                            </div>
-
-                            <div class="ui-g-12 ui-md-2">
-                                <label for="address" class="lbl">Address</label>
-                                <textarea pInputTextarea id="address" [value]="selectclient?.direccion"
-                                    readonly></textarea>
-                            </div>
-
-
-                            <div class="ui-g-12 ui-md-6">
-                                <label for="address" class="lbl">Carga de datos</label>
-                                <div class="ui-grid-row">
-                                    <div class="ui-grid-col-6">
-                                        <button pButton type="button" icon="pi pi-pencil" class="ui-button-primary"
-                                            label="Manual" (click)="selectOptions('manual')"
-                                            style="height: 40px;"></button>
-                                    </div>
-                                    <div class="ui-grid-col-6">
-                                        <button pButton type="button" icon="pi pi-upload" class="ui-button-warning"
-                                            label="Subir archivo" (click)="selectOptions('automatico')"
-                                            style="height: 40px;"></button>
-                                    </div>
-                                </div>
-                            </div>
-
+            <div *ngIf="invoicesdraft.length > 0 && step <= 1">
+                <h1>{{'Borradores de la facturación' | translate}}</h1>
+                <p-table [value]="invoicesdraft" class="p-datatable-responsive-demo">
+                    <ng-template pTemplate="caption">
+                        <div class="p-d-flex p-ai-center p-jc-between">
+                            {{'Facturas de borrador'| translate}} [ {{invoicesdraft.length}} ]
                         </div>
-                    </p-accordionTab>
-                </p-accordion>
-                <!--Agregar manualmente-->
-                <div *ngIf="manual">
-                    <form [formGroup]="itemForm" (ngSubmit)="saverow()">
-                        <br>
-                        <div class="ui-g form-group ui-fluid">
-                            <div class="ui-g-12 ui-md-2" *ngIf="!addrow">
-                                <button pButton type="button" icon="pi pi-plus" class="ui-button-primary" label="Nuevo"
-                                    (click)="add()"></button>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 8em;"></th>
+                            <th>{{'Nu Documentos' | translate}}</th>
+                            <th>{{'Fecha' | translate}}</th>
+                            <th>{{'Número de tallos' | translate}}</th>
+                            <th>{{'Secuencial' | translate}}</th>
+                            <th>{{'Total' | translate}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-item>
+                        <tr style="background-color: white;">
+                            <td><span class="p-column-title">
+                                    <button pButton type="button" class="ui-button-danger" icon="pi pi-eye"
+                                        style="display: none;" (click)="viewdraft(item)"></button>
+                                    &nbsp;
+                                    <button pButton type="button" class="ui-button-success" icon="pi pi-replay"
+                                        style="display: none;" (click)="finish(item)"></button>
+                                    &nbsp;
+                                    <button pButton type="button" class="ui-button-warning" icon="pi pi-pencil"
+                                        (click)="edit(item)"></button>
+                                </span>
+                            </td>
+                            <td><span class="p-column-title">{{item.cabecera.contdocu }}</span></td>
+                            <td><span class="p-column-title">{{item.cabecera.fecha }}</span></td>
+                            <td><span class="p-column-title">{{item.cabecera.numetallos }}</span></td>
+                            <td><span class="p-column-title">{{item.cabecera.secuencial }}</span></td>
+                            <td><span class="p-column-title" style="font-weight: bold;">{{item.cabecera.total | currency}}</span></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <hr>
+                <div class="ui-g form-group ui-fluid">
+                    <div class="ui-g-12 ui-md-9"></div>
+                    <div class="ui-g-12 ui-md-3">
+                        <button pButton type="button" icon="pi pi-chevron-circle-right" style="font-size: 1rem"
+                            [label]="'Seguir Facturando' | translate" class="ui-button-info ouput_btn_table"
+                            (click)="facturar()">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="invoicesdraft.length <= 0 || step > 1">
+                <div class="ui-g form-group ui-fluid">
+                    <div [class]="invoicesdraft.length > 0 ? 'ui-g-12 ui-md-10':'ui-g-12 ui-md-10'">
+                        <h1 *ngIf="(!editInvoice && step > 1) || invoicesdraft.length <= 0">
+                            {{'Facturación Cliente' | translate}}</h1>
+                        <h1 *ngIf="editInvoice && step > 1">{{'Editando la factura' | translate }} # {{idFactura}}</h1>
+                    </div>
+                    <div [class]="invoicesdraft.length > 0 ? 'ui-g-12 ui-md-2':''">
+                        <button pButton type="button" icon="pi pi-arrow-circle-left" [label]="'Borradores' | translate"
+                            icon="pi pi-arrow-circle-left" *ngIf="invoicesdraft.length > 0"
+                            class="ui-button-warning ouput_btn_table" (click)="back()"></button>
+                    </div>
+                </div>
+                <form [formGroup]="facturaForm" (ngSubmit)="save()">
+                    <p-accordion>
+                        <p-accordionTab [header]="'Datos del Cliente' | translate" [selected]="true">
+                            <div class="ui-g form-group ui-fluid">
+                                <div class="ui-g-12 ui-md-2">
+                                    <label for="client" class="lbl">{{'Cliente' | translate}}</label>
+                                    <p-dropdown [options]="clientes" optionLabel="nombres" formControlName="cliente"
+                                        *ngIf="!editInvoice"
+                                        [ngClass]="{ 'is-invalid': submittedFactura && fr.cliente.errors }"
+                                        class="form-control" class="form-control" (onChange)='onOptionsSelected()'
+                                        [filter]="true" [placeholder]="'Seleccione' | translate"></p-dropdown>
+
+                                    <input type="text" pInputText [value]="selectclient?.nombres" readonly
+                                        [ngClass]="{ 'is-invalid': submittedFactura && fr.cliente.errors }"
+                                        class="form-control" class="form-control" *ngIf="editInvoice" />
+
+                                    <div *ngIf="submittedFactura && fr.cliente.errors" class="invalid-feedback">
+                                        <div *ngIf="fr.cliente.errors.required">{{'Cliente es requerido' | translate}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-2">
+                                    <label for="mark" class="lbl">{{'Marca' | translate}}</label>
+                                    <p-dropdown [options]="marks" optionLabel="nombre" formControlName="marca"
+                                        *ngIf="!editInvoice" (onChange)='onOptionsMarkSelected()'
+                                        [ngClass]="{ 'is-invalid': submittedFactura && fr.marca.errors }"
+                                        class="form-control" class="form-control" [filter]="true"
+                                        [placeholder]="'Seleccione' | translate">
+                                    </p-dropdown>
+
+                                    <input type="text" pInputText [value]="selectdraft?.cabecera.mark" readonly
+                                        [ngClass]="{ 'is-invalid': submittedFactura && fr.cliente.errors }"
+                                        class="form-control" class="form-control" *ngIf="editInvoice" />
+
+                                    <div *ngIf="submittedFactura && fr.marca.errors" class="invalid-feedback">
+                                        <div *ngIf="fr.marca.errors.required">{{'Marca es requerido' | translate}}</div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-2">
+                                    <label for="mawba" class="lbl">{{'N° guía' | translate}}</label>
+                                    <input type="text" id="mawba" pInputText formControlName="mawba"
+                                        [ngClass]="{ 'is-invalid': submittedFactura && fr.mawba.errors }"
+                                        class="form-control">
+                                    <div *ngIf="submittedFactura && fr.mawba.errors" class="invalid-feedback">
+                                        <div *ngIf="fr.mawba.errors.required">{{'Mawba es requerido' | translate}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-2">
+                                    <label for="freightforwarder" class="lbl">{{'Empresa carga' | translate}}</label>
+                                    <p-dropdown [options]="deliveries" optionLabel="nombres" class="form-control"
+                                        (onChange)='onOptionsSelected()' formControlName="empresacargo"
+                                        *ngIf="!editInvoice"
+                                        [ngClass]="{ 'is-invalid': submittedFactura && fr.empresacargo.errors }"
+                                        class="form-control" [filter]="true" [placeholder]="'Seleccione' | translate">
+                                    </p-dropdown>
+
+                                    <input type="text" pInputText [value]="selectdraft?.cabecera.cargname" readonly
+                                        [ngClass]="{ 'is-invalid': submittedFactura && fr.cliente.errors }"
+                                        class="form-control" class="form-control" *ngIf="editInvoice" />
+
+                                    <div *ngIf="submittedFactura && fr.empresacargo.errors" class="invalid-feedback">
+                                        <div *ngIf="fr.empresacargo.errors.required">
+                                            {{'Empresa carga es requerida' | translate}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-2" *ngIf="typerol=='ADM'">
+                                    <label for="phone" class="lbl">{{'Teléfono' | translate}}</label>
+                                    <input type="text" id="phone" pInputText [value]="selectclient?.phone" readonly>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-2" *ngIf="typerol=='ADM'">
+                                    <label for="razonsocial" class="lbl">{{'Razón Social' | translate}}</label>
+                                    <input type="text" id="razonsocial" pInputText [value]="selectclient?.razosoci"
+                                        readonly>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-2" *ngIf="typerol=='ADM'">
+                                    <label for="ciudad" class="lbl">{{'País-Ciudad'| translate}}</label>                               
+                                    <input type="text" id="ciudad" pInputText [value]="selectclient?.paiscity" readonly>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-2" *ngIf="typerol=='ADM'">
+                                    <label for="email" class="lbl">{{'Email' | translate}}</label>
+                                    <textarea pInputTextarea id="email" [value]="selectclient?.email"
+                                        readonly></textarea>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-2" *ngIf="typerol=='ADM'">
+                                    <label for="address" class="lbl">{{'Dirección' | translate}}</label>
+                                    <textarea pInputTextarea id="address" [value]="selectmark?.direccion"
+                                        readonly></textarea>
+                                </div>
+
+
+                                <div [class]="typerol=='ADM'? 'ui-g-12 ui-md-6':'ui-g-12 ui-md-4'" *ngIf="!editInvoice">
+                                    <label for="address" class="lbl">{{'Operación' | translate}}</label>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-6">
+                                            <button pButton type="button" icon="pi pi-pencil" class="ui-button-primary"
+                                                [label]="'Manual' | translate" (click)="selectOptions('manual')"
+                                                style="height: 40px;"></button>
+                                        </div>
+                                        <div class="ui-grid-col-6">
+                                            <button pButton type="button" icon="pi pi-upload" class="ui-button-warning"
+                                                [label]="'Subir archivo' | translate"
+                                                (click)="selectOptions('automatico')" style="height: 40px;"></button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                            <!--<div class="ui-g-12 ui-md-2" *ngIf="addrow">
+                        </p-accordionTab>
+                    </p-accordion>
+                    <!--Agregar manualmente-->
+                    <div *ngIf="manual">
+                        <form [formGroup]="itemForm" (ngSubmit)="saverow()">
+                            <br>
+                            <div class="ui-g form-group ui-fluid">
+                                <div class="ui-g-12 ui-md-2" *ngIf="!addrow">
+                                    <button pButton type="button" icon="pi pi-plus" class="ui-button-primary"
+                                        [label]="'Nuevo' | translate" (click)="add()"></button>
+                                </div>
+                                <!--<div class="ui-g-12 ui-md-2" *ngIf="addrow">
                             <button pButton icon="pi pi-plus" class="ui-button-success ouput_btn_table"
                                 label="Guardar"></button>
                         </div>
@@ -117,324 +202,379 @@
                             <button pButton type="button" icon="pi pi-times" label="Cancelar"
                                 class="ui-button-lg ui-button-warning ouput_btn_table" (click)="cancelrow()"></button>
                         </div>-->
-                        </div>
+                            </div>
 
-                        <div class="card row" *ngIf="addrow">
-                            <div class="ui-g form-group ui-fluid">
-                                <div class="ui-g-12 ui-md-1">
-                                    <br>
-                                    <div class="ui-g-12 ui-md-3" *ngIf="addrow">
-                                        <button pButton icon="pi pi-check"
-                                            class="ui-button-success ouput_btn_table"></button>
+                            <div class="card row" *ngIf="addrow">
+                                <div class="ui-g form-group ui-fluid">
+                                    <div class="ui-g-12 ui-md-1">
+                                        <br>
+                                        <div class="ui-g-12 ui-md-3" *ngIf="addrow">
+                                            <button pButton icon="pi pi-check" style="height: 2.2rem;width: 35px;"
+                                                class="ui-button-success ouput_btn_table"></button>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-3"></div>
+                                        <div class="ui-g-12 ui-md-4" *ngIf="addrow">
+                                            <button pButton type="button" icon="pi pi-times"
+                                                style="height: 2.2rem;width: 35px;"
+                                                class="ui-button-lg ui-button-warning ouput_btn_table"
+                                                (click)="cancelrow()"></button>
+                                        </div>
                                     </div>
-                                    &nbsp;
-                                    <div class="ui-g-12 ui-md-4" *ngIf="addrow">
+                                    <div class="ui-g-12 ui-md-1">
+                                        <label class="lbl">{{'Caja' | translate}}</label>
+                                        <p-dropdown [options]="cajas" optionLabel="name" formControlName="caja"
+                                            [placeholder]="'Seleccione' | translate">
+                                        </p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <label class="lbl">{{'Piezas' | translate}} </label>
+                                        <input type="text" pInputText pKeyFilter="int" placeholder="0"
+                                            formControlName="pieza">
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label class="lbl">{{'Finca' | translate}}</label>
+                                        <p-dropdown [options]="fincas" formControlName="finca" optionLabel="nombres"
+                                            [ngClass]="{ 'is-invalid': submitted && f.finca.errors }"
+                                            class="form-control" [filter]="true"
+                                            [placeholder]="'Seleccione' | translate">
+                                        </p-dropdown>
+                                        <div *ngIf="submitted && f.finca.errors" class="invalid-feedback">
+                                            <div *ngIf="f.finca.errors.required">{{'Finca es requerido' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label class="lbl">{{'Variedad' | translate}}</label>
+                                        <p-dropdown [options]="flores" formControlName="flores"
+                                            optionLabel="flor.nombre"
+                                            [ngClass]="{ 'is-invalid': submitted && f.flores.errors }"
+                                            class="form-control" [filter]="true"
+                                            [placeholder]="'Seleccione' | translate">
+                                        </p-dropdown>
+                                        <div *ngIf="submitted && f.flores.errors" class="invalid-feedback">
+                                            <div *ngIf="f.flores.errors.required">
+                                                {{'Variedad es requerido' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g-12 ui-md-1">
+                                        <label class="lbl">{{'BCH' | translate}}</label>
+                                        <input type="text" pInputText pKeyFilter="int"
+                                            [ngClass]="{ 'is-invalid': submitted && f.stem.errors }"
+                                            class="form-control" placeholder="0" formControlName="stem">
+                                        <div *ngIf="submitted && f.stem.errors" class="invalid-feedback">
+                                            <div *ngIf="f.stem.errors.required">{{'Tallos es requerido' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g-12 ui-md-1">
+                                        <label class="lbl">{{'CM' | translate}}</label>
+                                        <p-dropdown [options]="tamanios" [placeholder]="'Seleccione' | translate"
+                                            optionLabel="name" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.tamanio.errors }"
+                                            formControlName="tamanio" formControlName="tamanio">
+                                        </p-dropdown>
+                                        <div *ngIf="submitted && f.tamanio.errors" class="invalid-feedback">
+                                            <div *ngIf="f.tamanio.errors.required">{{'Tamaño es requerido' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g-12 ui-md-1">
+                                        <label class="lbl">{{'No BCH' | translate}}</label>
+                                        <input type="text" pInputText pKeyFilter="int" placeholder="0"
+                                            class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.tallos.errors }"
+                                            (focusout)="calculate()" formControlName="tallos">
+                                        <div *ngIf="submitted && f.tallos.errors" class="invalid-feedback">
+                                            <div *ngIf="f.tallos.errors.required">
+                                                {{'N° tallos es requerido' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g-12 ui-md-1">
+                                        <label class="lbl"
+                                            style="color: #ff4456;font-weight: bold;">{{'No Tallos' | translate}}</label>
+                                        <input type="text" pInputText pKeyFilter="int" placeholder="0"
+                                            class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.totaltallos.errors }" readonly
+                                            pTooltip="Este valor se auto calculara" tooltipPosition="bottom"
+                                            style="font-size: 14px;font-weight: bold;text-align: center;background-color: #FFFAF0;"
+                                            formControlName="totaltallos">
+                                        <div *ngIf="submitted && f.totaltallos.errors" class="invalid-feedback">
+                                            <div *ngIf="f.totaltallos.errors.required">
+                                                {{'Total tallos es requerido' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g-12 ui-md-1">
+                                        <label class="lbl">{{'Precio' | translate}}</label>
+                                        <input type="text" pInputText placeholder="0" pKeyFilter="money"
+                                            class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.precio.errors }"
+                                            formControlName="precio" formControlName="precio">
+                                        <div *ngIf="submitted && f.precio.errors" class="invalid-feedback">
+                                            <div *ngIf="f.precio.errors.required">{{'Precio es requerido' | translate}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <button pButton type="button" icon="pi pi-check"
+                                            class="ui-button-success in_btn_table" [label]="'Guardar' | translate"
+                                            (click)="saverow()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
                                         <button pButton type="button" icon="pi pi-times"
-                                            class="ui-button-lg ui-button-warning ouput_btn_table"
+                                            [label]="'Cancelar' | translate"
+                                            class="ui-button-lg ui-button-warning in_btn_table"
                                             (click)="cancelrow()"></button>
                                     </div>
-                                </div>
-                                <div class="ui-g-12 ui-md-1">
-                                    <label class="lbl">Caja</label>
-                                    <p-dropdown [options]="cajas" optionLabel="name" formControlName="caja"
-                                        placeholder="Seleccione">
-                                    </p-dropdown>
-                                </div>
-                                <div class="ui-g-12 ui-md-1">
-                                    <label class="lbl">Piezas</label>
-                                    <input type="text" pInputText pKeyFilter="int" placeholder="0"
-                                        formControlName="pieza">
-                                </div>
-                                <div class="ui-g-12 ui-md-2">
-                                    <label class="lbl">Finca</label>
-                                    <p-dropdown [options]="fincas" formControlName="finca" optionLabel="nombres"
-                                        [ngClass]="{ 'is-invalid': submitted && f.finca.errors }" class="form-control"
-                                        [filter]="true" placeholder="Seleccione">
-                                    </p-dropdown>
-                                    <div *ngIf="submitted && f.finca.errors" class="invalid-feedback">
-                                        <div *ngIf="f.finca.errors.required">Cliente es requerido</div>
-                                    </div>
-                                </div>
-                                <div class="ui-g-12 ui-md-3">
-                                    <label class="lbl">Variedad</label>
-                                    <p-dropdown [options]="flores" formControlName="flores" optionLabel="flor.nombre"
-                                        [ngClass]="{ 'is-invalid': submitted && f.flores.errors }" class="form-control"
-                                        [filter]="true" placeholder="Seleccione">
-                                    </p-dropdown>
-                                    <div *ngIf="submitted && f.flores.errors" class="invalid-feedback">
-                                        <div *ngIf="f.flores.errors.required">Variedad es requerido</div>
-                                    </div>
-                                </div>
 
-                                <div class="ui-g-12 ui-md-1">
-                                    <label class="lbl">Stem</label>
-                                    <input type="text" pInputText pKeyFilter="int"
-                                        [ngClass]="{ 'is-invalid': submitted && f.stem.errors }" class="form-control"
-                                        placeholder="0" formControlName="stem">
-                                    <div *ngIf="submitted && f.stem.errors" class="invalid-feedback">
-                                        <div *ngIf="f.stem.errors.required">Stem es requerido</div>
-                                    </div>
                                 </div>
-
-                                <div class="ui-g-12 ui-md-1">
-                                    <label class="lbl">Tamaño</label>
-                                    <p-dropdown [options]="tamanios" placeholder="Seleccione" optionLabel="name"
-                                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tamanio.errors }"
-                                        formControlName="tamanio" formControlName="tamanio">
-                                    </p-dropdown>
-                                    <div *ngIf="submitted && f.tamanio.errors" class="invalid-feedback">
-                                        <div *ngIf="f.tamanio.errors.required">Tamaño es requerido</div>
-                                    </div>
-                                </div>
-
-                                <div class="ui-g-12 ui-md-1">
-                                    <label class="lbl"># Tallos</label>
-                                    <input type="text" pInputText pKeyFilter="int" placeholder="0" class="form-control"
-                                        [ngClass]="{ 'is-invalid': submitted && f.tallos.errors }"
-                                        formControlName="tallos" formControlName="tallos">
-                                    <div *ngIf="submitted && f.tallos.errors" class="invalid-feedback">
-                                        <div *ngIf="f.tallos.errors.required">N° tallos es requerido</div>
-                                    </div>
-                                </div>
-
-                                <div class="ui-g-12 ui-md-1">
-                                    <label class="lbl">Precio</label>
-                                    <input type="text" pInputText placeholder="0" pKeyFilter="money"
-                                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.precio.errors }"
-                                        formControlName="precio" formControlName="precio">
-                                    <div *ngIf="submitted && f.precio.errors" class="invalid-feedback">
-                                        <div *ngIf="f.precio.errors.required">Precio es requerido</div>
-                                    </div>
-                                </div>
-
-                                <div class="ui-g-12 ui-md-12">
-                                    <button pButton type="button" icon="pi pi-check"
-                                        class="ui-button-success in_btn_table" label="Guardar"
-                                        (click)="saverow()"></button>
-                                </div>
-                                <div class="ui-g-12 ui-md-12">
-                                    <button pButton type="button" icon="pi pi-times" label="Cancelar"
-                                        class="ui-button-lg ui-button-warning in_btn_table"
-                                        (click)="cancelrow()"></button>
-                                </div>
-
                             </div>
-                        </div>
-                    </form>
-                    <p-table [value]="items" class="p-datatable-responsive-demo">
-                        <ng-template pTemplate="caption">
-                            <div class="p-d-flex p-ai-center p-jc-between">
-                                Items de la factura [ {{items.length}} ]
-                            </div>
-                        </ng-template>
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th style="width: 4em;"></th>
-                                <th>Caja</th>
-                                <th>Finca</th>
-                                <th>Variedad</th>
-                                <th>Stem</th>
-                                <th>Tamaño</th>
-                                <th>#Tallos</th>
-                                <th>Total Tallos</th>
-                                <th>Precio</th>
-                                <th>Total</th>
+                        </form>
+                        <p-table [value]="items" class="p-datatable-responsive-demo">
+                            <ng-template pTemplate="caption">
+                                <div class="p-d-flex p-ai-center p-jc-between">
+                                    {{'Items de la factura'| translate}} [ {{items.length}} ]
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 4em;"></th>
+                                    <th>{{'Caja' | translate}}</th>
+                                    <th style="width: 35em;">{{'Finca' | translate}}</th>
+                                    <th style="width: 15em;">{{'Variedad' | translate}}</th>
+                                    <th>{{'BCH' | translate}}</th>
+                                    <th>{{'CM' | translate}}</th>
+                                    <th>{{'No BCH' | translate}}</th>
+                                    <th>{{'No Tallos' | translate}}</th>
+                                    <th>{{'Precio' | translate}}</th>
+                                    <th>{{'Total' | translate}}</th>
 
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-rowData let-item>
-                            <tr>
-                                <td><span class="p-column-title">
-                                        <button pButton type="button" class="ui-button-danger" icon="pi pi-trash"
-                                            (click)="deleteItem(item)"></button>
-                                    </span>
-                                </td>
-                                <td><span class="p-column-title">{{item.caja==null?'HB':item.caja.code}}</span></td>
-                                <td><span class="p-column-title">{{item.finca.nombres}}</span></td>
-                                <td><span class="p-column-title">{{item.flor.flor.nombre }}</span></td>
-                                <td><span class="p-column-title">{{item.stems }}</span></td>
-                                <td><span class="p-column-title">{{item.tamanio.code }}</span></td>
-                                <td><span class="p-column-title">{{item.numtallos }}</span></td>
-                                <td><span class="p-column-title">{{item.totaltallos }}</span></td>
-                                <td><span class="p-column-title">{{item.price | currency}}</span></td>
-                                <td><span class="p-column-title">{{item.subtotal | currency}}</span></td>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="footer">
-                            <tr>
-                                <td colspan="9" class="total_table">Totales</td>
-                                <!--<td><span class="total_tallos">{{factura.tallos }}</span></td>-->
-                                <td><span class="total_valor">{{factura.total | currency: 'USD'}}</span></td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                    <br>
-                    <div class="ui-g form-group ui-fluid">
-                        <div class="ui-grid-col-10"></div>
-                        <div class="ui-grid-col-2">
-                            <button pButton icon="pi pi-arrow-right" class="ui-button-help btn_enviar" label="Enviar"
-                                [disabled]="items.length <= 0"></button>
-                        </div>
-                    </div>
-                </div>
-                <!--Upload file-->
-                <div *ngIf="automatico">
-                    <div class="uploadfilecontainer" (click)="fileInput.click()" appDragdrop
-                        (onFileDropped)="uploadFile($event)" *ngIf="files.length <= 0">
-                        <input hidden type="file" #fileInput (change)="uploadFile($event)" accept=".xlsx, .xls">
-                    </div>
-                    <div class="files-list" *ngFor="let file of files;let i= index">
-                        <p> {{ file.name }} </p>
-                        <button class="delete-file" (click)="deleteAttachment(i)">
-                            <img src="../../../../assets/images/recicler.jpeg">
-                        </button>
-                    </div>
-                    <div class="error" *ngIf="validate">El archivo tiene errores validar con el administrador</div>
-                    <p class="detalle" *ngIf="validate"><i class="pi pi-bell"></i>&nbsp;{{smsvalidate}}</p>
-                    <br>
-                    <p-table [value]="items" *ngIf="files.length > 0" class="p-datatable-responsive-demo">
-                        <ng-template pTemplate="caption">
-                            <div class="p-d-flex p-ai-center p-jc-between">
-                                Items de la factura [{{items.length}}]
-                            </div>
-                        </ng-template>
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>Caja</th>
-                                <th>Finca</th>
-                                <th>Variedad</th>
-                                <th>Stem</th>
-                                <th>Tamaño</th>
-                                <th>#Tallos</th>
-                                <th>Total Tallos</th>
-                                <th>Precio</th>
-                                <th>Total</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-item>
-                            <tr>
-                                <td>{{item.caja==null?'HB':item.caja}}</td>
-                                <td>{{item.finca.nombres}}</td>
-                                <td>{{item.flor.nombre }}</td>
-                                <td>{{item.stems }}</td>
-                                <td>{{item.tamanio.code }}</td>
-                                <td>{{item.numtallos }}</td>
-                                <td>{{item.totaltallos }}</td>
-                                <td>{{item.price | currency}}</td>
-                                <td>{{item.subtotal | currency}}</td>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="footer">
-                            <tr>
-                                <td colspan="8" class="total_table">Totales</td>
-                                <td><span class="total_valor">{{factura.total | currency: 'USD'}}</span></td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                    <br>
-                    <div class="ui-g form-group ui-fluid" *ngIf="items.length > 0">
-                        <div class="ui-grid-col-10"></div>
-                        <div class="ui-grid-col-2">
-                            <button pButton type="button" icon="pi pi-arrow-right" class="ui-button-help btn_enviar" 
-                                [disabled]="validate"
-                                label="Enviar" type="submit"></button>
-                        </div>
-                    </div>
-                </div>
-
-                <!--Table responsive-->
-                <div class="ui-grid ui-grid-responsive ui-fluid" class="data" *ngFor="let item of items">
-                    <div class="card card-w-title">
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-12">
-                                <button pButton type="button" class="ui-button-danger btn_card" icon="pi pi-trash"
-                                    (click)="deleteItem(item)"></button>
-                            </div>
-                        </div>
-
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><span class="label">Caja</span></div>
-                            <div class="ui-grid-col-8"><span
-                                    class="value">{{item.caja==null?'HB':item.caja.code}}</span></div>
-                        </div>
-
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><span class="label">Finca</span></div>
-                            <div class="ui-grid-col-8"><span class="value">{{item.finca.nombres}}</span></div>
-                        </div>
-
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><span class="label">Variedad</span></div>
-                            <div class="ui-grid-col-8"><span class="value">{{item.flor.nombre}}</span></div>
-                        </div>
-
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><span class="label">Sterm</span></div>
-                            <div class="ui-grid-col-8"><span class="value">{{item.stems}}</span></div>
-                        </div>
-
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><span class="label">Tamaño</span></div>
-                            <div class="ui-grid-col-8"><span class="value">{{item.tamanio.code}}</span></div>
-                        </div>
-
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><span class="label"># Tallos</span></div>
-                            <div class="ui-grid-col-8"><span class="value">{{item.tallos}}</span></div>
-                        </div>
-
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><span class="label">Total Tallos</span></div>
-                            <div class="ui-grid-col-8"><span class="value">{{item.totaltallos}}</span></div>
-                        </div>
-
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><span class="label">Precio</span></div>
-                            <div class="ui-grid-col-8"><span class="value">{{item.price | currency}}</span></div>
-                        </div>
-
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><span class="label">Total</span></div>
-                            <div class="ui-grid-col-8"><span class="value">{{item.subtotal | currency}}</span></div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="ui-grid ui-grid-responsive ui-fluid" class="resumen">
-                    <div class="ui-grid-row">
-                        <div class="ui-grid-col-4" style="text-align: right;font-weight: bold;font-size: 20px;">
-                            Total:
-                        </div>
-                        <div class="ui-grid-col-8" style="text-align: center;"><span
-                                class="total_valor">{{factura.total | currency: 'USD'}}</span></div>
-                    </div>
-                    <br>
-                    <div class="ui-grid ui-grid-responsive ui-fluid">
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-10"></div>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-item>
+                                <tr style="background-color: white;">
+                                    <td><span class="p-column-title">
+                                            <button pButton type="button" class="ui-button-danger" icon="pi pi-trash"
+                                                (click)="deleteItem(item)"></button>
+                                        </span>
+                                    </td>
+                                    <td><span class="p-column-title">{{item.caja==null?'HB':item.caja.code}}</span></td>
+                                    <td style="width: 10em;"><span class="p-column-title">{{item.finca.nombres}} - (
+                                            {{item.finca.razosoci}}) </span></td>
+                                    <td><span
+                                            class="p-column-title">{{item.flor.flor== null? item.flor.nombre : item.flor.flor.nombre}}</span>
+                                    </td>
+                                    <td><span class="p-column-title">{{item.stems }}</span></td>
+                                    <td><span class="p-column-title">{{item.tamanio.code }}</span></td>
+                                    <td><span class="p-column-title">{{item.numtallos }}</span></td>
+                                    <td><span class="p-column-title">{{item.totaltallos }}</span></td>
+                                    <td><span class="p-column-title">{{item.price | currency}}</span></td>
+                                    <td><span class="p-column-title">{{item.subtotal | currency}}</span></td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="footer">
+                                <tr>
+                                    <td colspan="7" class="total_table">{{'Totales' | translate}}</td>
+                                    <td><span class="total_valor">{{factura.tallos}}</span></td>
+                                    <td></td>
+                                    <td><span class="total_valor">{{factura.total | currency: 'USD'}}</span></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <br>
+                        <div class="ui-g form-group ui-fluid">
+                            <div class="ui-grid-col-7"></div>
                             <div class="ui-grid-col-2">
-                                <button pButton icon="pi pi-arrow-right" class="ui-button-help btn_enviar_responsive"
-                                    label="Enviar"></button>
+                                <button pButton icon="pi pi-save" class="ui-button-success btn_enviar"
+                                    (click)="saveeraser()" type="button" [label]="'Guardar' | translate"
+                                    [disabled]="items.length <= 0"></button>
+                            </div>
+                            <div class="ui-grid-col-1"></div>
+                            <div class="ui-grid-col-2">
+                                <button pButton icon="pi pi-arrow-right" class="ui-button-help btn_enviar"
+                                    [label]="'Finalizar' | translate" [disabled]="items.length <= 0"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Upload file-->
+                    <div *ngIf="automatico">
+                        <div class="uploadfilecontainer" (click)="fileInput.click()" appDragdrop
+                            (onFileDropped)="uploadFile($event)" *ngIf="files.length <= 0">
+                            <input hidden type="file" #fileInput (change)="uploadFile($event)" accept=".xlsx, .xls">
+                        </div>
+                        <div class="files-list" *ngFor="let file of files;let i= index">
+                            <p> {{ file.name }} </p>
+                            <button class="delete-file" (click)="deleteAttachment(i)">
+                                <img src="../../../../assets/images/recicler.jpeg">
+                            </button>
+                        </div>
+                        <div class="error" *ngIf="validate">
+                            {{'El archivo tiene errores validar con el administrador'| translate}}</div>
+                        <p class="detalle" *ngIf="validate"><i class="pi pi-bell"></i>&nbsp;{{smsvalidate}}</p>
+                        <br>
+                        <p-table [value]="items" *ngIf="files.length > 0" class="p-datatable-responsive-demo">
+                            <ng-template pTemplate="caption">
+                                <div class="p-d-flex p-ai-center p-jc-between">
+                                    {{'Items de la factura' | translate}} [{{items.length}}]
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{'Caja' | translate}}</th>
+                                    <th style="width: 35em;">{{'Finca' | translate}}</th>
+                                    <th style="width: 15em;">{{'Variedad' | translate}}</th>
+                                    <th>{{'BCH' | translate}}</th>
+                                    <th>{{'CM' | translate}}</th>
+                                    <th>{{'No BCH' | translate}}</th>
+                                    <th>{{'No Tallos' | translate}}</th>
+                                    <th>{{'Precio' | translate}}</th>
+                                    <th>{{'Total'| translate}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item>
+                                <tr style="background-color: white;">
+                                    <td style="text-align: center;">{{item.caja==null?'HB':item.caja}}</td>
+                                    <td><span class="p-column-title">{{item.finca.nombres | titlecase}} - (
+                                            {{item.finca.razosoci | titlecase}} ) </span></td>
+                                    <td>{{item.flor.nombre | titlecase }}</td>
+                                    <td>{{item.stems }}</td>
+                                    <td>{{item.tamanio.code }}</td>
+                                    <td>{{item.numtallos }}</td>
+                                    <td>{{item.totaltallos }}</td>
+                                    <td>{{item.price | currency}}</td>
+                                    <td>{{item.subtotal | currency}}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="footer">
+                                <tr>
+                                    <td colspan="6" class="total_table">{{'Totales' | translate}}</td>
+                                    <td><span class="total_valor">{{factura.tallos}}</span></td>
+                                    <td></td>
+                                    <td><span class="total_valor">{{factura.total | currency: 'USD'}}</span></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <br>
+                        <div class="ui-g form-group ui-fluid" *ngIf="items.length > 0">
+                            <div class="ui-grid-col-7"></div>
+                            <div class="ui-grid-col-2">
+                                <button pButton icon="pi pi-save" class="ui-button-success btn_enviar" type="button"
+                                    (click)="saveeraser()" [label]="'Guardar' | translate"
+                                    [disabled]="items.length <= 0"></button>
+                            </div>
+                            <div class="ui-grid-col-1"></div>
+                            <div class="ui-grid-col-2">
+                                <button pButton type="button" icon="pi pi-arrow-right" class="ui-button-help btn_enviar"
+                                    [disabled]="validate" [label]="'Finalizar' | translate" type="submit"></button>
                             </div>
                         </div>
                     </div>
 
-                </div>
-            </form>
+                    <!--Table responsive-->
+                    <div class="ui-grid ui-grid-responsive ui-fluid" class="data" *ngFor="let item of items">
+                        <div class="card card-w-title">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-12">
+                                    <button pButton type="button" class="ui-button-danger btn_card" icon="pi pi-trash"
+                                        (click)="deleteItem(item)"></button>
+                                </div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><span class="label">{{'Caja' | translate}}</span></div>
+                                <div class="ui-grid-col-8"><span
+                                        class="value">{{item.caja==null?'HB':item.caja.code}}</span></div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><span class="label">{{'Finca' | translate}}</span></div>
+                                <div class="ui-grid-col-8"><span class="value">{{item.finca.nombres}}</span></div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><span class="label">{{'Variedad' | translate}}</span></div>
+                                <div class="ui-grid-col-8"><span class="value">{{item.flor.nombre}}</span></div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><span class="label">{{'Tallos' | translate}}</span></div>
+                                <div class="ui-grid-col-8"><span class="value">{{item.stems}}</span></div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><span class="label">{{'Tamaño' | translate}}</span></div>
+                                <div class="ui-grid-col-8"><span class="value">{{item.tamanio.code}}</span></div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><span class="label">{{'N°. de tallos' | translate}}</span>
+                                </div>
+                                <div class="ui-grid-col-8"><span class="value">{{item.tallos}}</span></div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><span class="label">{{'Total tallos' | translate}}</span>
+                                </div>
+                                <div class="ui-grid-col-8"><span class="value">{{item.totaltallos}}</span></div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><span class="label">{{'Precio' | translate}}</span></div>
+                                <div class="ui-grid-col-8"><span class="value">{{item.price | currency}}</span></div>
+                            </div>
+
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><span class="label">{{'Total' | translate}}</span></div>
+                                <div class="ui-grid-col-8"><span class="value">{{item.subtotal | currency}}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="ui-grid ui-grid-responsive ui-fluid" class="resumen">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4" style="text-align: right;font-weight: bold;font-size: 20px;">
+                                {{'Total' | translate}}
+                            </div>
+                            <div class="ui-grid-col-8" style="text-align: center;"><span
+                                    class="total_valor">{{factura?.total | currency: 'USD'}}</span></div>
+                        </div>
+                        <br>
+                        <div class="ui-grid ui-grid-responsive ui-fluid">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-10"></div>
+                                <div class="ui-grid-col-2">
+                                    <button pButton icon="pi pi-arrow-right"
+                                        class="ui-button-help btn_enviar_responsive"
+                                        [label]="'Enviar' | translate"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
         </div>
 
         <!--Confirmar cuadro de dialogo confirm-->
         <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
             <p-footer>
-                <button type="button" pButton icon="pi pi-times" class="ui-button-danger" label="No"
+                <button type="button" pButton icon="pi pi-times" class="ui-button-danger" [label]="'No' | translate"
                     (click)="cd.reject()"></button>
-                <button type="button" pButton icon="pi pi-check" class="ui-button-success" label="Yes"
+                <button type="button" pButton icon="pi pi-check" class="ui-button-success" [label]="'Si' | translate"
                     (click)="cd.accept()"></button>
             </p-footer>
         </p-confirmDialog>
 
-        <p-dialog header="Factura correcta" [(visible)]="dialogVisible" [style]="{width: '50vw'}" [baseZIndex]="10000"
-            [maximizable]="true" [modal]="true" [resizable]="true">
+        <p-dialog [header]="'Factura correcta' | translate" [(visible)]="dialogVisible" [style]="{width: '50vw'}"
+            [baseZIndex]="10000" [maximizable]="true" [modal]="true" [resizable]="true">
             <iframe [src]="url | safe" *ngIf="dialogVisible" width="100%" height="500px" style="border-width: 0PX;">
             </iframe>
         </p-dialog>

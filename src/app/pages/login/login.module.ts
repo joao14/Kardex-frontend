@@ -24,7 +24,8 @@ import { InputTextModule, ButtonModule, ProgressBarModule } from 'primeng';
         ToolbarModule,
         InputTextModule,
         ButtonModule,
-        ProgressBarModule
+        ProgressBarModule,
+        
         ],
     declarations: [LoginComponent]
 })

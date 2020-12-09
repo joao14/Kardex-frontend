@@ -4,21 +4,20 @@
             <h1>{{ 'Lista de Flores' | translate }}</h1>
             <p-toast></p-toast>            
             <p-dataView #dv [value]="flowers" [paginator]="true" [rows]="9" filterBy="name"
-                [loading]="loading" [lazy]="true"
                 [sortField]="sortField"
                 [sortOrder]="sortOrder" layout="grid">
                 <p-header>
                     <div class="ui-helper-clearfix">
                         <div class="ui-g">
                             <div class="ui-g-12 ui-md-9">
-                                <button pButton label="Nuevo" icon="pi pi-plus" class="ui-button-success"
+                                <button pButton [label]="'Nuevo' | translate" icon="pi pi-plus" class="ui-button-success" *ngIf="typerol!='CLI'"
                                         (click)="addFlor()"></button>
                             </div>
                             <div class="ui-g-6 ui-md-3 filter-container">
                                 <div style="position:relative">
                                     <div class="ui-inputgroup">
                                         <button type="button" pButton pRipple icon="pi pi-search"></button>
-                                        <input type="search" pInputText placeholder="Search by name"
+                                        <input type="search" pInputText [placeholder]="'Buscar' | translate"
                                             (keyup)="dv.filter($event.target.value)">
                                     </div>
 
@@ -60,7 +59,7 @@
                             </div>
                             <div class="flower-grid-item-bottom">
                                 <!--<span class="product-price">$56</span>-->
-                                <button pButton class="ui-button-warning" icon="fa fa-pencil"
+                                <button pButton class="ui-button-warning" icon="fa fa-pencil" *ngIf="typerol!='CLI'"
                                     (click)="edit(flower)"></button>
                             </div>
                         </div>

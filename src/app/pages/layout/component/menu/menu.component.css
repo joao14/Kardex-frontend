@@ -8,9 +8,38 @@
     font-weight: bold;
     text-align: center;
 }
-
+ 
 
 .collapsed {
     width: 50px;
     font-size: 18px;
+}
+
+.is-active{
+    background-color: #ff4456;
+    color: white !important;
+    font-weight: bold;
+}
+
+.no-active{
+    background-color: white;
+    color: black !important;
+}
+
+.active-icon{
+    color: white !important;
+}
+
+.inactive-icon{
+    color: blue !important;
+}
+
+.active-item{
+    /*border-color: #ff4456 !important;*/
+    color: red !important;
+    font-weight: bold;
+}
+
+.no-active-item{
+    border:none;
 }

@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrealertaRoutingModule } from './prealerta-routing.module';
 import { PrealertaComponent } from './prealerta.component';
-import { InputTextModule, PanelModule, AccordionModule, InputTextareaModule, RadioButtonModule, ButtonModule, AutoCompleteModule, DropdownModule, TableModule, ToolbarModule, CardModule, SplitButtonModule, SelectButtonModule, ToastModule, ConfirmDialogModule, KeyFilterModule, CalendarModule, FieldsetModule, CheckboxModule, DialogModule } from 'primeng';
+import { InputTextModule, PanelModule, AccordionModule, InputTextareaModule, RadioButtonModule, ButtonModule, AutoCompleteModule, DropdownModule, TableModule, ToolbarModule, CardModule, SplitButtonModule, SelectButtonModule, ToastModule, ConfirmDialogModule, KeyFilterModule, CalendarModule, FieldsetModule, CheckboxModule, DialogModule, TooltipModule } from 'primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from 'src/app/shared.module';
 
 
 
@@ -13,7 +15,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
   imports: [
     CommonModule,
     PrealertaRoutingModule,
+    SharedModule,
     InputTextModule,
+    TranslateModule,
     PanelModule,        
     AccordionModule,
     InputTextareaModule,
@@ -35,7 +39,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
     FieldsetModule,
     CheckboxModule,
     NgxSpinnerModule,
-    DialogModule
+    DialogModule,
+    TranslateModule,
+    TooltipModule
   ]
 })
 export class PrealertaModule { }

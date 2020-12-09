@@ -9,7 +9,7 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
             { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
-            { path: 'clientes', loadChildren: () => import('./crm/clientes/clientes.module').then(m => m.ClientesModule) },
+            /*{ path: 'clientes', loadChildren: () => import('./crm/clientes/clientes.module').then(m => m.ClientesModule) },
             { path: 'flores', loadChildren: () => import('./crm/flores/flores.module').then(m => m.FloresModule) },
             { path: 'fincas', loadChildren: () => import('./crm/finca/finca.module').then(m => m.FincaModule) },
             { path: 'factura', loadChildren: () => import('./factura/factura.module').then(m => m.FacturaModule) },
@@ -24,11 +24,13 @@ const routes: Routes = [
             { path: 'marcas', loadChildren: () => import('./crm/marking/marking.module').then(m => m.MarkingModule) },
             { path: 'editMarca', loadChildren: () => import('./crm/marking/edit/edit.module').then(m => m.EditModule) },
             { path: 'balance', loadChildren: () => import('./reporte/balance/balance.module').then(m => m.BalanceModule) },
-            { path: 'documento', loadChildren: () => import('./reporte/documento/documento.module').then(m => m.DocumentoModule) },
+            { path: 'documento', loadChildren: () => import('./reporte/documento/documento.module').then(m => m.DocumentoModule) },*/
             { path: 'usuario', loadChildren: () => import('./security/usuario/usuario.module').then(m => m.UsuarioModule) },
             { path: 'edituser', loadChildren: () => import('./security/usuario/edit/edit.module').then(m => m.EditModule) },
-            { path: 'roles', loadChildren: () => import('./security/roles/roles.module').then(m => m.RolesModule) },
-            { path: 'sales', loadChildren: () => import('./reporte/sale/sale.module').then(m => m.SaleModule) } 
+            /*{ path: 'roles', loadChildren: () => import('./security/roles/roles.module').then(m => m.RolesModule) },
+            { path: 'sales', loadChildren: () => import('./reporte/sale/sale.module').then(m => m.SaleModule) },*/
+            { path: 'automatic', loadChildren: () => import('./report/automatic/automatic.module').then(m => m.AutomaticModule) },
+            { path: 'questionnaire', loadChildren: () => import('./report/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule) } 
         ]
     }
 ];

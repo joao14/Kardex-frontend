@@ -23,7 +23,7 @@
                 <div class="ui-g-12 ui-md-4" *ngIf="edit">
                     <label class="lbl">Id Usuario</label>
                     <input type="text" pInputText autocomplete="off" maxlength="100" disabled
-                        [(ngModel)]="user.usuaid" />
+                        [(ngModel)]="user.id" />
                 </div>
 
                 <div class="ui-g-12 ui-md-4">
@@ -34,12 +34,6 @@
                 </div>
 
                 <div class="ui-g-12 ui-md-4">
-                    <label class="lbl">Nickname</label>
-                    <input type="text" pInputText autocomplete="off" maxlength="20"
-                        [(ngModel)]="user.nickname" />
-                </div>
-
-               <div class="ui-g-12 ui-md-4">
                     <label class="lbl">Nombres</label>
                     <input type="text" pInputText autocomplete="off" maxlength="100"
                         [(ngModel)]="user.nombres" />
@@ -51,61 +45,36 @@
                 </div>
                 
                 <div class="ui-g-12 ui-md-4">
+                    <label class="lbl">Nickname</label>
+                    <input type="text" pInputText autocomplete="off" maxlength="20"
+                        [(ngModel)]="user.nick" />
+                </div>              
+                
+                <div class="ui-g-12 ui-md-4">
                     <label class="lbl">Email</label>
                     <input type="text" pInputText autocomplete="off" maxlength="50"
                         [(ngModel)]="user.email" />
                 </div>
+
+                <div class="ui-g-12 ui-md-4">
+                    <label class="lbl">Celular</label>
+                    <input type="text" pInputText autocomplete="off" maxlength="50"
+                        [(ngModel)]="user.celular" />
+                </div>
                 
 
                 <div class="ui-g-12 ui-md-4">
-                    <label class="lbl">Password</label>
+                    <label class="lbl">Clave</label>
                     <div class="ui-inputgroup">
                         <input type="password" autocomplete="off" maxlength="100" pPassword [showPassword]="looking"
-                        [(ngModel)]="user.token" />                        
+                        [(ngModel)]="user.clave" />                        
                         <button type="button" pButton pRipple [icon]="icon" (click)="changelookpasswor()"></button>
                     </div>
-                </div>
-
-                <div class="ui-g-12 ui-md-4" *ngIf="!edit">
-                    <label class="lbl">Tipo institución</label>
-                    <p-dropdown #type [options]="types" optionLabel="name" [filter]="true" (onChange)='onOptionsSelected(type.value)'  
-                    placeholder="Select type"></p-dropdown>
-                </div>
-               
-                <div class="ui-g-12 ui-md-4">
-                    <label class="lbl">Empresa</label>
-                    <p-dropdown [options]="lista" optionLabel="name" [(ngModel)]="user.empresa" [filter]="true"  placeholder="Select empresa" *ngIf="!edit"></p-dropdown>
-                    <input type="text" pInputText autocomplete="off" maxlength="20" [(ngModel)]="user.empresa.nombcome" *ngIf="edit" disabled />
-                </div>
+                </div> 
 
                 <div class="ui-g-12 ui-md-4">
                     <label class="lbl">Estado</label>
                     <p-selectButton [options]="options" [(ngModel)]="user.estado"></p-selectButton>
-                </div>
-
-                <div class="ui-g-12 ui-md-12" *ngIf="edit">
-                    <p-fieldset legend="Roles">
-                        <div class="ui-g form-group">
-
-                            <div class="ui-g-12 ui-md-12">
-                                <p-pickList [source]="roles" [target]="user.roles" sourceHeader="Roles"
-                                    (onMoveToTarget)="enabled($event)" (onMoveToSource)="disabled($event)"
-                                    [showSourceControls]="false" [showTargetControls]="false" targetHeader="Roles del Usuario"
-                                    dragdrop="true" [responsive]="true" dragdrop="true"
-                                    [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}"
-                                    filterBy="nombre" sourceFilterPlaceholder="Search by name"
-                                    targetFilterPlaceholder="Search by name">
-                                    <ng-template let-rol pTemplate="item">
-                                        <div class="marks-item">
-                                            <div class="mark-list-detail">
-                                                <h5 class="p-mb-2">{{(rol.nombre || rol.rol)  | titlecase}}</h5>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                </p-pickList>
-                            </div>
-                        </div>
-                    </p-fieldset>
                 </div>
 
             </div>
