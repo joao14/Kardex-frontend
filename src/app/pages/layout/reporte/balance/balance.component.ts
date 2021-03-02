@@ -60,7 +60,7 @@ export class BalanceComponent implements OnInit {
 
   async getClientbyName(name: string): Promise<any> {
     let cliente: client = null;
-    await this.api.getObjectbyName('C', name.toUpperCase(), localStorage.getItem("token")).then(data => {
+    /*await this.api.getObjectbyName('C', name.toUpperCase(), localStorage.getItem("token")).then(data => {
       if (data.headerApp.code == 200) {
         this.selectClient = data.data.cliente;
       }
@@ -69,14 +69,14 @@ export class BalanceComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
-    })
+    })*/
     return cliente;
   }
 
   async getClient() {
     this.utilService.isLoading.next(true);
     this.clientes = [];
-    await this.api.getclients(localStorage.getItem("token")).then(cliente => {     
+    /*await this.api.getclients(localStorage.getItem("token")).then(cliente => {     
       let temp: client[] = [];
       if (cliente.headerApp.code === 200) {
         cliente.data.clientes.forEach(element => {
@@ -93,7 +93,7 @@ export class BalanceComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
-    })
+    })*/
     this.utilService.isLoading.next(false);
   }
 
@@ -105,7 +105,7 @@ export class BalanceComponent implements OnInit {
 
     this.utilService.isLoading.next(true);
     this.invoices = [];    
-    await this.api.getInvoicesbyClient(this.selectClient.entiId, this.getFormatDate(this.dateIni).replace(/-/g, '') + " 00:00:00", this.getFormatDate(this.dateFin).replace(/-/g, '')+ " 23:59:59", localStorage.getItem("token") ).then(data => {
+    /*await this.api.getInvoicesbyClient(this.selectClient.entiId, this.getFormatDate(this.dateIni).replace(/-/g, '') + " 00:00:00", this.getFormatDate(this.dateFin).replace(/-/g, '')+ " 23:59:59", localStorage.getItem("token") ).then(data => {
       if (data.headerApp.code == 200) {
         this.invoices = data.data.transacciones;
       }
@@ -116,12 +116,12 @@ export class BalanceComponent implements OnInit {
         this.router.navigate(['/login']);
       }
 
-    })
+    })*/
     this.utilService.isLoading.next(false);
   }
 
   view(invoice: Invoice) {    
-    this.url = environment.url + invoice.documento;    
+    /*this.url = environment.url + invoice.documento;    */
     this.numedocu = invoice.numedocu;
     this.dialogVisible = true;
   }

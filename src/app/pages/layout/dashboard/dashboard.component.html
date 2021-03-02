@@ -1,33 +1,33 @@
-<div class="layout-dashboard" *ngIf="user?.roles[0].shorcut=='ADM'">
+<div class="layout-dashboard" *ngIf="user?.perfil=='ADMIN'">
     <div class="ui-g">
         <div class="ui-g-12 ui-md-6 ui-lg-3">
             <div class="overview-box sales">                
-                <i class="fa fa-plane" aria-hidden="true" style="font-size: 2rem; float: right;padding-right: 20px;"></i>                
+                <i class="fa fa-user" aria-hidden="true" style="font-size: 2rem; float: right;padding-right: 20px;"></i>                
                 <div class="overview-title"></div>
                 <div class="overview-numbers">
                     {{'Usuarios' | translate }}
                 </div>
                 <div class="overview-subinfo user stock">
-                    <i class="fa fa-plane"></i>
-                    <span># 100</span>
+                    <i class="fa fa-circle"></i>
+                    <span># {{users}}</span>
                 </div>
             </div>
         </div>
         <div class="ui-g-12 ui-md-6 ui-lg-3">
             <div class="overview-box views">
-                <i class="fa fa-pagelines" aria-hidden="true"
+                <i class="fa fa-th-large" aria-hidden="true"
                     style="font-size: 2rem; float: right;padding-right: 20px;"></i>
                 <div class="overview-title"></div>
                 <div class="overview-numbers">
-                    {{'Pruebas' | translate }}
+                    {{'Productos' | translate }}
                 </div>
                 <div class="overview-subinfo user stock">
                     <i class="fa fa-circle"></i>
-                    <span># 88</span>
+                    <span># {{products}}</span>
                 </div>
             </div>
         </div>
-        <div class="ui-g-12 ui-md-6 ui-lg-3">
+        <!--<div class="ui-g-12 ui-md-6 ui-lg-3">
             <div class="overview-box users">
                 <i class="fa fa-user-circle" aria-hidden="true"
                     style="font-size: 2rem; float: right;padding-right: 20px;"></i>
@@ -54,7 +54,7 @@
                     <span># 108</span>
                 </div>
             </div>
-        </div>
+        </div>-->
        
     </div>
 </div>

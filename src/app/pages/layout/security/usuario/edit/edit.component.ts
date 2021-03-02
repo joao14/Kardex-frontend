@@ -84,7 +84,7 @@ export class EditComponent implements OnInit {
     console.log(user);
     
     this.utilService.isLoading.next(true);
-    this.api.updateUser(user, localStorage.getItem("token")).then(data => {
+    /*this.api.updateUser(user, localStorage.getItem("token")).then(data => {
       if (data.headerApp.code === 200) {
         this.router.navigate(['usuario']);
       }
@@ -94,7 +94,7 @@ export class EditComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
-    })
+    })*/
     this.utilService.isLoading.next(false);
   }
 
@@ -120,7 +120,7 @@ export class EditComponent implements OnInit {
       estado: this.user.estado
     }
 
-    this.api.addUser(user, localStorage.getItem("token")).then(data => {
+    /*this.api.addUser(user, localStorage.getItem("token")).then(data => {
       if (data.headerApp.code === 200) {
         this.router.navigate(['usuario']);
       }
@@ -130,7 +130,7 @@ export class EditComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
-    })
+    })*/
   }
 
   cancelar() {

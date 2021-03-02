@@ -89,7 +89,7 @@ export class PagoreclamoComponent implements OnInit {
 
   async getClient() {
     this.utilservice.isLoading.next(true);
-    await this.api.getclients(localStorage.getItem("token")).then(cliente => {
+    /*await this.api.getclients(localStorage.getItem("token")).then(cliente => {
       console.log(cliente);
       this.clientes = [];
       if (cliente.headerApp.code === 200) {
@@ -110,7 +110,7 @@ export class PagoreclamoComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
-    })
+    })*/
 
     this.utilservice.isLoading.next(false);
 
@@ -160,7 +160,7 @@ export class PagoreclamoComponent implements OnInit {
       accept: async () => {
         this.spinner.show();
         this.utilservice.isLoading.next(true);
-        await this.api.registerPaymentClaim(payment, localStorage.getItem("token")).then(data => {
+        /*await this.api.registerPaymentClaim(payment, localStorage.getItem("token")).then(data => {
           console.log(data);
           this.spinner.hide();
           if (data.headerApp.code === 200) {
@@ -178,7 +178,7 @@ export class PagoreclamoComponent implements OnInit {
             localStorage.clear();
             this.router.navigate(['/login']);
           }
-        })
+        })*/
 
         this.utilservice.isLoading.next(false);
       }

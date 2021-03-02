@@ -81,7 +81,8 @@ export class AutomaticComponent implements OnInit {
         photo: null,
         email: data[4],        
         nick: data[5],
-        estado: "-"
+        estado: "-",
+        tipo: 'S'
       }
 
       this.users.push(user);
@@ -120,7 +121,7 @@ export class AutomaticComponent implements OnInit {
       message: "Está seguro de enviar la información?",
       accept: async () => {
         this.spinner.show();
-        this.api.registerusers(this.users, localStorage.getItem("token")).then(data => {
+        /*this.api.registerusers(this.users, localStorage.getItem("token")).then(data => {
           console.log(data);
         }).catch(err => {
           console.log('ERROR');
@@ -129,7 +130,7 @@ export class AutomaticComponent implements OnInit {
             localStorage.clear();
             this.router.navigate(['/login']);
           }
-        })
+        })*/
       },
     });
 

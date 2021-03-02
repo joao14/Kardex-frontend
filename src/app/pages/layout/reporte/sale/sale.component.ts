@@ -84,7 +84,7 @@ export class SaleComponent implements OnInit {
 
   async getClient() {
     this.utilService.isLoading.next(true);
-    await this.api.getclients(localStorage.getItem("token")).then(cliente => {
+    /*await this.api.getclients(localStorage.getItem("token")).then(cliente => {
       console.log(cliente);
       if (cliente.headerApp.code === 200) {
         this.clientes = cliente.data.clientes;
@@ -96,12 +96,12 @@ export class SaleComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     })
-    this.utilService.isLoading.next(false);
+    this.utilService.isLoading.next(false);*/
   }
 
   async consultar() {   
     this.utilService.isLoading.next(true);
-    await this.api.getsales(this.getFormatDate(this.dateIni).replace(/-/g, "") + " 00:00:00",
+    /*await this.api.getsales(this.getFormatDate(this.dateIni).replace(/-/g, "") + " 00:00:00",
       this.getFormatDate(this.dateFin).replace(/-/g, "") + " 23:59:59",
       localStorage.getItem("token")).then(data => {       
         if (data.headerApp.code === 200) {
@@ -113,9 +113,9 @@ export class SaleComponent implements OnInit {
           localStorage.clear();
           this.router.navigate(['/login']);
         }
-      })
+      })*/
     this.utilService.isLoading.next(false);
-  }
+    }
 
   send(documento: Documentos) {   
     this.dialogEmail = true;
@@ -131,7 +131,7 @@ export class SaleComponent implements OnInit {
 
   view(documento: Documentos) {
     this.dialogVisible = true;
-    this.url = environment.url + documento.pdf;
+    //this.url = environment.url + documento.pdf;
     this.claveacceso = documento.claveacceso;
   }
 
@@ -151,7 +151,7 @@ export class SaleComponent implements OnInit {
       fechaDocu: this.getFormatDate(new Date())
     }   
     this.utilService.isLoading.next(true);
-    await this.api.sendEmail(contentEmail, localStorage.getItem("token")).then(data => {
+    /*await this.api.sendEmail(contentEmail, localStorage.getItem("token")).then(data => {
       console.log(data);
       if (data.headerApp.code == 200) {
         this.dialogEmail = false;
@@ -164,8 +164,8 @@ export class SaleComponent implements OnInit {
       if (err.error.code == 401) {
         localStorage.clear();
         this.router.navigate(['/login']);
-      }
-    })
+      } 
+    })*/
     this.utilService.isLoading.next(false);
   }
 

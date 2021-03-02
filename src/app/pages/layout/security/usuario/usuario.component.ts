@@ -42,7 +42,7 @@ export class UsuarioComponent implements OnInit {
   getUsers() {
     console.log('USUARIOS');
     this.utilService.isLoading.next(true);
-    this.api.getUsers(localStorage.getItem('token')).then(users => {
+    /*this.api.getUsers(localStorage.getItem('token')).then(users => {
       console.log(users);
       if (users.headerApp.code === 200) {
         let temp: User[] = [];
@@ -74,7 +74,7 @@ export class UsuarioComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
-    })
+    })*/
   }
 
   addUser() {

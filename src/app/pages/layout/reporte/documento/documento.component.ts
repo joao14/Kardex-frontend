@@ -95,7 +95,7 @@ export class DocumentoComponent implements OnInit {
   async getData() {
     console.log('DATA...');
     this.utilService.isLoading.next(true);
-    await this.api.getPrealertActive(localStorage.getItem("token")).then(data => {
+    /*await this.api.getPrealertActive(localStorage.getItem("token")).then(data => {
       console.log(data);
       if (data.headerApp.code == 200) {
         this.prealerts = data.data.prealerts;
@@ -107,7 +107,7 @@ export class DocumentoComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
-    })
+    })*/
     this.utilService.isLoading.next(false);
 
   }
@@ -131,7 +131,7 @@ export class DocumentoComponent implements OnInit {
   }
 
   sendGeneral(head: Head, type: string) {
-    this.emailuser=environment.email;
+    /*this.emailuser=environment.email;
     this.selectclientprealert = {
       clieId: 1,
       email: environment.email,
@@ -143,7 +143,7 @@ export class DocumentoComponent implements OnInit {
     } else {
       this.dialogEmail = false;
       this.ok();
-    }
+    }*/
 
   }
 
@@ -190,7 +190,7 @@ export class DocumentoComponent implements OnInit {
     console.log('Enviando los objetos');
     console.log(contentEmail);
     this.utilService.isLoading.next(true);
-    await this.api.sendEmail(contentEmail, localStorage.getItem("token")).then(data => {
+    /*await this.api.sendEmail(contentEmail, localStorage.getItem("token")).then(data => {
       console.log(data);
       if (data.headerApp.code == 200) {
         this.dialogEmail = false;
@@ -204,7 +204,7 @@ export class DocumentoComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
-    })
+    })*/
     this.utilService.isLoading.next(false);
   }
 

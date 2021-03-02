@@ -28,10 +28,10 @@ export class TopbarComponent implements OnInit {
 
         this.app.utilservice.user.subscribe(data => {
             this.user = JSON.parse(data);
-            this.name = this.user.nombres +' '+this.user.apellidos;   
+            this.name = this.user.name +' '+this.user.lastname;   
         })
     }
-
+ 
 
     ngOnInit(): void {
         this.activeMenuUser = false;
@@ -39,7 +39,7 @@ export class TopbarComponent implements OnInit {
         console.log('usuario');
         console.log(this.user);
         
-        this.name = this.user.nombres +' '+this.user.apellidos;
+        this.name = this.user.name +' '+this.user.lastname;
     }
 
     onOptionsSelected(lng: string) {

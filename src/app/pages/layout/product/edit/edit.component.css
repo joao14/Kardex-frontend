@@ -1,0 +1,16 @@
+.marks-item {
+    display: flex;
+    align-items: center;
+    /*padding: 0.5rem;*/
+    width: 100%;
+}
+
+.marks-item .mark-list-detail {
+    flex: 1 1 0;
+}
+
+@media screen and (max-width: 576px) {
+    .marks-item {
+        flex-wrap: wrap;
+    }
+}

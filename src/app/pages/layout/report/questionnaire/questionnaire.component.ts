@@ -42,7 +42,7 @@ export class QuestionnaireComponent implements OnInit {
 
   async getQuestionnaires() {
     this.util.isLoading.next(true);
-    await this.api.getQuestionnariesActive(localStorage.getItem("token")).then(data => {
+    /*await this.api.getQuestionnariesActive(localStorage.getItem("token")).then(data => {
       console.log(data);
       if (data.headerApp.code == 200) {
         let questionnaries: questionnarie[] = [];
@@ -62,14 +62,14 @@ export class QuestionnaireComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
-    })
+    })*/
     this.util.isLoading.next(false);
   }
 
   onOptionsSelected() {    
     this.users = [];
     this.spinner.show();
-    this.api.getQUsersByQuestionnaries(this.selectquestionnarie.id, localStorage.getItem("token")).then(data => {
+    /*this.api.getQUsersByQuestionnaries(this.selectquestionnarie.id, localStorage.getItem("token")).then(data => {
       console.log(data);
       if (data.headerApp.code == 200) {
         let temp: user[] = [];
@@ -91,7 +91,7 @@ export class QuestionnaireComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login']);
       }
-    })
+    })*/
     this.spinner.hide();
   }
 

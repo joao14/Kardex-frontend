@@ -39,44 +39,32 @@ export class LoginComponent implements OnInit {
             //this.api.login('test5', 'abc123').then(data => {
             console.log("Data response");
             console.log(data);
-            if (data.headerApp.code === 200) {
-                var roles_: roles[] = [];
-                data.data.roles.forEach(element => {
-                    let rol = {
-                        id: element.id,
-                        rol: element.rol,
-                        shorcut: element.shorcut
-                    }
-                    roles_.push(rol);
-                });
+            console.log("Resultado");
+            console.log(data.code);
+
+            if (data.code === "200") {
                 let user: user = {
-                    clave: data.data.usuario.clave,
-                    email: data.data.usuario.persona.email,
-                    estado: data.data.usuario.estado,
-                    nombres: data.data.usuario.persona.nombres,
-                    apellidos: data.data.usuario.persona.apellidos,
-                    id: data.data.usuario.persona.id,
-                    nick: data.data.usuario.nick,
-                    token: data.data.usuario.token,
-                    roles: roles_,
-                    photo: data.data.usuario.photo,
-                    tipo: data.data.usuario.tipo,
-                    celular: data.data.usuario.persona.celular,
-                    identificacion: data.data.usuario.persona.dni
+                    id: data.user.id,
+                    name: data.user.name,
+                    lastname: data.user.lastname,
+                    username: data.user.username,
+                    password: data.user.password,
+                    perfil: data.user.perfil,
+                    status: data.user.status,
+                    token: data.user.token
                 }
-
+                console.log('USUARIO');
+                console.log(user);
                 localStorage.setItem("user", JSON.stringify(user));
-                localStorage.setItem("token", data.data.usuario.token);
-                this.estado = "determinate";
-                this.router.navigate(['/dashboard']);
-
+                localStorage.setItem("token", data.user.token);
+                this.router.navigate(['/dashboard']); 
 
             } else {
                 this.estado = "determinate";
                 console.log('No se puede loguear');
                 this.messageService.add({
                     severity: 'error',
-                    summary: 'Rosa Mística',
+                    summary: 'Kardex',
                     detail: data.headerApp.message
                 });
             }

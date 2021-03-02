@@ -108,17 +108,10 @@ export class Graphics {
 })
 export class DashboardComponent implements OnInit {
 
-    clientes: number;
-    fincas: number;
-    flores: number;
-    deliveries: number;
-    listaflores: Array<flower> = [];
+    products: number;
+    users: number;
     user: user;
-    graphics: Graphics;
     state: boolean;
-    actuallydate: Date;
-    percentage: number;
-    nameMonth: string;
 
     constructor(private api: ApisService, private router: Router, private utilservice: UtilService) {
         this.utilservice.isLoading.subscribe(state => {
@@ -126,13 +119,51 @@ export class DashboardComponent implements OnInit {
         })
     }
 
-    async ngOnInit() {        
-        this.user = JSON.parse(localStorage.getItem('user'));        
+    async ngOnInit() {
+        this.user = JSON.parse(localStorage.getItem('user'));
+        this.products = 0;
+        this.users = 0;
+        this.getServices();
     }
 
-    async getInfo() {
-        this.actuallydate = new Date();
-        this.graphics = null;
+    async getServices() {
+        this.utilservice.isLoading.next(true);
+        await this.api.products(localStorage.getItem("token")).then((data) => {
+            if (data.code === "200") {
+                data.data.forEach((data) => {
+                    if (data.status == "1") {
+                        this.products += 1;
+                    }
+                })
+            }
+        }).catch(e => {
+            console.log('Error');
+            console.log(e);
+            if (e.error.status == 401) {
+                localStorage.clear();
+                this.router.navigate(['/login']);
+            }
+
+        })
+
+        await this.api.users(localStorage.getItem("token")).then((data) => {
+            if (data.code === "200") {
+                data.data.forEach((data) => {
+                    if (data.status == "1") {
+                        this.users += 1;
+                    } 
+                })
+            }
+        }).catch(e => {
+            console.log('Error');
+            console.log(e);
+            if (e.error.status == 401) {
+                localStorage.clear();
+                this.router.navigate(['/login']);
+            }
+
+        })
+        this.utilservice.isLoading.next(false);
     }
 
 }

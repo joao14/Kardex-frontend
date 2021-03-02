@@ -58,14 +58,10 @@ export class LayoutComponent implements OnInit {
         })
 
     }
-
+  
     ngOnInit() {
-        this.typerol = JSON.parse(localStorage.getItem('user')).roles[0].shorcut;
+        this.typerol = JSON.parse(localStorage.getItem('user')).perfil;
         localStorage.setItem("rolactive", this.typerol);
-
-        if (JSON.parse(localStorage.getItem('user')).roles.length > 1) {
-            this.utilservice.typerolselected.next(this.typerol);
-        }
 
         this.utilservice.itemsSource.next([
             { label: 'Dashboard' }]);

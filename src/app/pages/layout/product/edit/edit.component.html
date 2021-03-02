@@ -1,0 +1,54 @@
+<div class="ui-g">
+    <div class="ui-g-12 ui-lg-1"></div>
+    <div class="ui-g-12 ui-lg-10">
+        <p-toast></p-toast>
+        <p-toolbar>
+            <div class="p-toolbar-group-left">
+                <button (click)="saveproduct()" pButton class="ui-button-success" icon="pi pi-check" label="Guardar"
+                    *ngIf="!edit"></button> &nbsp;
+
+                <button (click)="modificarproduct()" pButton class="ui-button-success" icon="pi pi-save"
+                    label="Actualizar" *ngIf="edit"></button> &nbsp;
+
+                <button (click)="cancelar()" pButton class="ui-button-warning" icon="pi pi-arrow-left"
+                    label="Atrás"></button> &nbsp;
+            </div>
+        </p-toolbar>
+        <div class="card card-w-title ui-fluid">
+            <!--<div class="ui-g-12 ui-md-6">-->
+            <h1 *ngIf="!edit">Agregar nuevo producto</h1>
+            <h1 *ngIf="edit">Editar Producto</h1>
+            <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-3" *ngIf="edit">
+                    <label for="identification">Id</label>
+                    <input type="text" name="identification" pInputText autocomplete="off" maxlength="100"
+                        pKeyFilter="int" [(ngModel)]="product.id" />
+                </div>
+
+                <div class="ui-g-12 ui-md-3">
+                    <label for="type">Nombre</label>
+                    <input type="text" name="name" pInputText autocomplete="off" maxlength="100"
+                        [(ngModel)]="product.name" />
+                </div>
+
+                <div class="ui-g-12 ui-md-3" >
+                    <label for="name">Stock</label>
+                    <input type="text" name="name" pInputText autocomplete="off" maxlength="100"
+                        [(ngModel)]="product.stock" pKeyFilter="int"/>
+                </div>
+                
+                <div class="ui-g-12 ui-md-3" >
+                    <label for="businessname">Precio</label>
+                    <input type="text" name="businessname" pInputText autocomplete="off" maxlength="100"
+                        [(ngModel)]="product.price" pKeyFilter="pnum"/>
+                </div>
+
+                <div class="ui-g-12 ui-md-3">
+                    <label for="state">Estado</label>
+                    <p-selectButton [options]="options" [(ngModel)]="product.status"></p-selectButton>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-lg-1"></div>
+</div>

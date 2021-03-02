@@ -34,7 +34,7 @@ export class ForgotComponent implements OnInit {
     onSubmit() {
         console.log('Se está enviando el email');
         this.estado = "indeterminate";
-        this.apiService.resetpassword(this.checkoutForm.get('email').value, localStorage.getItem('token')).then(data => {
+        /*this.apiService.resetpassword(this.checkoutForm.get('email').value, localStorage.getItem('token')).then(data => {
             console.log('Se a enviado el correo con la contraseña');
             console.log(data);
             this.estado = "determinate";
@@ -57,7 +57,7 @@ export class ForgotComponent implements OnInit {
                 localStorage.clear();
                 this.router.navigate(['/login']);
             }
-        })
+        })*/
 
     }
 

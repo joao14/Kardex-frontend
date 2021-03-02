@@ -9,48 +9,24 @@
 
     <a href="/" class="logo-container">
         <!--<img src="assets/layout/images/ecuador-logo.png" alt="ecuador-layout" />-->
-        <span style="color: white;font-weight: bold;font-size: 1.5rem;">DEVELOPER GIZ</span>
+        <span style="color: white;font-weight: bold;font-size: 1.5rem;">KARDEX</span>
     </a>  
 
     <a id="topbar-profile-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)" class="mobile">
         <span>{{name | titlecase }}</span>
-        <img [src]="user.photo" alt="ecuador-layout" class="topbar-profile" />
+        <!--<img [src]="user.photo" alt="ecuador-layout" class="topbar-profile" />-->
         <i class="fa fa-sort-desc"></i>
     </a>
 
     <a id="topbar-profile-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)">
         <span>{{name | titlecase }}</span>
-        <i class="pi pi-user" *ngIf="user.photo==null" style="font-size: 2rem"></i>
-        <img  *ngIf="user.photo!=null" [src]="user.photo" alt="ecuador-layout" class="topbar-profile" />
+        <i class="pi pi-user" style="font-size: 2rem"></i>
+        <!--<img  *ngIf="user.photo!=null" [src]="user.photo" alt="ecuador-layout" class="topbar-profile" />-->
         <i class="fa fa-sort-desc"></i>
     </a>
 
-    <ul id="topbar-usermenu" class="fadeInDown animated" [ngClass]="{'usermenu-active': app.topbarMenuActive}">
-        <li #miperfil [ngClass]="{'menuitem-active':app.activeTopbarItem === miperfil}">
-            <a href="#" (click)="app.onTopbarItemClick($event, miperfil)">
-                <i class="fa fa-fw fa-user"></i>
-                <span class="topbar-item-name">{{ 'Perfil' | translate }}</span>
-            </a>
-        </li>
-        <li #roles [ngClass]="{'menuitem-active':menu=='ROL'}" (click)="selectSubItem('ROL')"
-            *ngIf="user.roles.length > 1">
-            <a href="#" (click)="app.onTopbarItemClickRoles($event, roles)"
-                [class]="menu=='ROL'?'menuitem-active-a':'menuitem-no-active-a'">
-                <i class="fa fa-chain-broken"></i>
-                <span class="topbar-item-name">Roles </span>
-                <i [ngStyle]="{'color':menu === 'ROL'? 'white': '#828282'}" style="float: right;"
-                    [class]="menu=='ROL'?'fa fa-fw fa-angle-up layout-menuitem-toggler': 'fa fa-fw fa-angle-down layout-menuitem-toggler'"></i>
-            </a>
-            <ul *ngFor="let rol of user.roles">
-                <li role="menuitem">
-                    <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClickRoles($event)">
-                        <span>{{rol.rol }}</span>
-                        <i *ngIf="rol.shorcut==typerol" style="float: right;font-size: 1rem" class="pi pi-check" ></i>
-                    </a>
-                </li>
-            </ul>
-        </li> 
-        <li>
+    <ul id="topbar-usermenu" class="fadeInDown animated" [ngClass]="{'usermenu-active': app.topbarMenuActive}">       
+        <li> 
             <a href="#" (click)="app.singout()">
                 <i class="fa fa-fw fa-sign-out"></i>
                 <span class="topbar-item-name">{{ 'Salir' | translate }}</span>
