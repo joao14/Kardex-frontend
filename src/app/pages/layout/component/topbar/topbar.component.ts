@@ -36,9 +36,7 @@ export class TopbarComponent implements OnInit {
     ngOnInit(): void {
         this.activeMenuUser = false;
         this.user = JSON.parse(localStorage.getItem('user'));
-        console.log('usuario');
-        console.log(this.user);
-        
+               
         this.name = this.user.name +' '+this.user.lastname;
     }
 

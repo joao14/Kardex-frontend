@@ -6,6 +6,7 @@ import {
     HttpClient,
     HttpHeaders,
     HttpErrorResponse,
+    HttpParams,
 } from "@angular/common/http";
 export class AuthInfo {
     constructor(public $uid: string) { }
@@ -57,12 +58,11 @@ export class ApisService {
             user: email,
             password: password,
         };
-        console.log(credential);
         return this.http
             .post<any>(
                 environment.login,
                 JSON.stringify(credential),
-                this.httpOptions  
+                this.httpOptions
             )
             .pipe(retry(2), catchError(this.handleError)).toPromise();
     }
@@ -81,7 +81,7 @@ export class ApisService {
                 reject(error);
             })
         });
-    }   
+    }
 
     public addproduct(product: any, token: string): Promise<any> {
         let opt = {
@@ -116,15 +116,16 @@ export class ApisService {
     }
 
     public deleteproduct(id: any, token: string): Promise<any> {
-        let opt = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': token,
-                'idProduct': id
-            })
-        }
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': token
+        })
+
+        let params = new HttpParams();
+        params = params.append('idProduct', id);
+
         return new Promise<any>((resolve, reject) => {
-            this.http.put<any>(environment.delete, null, opt).toPromise().then(product => {
+            this.http.put<any>(environment.delete, null, { headers: headers, params: params }).toPromise().then(product => {
                 resolve(product);
             }).catch(error => {
                 reject(error);
@@ -146,7 +147,7 @@ export class ApisService {
                 reject(error);
             })
         });
-    }   
+    }
 
 
     httpPost(url, body) {
@@ -156,7 +157,6 @@ export class ApisService {
             //.set("Authorization", `Bearer ${environment.stripe.sk}`),
         };
         const order = this.JSON_to_URLEncoded(body);
-        console.log(order);
         return this.http.post(url, order, header);
     }
 

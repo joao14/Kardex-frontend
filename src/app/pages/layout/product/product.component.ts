@@ -19,12 +19,15 @@ export class ProductComponent implements OnInit {
 
   constructor(private api: ApisService, private router: Router, private messageService: MessageService, private utilservice: UtilService) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.getProducts();
   }
 
+  ngOnInit() {
+  }
+
   getProducts() {
-    console.log('...Consultando los productos...');
+    this.products = [];
     this.api.products(localStorage.getItem("token")).then((data) => {
       console.log(data);
       if (data.code == '200') {
@@ -32,6 +35,10 @@ export class ProductComponent implements OnInit {
       }
     }).catch((err) => {
       console.log(err);
+      if (err.status == 401) {
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      }
     })
   }
 
@@ -40,13 +47,13 @@ export class ProductComponent implements OnInit {
   }
 
   edit(product: Product) {
-    console.log('Editando');
+    console.log('Editando V1');
     console.log(product);
-    this.router.navigate(['/editproduct', { state: { product: JSON.stringify(product) } }]);
+    /*this.router.navigate(['/editproduct', { state: { product: JSON.stringify(product) } }]);*/
+    this.router.navigate(['/editproduct'], { queryParams: { product: JSON.stringify(product) } });
   }
 
   async remove(product: Product) {
-    console.log('ELIMINANDO EL PRODUCT');
     await this.api.deleteproduct(product.id, localStorage.getItem('token')).then(async (data) => {
       console.log(data);
       if (data.code == '200') {
@@ -57,7 +64,10 @@ export class ProductComponent implements OnInit {
       }
     }).catch(err => {
       console.log(err);
-      console.log('ERROR');
+      if (err.status == 401) {
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      }
     })
   }
 

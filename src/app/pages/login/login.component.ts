@@ -30,18 +30,10 @@ export class LoginComponent implements OnInit {
     ngOnInit() { }
 
     onSubmit() {
-        console.log('VALORES');
         this.estado = "indeterminate";
-        console.log('Your order has been submitted 2.....');
-        console.log(this.checkoutForm.get("username").value);
-
+        
         this.api.login(this.checkoutForm.get("username").value, this.checkoutForm.get("password").value).then(data => {
-            //this.api.login('test5', 'abc123').then(data => {
-            console.log("Data response");
-            console.log(data);
-            console.log("Resultado");
-            console.log(data.code);
-
+            
             if (data.code === "200") {
                 let user: user = {
                     id: data.user.id,
@@ -53,8 +45,6 @@ export class LoginComponent implements OnInit {
                     status: data.user.status,
                     token: data.user.token
                 }
-                console.log('USUARIO');
-                console.log(user);
                 localStorage.setItem("user", JSON.stringify(user));
                 localStorage.setItem("token", data.user.token);
                 this.router.navigate(['/dashboard']); 

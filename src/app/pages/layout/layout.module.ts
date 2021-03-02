@@ -33,9 +33,6 @@ import { DragdropDirective } from 'src/app/directive/dragdrop.directive';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { BreadComponent } from './component/bread/bread.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { AutomaticComponent } from './report/automatic/automatic.component';
-import { QuestionnaireComponent } from './report/questionnaire/questionnaire.component';
-import { ProductComponent } from './product/product.component';
 
 @NgModule({
     imports: [
@@ -84,7 +81,7 @@ import { ProductComponent } from './product/product.component';
         MenuComponent,
         TopbarComponent,
         PanelComponent,
-        DragdropDirective,        
+        DragdropDirective,    
         
     ], providers: [
         MenuService,

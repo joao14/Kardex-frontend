@@ -31,10 +31,19 @@
                 </ul>
             </li>
             <li *ngIf="typerol=='ADMIN'"> <a routerLink="/product" routerLinkActive="active" style="font-size: 14px;"
-                    (click)="activeMenu('QUESTIONNAIRE')" [class]="activeMenuItem=='QUESTIONNAIRE'?'is-active':'no-active'">
+                    (click)="activeMenu('QUESTIONNAIRE')"
+                    [class]="activeMenuItem=='QUESTIONNAIRE'?'is-active':'no-active'">
                     <i class="fa fa-fw fa-pencil-square-o"
                         [ngStyle]="{'color':activeMenuItem === 'QUESTIONNAIRE'? 'white': '#828282'}"></i>
                     <span>{{ 'Productos' | translate }} </span>
+                </a>
+            </li>
+            <li *ngIf="typerol=='ADMIN'"> <a routerLink="/sales" routerLinkActive="active" style="font-size: 14px;"
+                    (click)="activeMenu('VENTAS')"
+                    [class]="activeMenuItem=='VENTAS'?'is-active':'no-active'">
+                    <i class="fa fa-fw fa-pencil-square-o"
+                        [ngStyle]="{'color':activeMenuItem === 'VENTAS'? 'white': '#828282'}"></i>
+                    <span>{{ 'Ventas' | translate }} </span>
                 </a>
             </li>
             <!--<li *ngIf="typerol=='ADMIN'"> <a routerLink="/automatic" routerLinkActive="active" style="font-size: 14px;"
@@ -43,7 +52,7 @@
                         [ngStyle]="{'color':activeMenuItem === 'AUTOMATIC'? 'white': '#828282'}"></i>
                     <span>{{ 'Generar carga de archivo' | translate }} </span>
                 </a>
-            </li>-->            
+            </li>-->
         </ul>
 
     </div>

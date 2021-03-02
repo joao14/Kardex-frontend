@@ -21,7 +21,7 @@
             <div class="ui-g form-group">
                 <div class="ui-g-12 ui-md-3" *ngIf="edit">
                     <label for="identification">Id</label>
-                    <input type="text" name="identification" pInputText autocomplete="off" maxlength="100"
+                    <input type="text" name="identification" pInputText autocomplete="off" maxlength="100" readonly
                         pKeyFilter="int" [(ngModel)]="product.id" />
                 </div>
 

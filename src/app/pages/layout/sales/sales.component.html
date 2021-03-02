@@ -1,0 +1,34 @@
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card no-margin">
+            <h1>Venta de productos</h1>
+            <p-toast></p-toast>
+            <p-toolbar>
+                <div class="p-toolbar-group-left">
+                    <button pButton label="Compra" icon="pi pi-plus" class="ui-button-success"></button>
+                </div>
+            </p-toolbar>
+            <p-fieldset [legend]="'Información de la factura' | translate">
+                <div class="ui-g form-group ui-fluid">
+                    <div class="ui-g-12 ui-md-3">
+                        <label class="lbl">{{'Producto' | translate }}</label>
+                        <p-dropdown [options]="products" optionLabel="name" [filter]="true" placeholder="Seleccione">
+                        </p-dropdown>
+                    </div>
+                    <div class="ui-g-12 ui-md-3">
+                        <label class="lbl">{{'Cantidad' | translate }}</label>
+                        <input type="text" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-3">
+                        <label class="lbl">{{'Identificación' | translate }}</label>
+                        <input type="text" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-3">
+                        <label class="lbl">{{'Nombre' | translate }}</label>
+                        <input type="text" pInputText />
+                    </div>
+                </div>
+            </p-fieldset>
+        </div>
+    </div>
+</div>

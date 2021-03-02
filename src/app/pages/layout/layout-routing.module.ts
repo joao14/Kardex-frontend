@@ -13,8 +13,7 @@ const routes: Routes = [
             { path: 'edituser', loadChildren: () => import('./security/usuario/edit/edit.module').then(m => m.EditModule) },
             { path: 'product', loadChildren: () => import('./product/product.module').then(m => m.ProductModule) },
             { path: 'editproduct', loadChildren: () => import('./product/edit/edit.module').then(m => m.EditModule) },
-            { path: 'automatic', loadChildren: () => import('./report/automatic/automatic.module').then(m => m.AutomaticModule) },
-            { path: 'questionnaire', loadChildren: () => import('./report/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule) } 
+            { path: 'sales', loadChildren: () => import('./sales/sales.module').then(m => m.SalesModule) }, 
         ]
     }
 ];

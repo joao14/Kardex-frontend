@@ -26,41 +26,8 @@
                         <th> {{'Stock' | translate}}</th>
                         <th> {{'Precio' | translate}}</th>
                         <th> {{'Estado' | translate}}</th>
-                        <th style="width: 8em; text-align: center;">
+                        <th style="width: 3em; text-align: center;">
                             <button pButton type="button" icon="pi pi-cog"></button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <div class="ui-fluid">
-                                <input pInputText type="text"
-                                    (input)="dt.filter($event.target.value, 'name','contains')"
-                                    placeholder="Search by name">
-                            </div>
-                        </th>
-                        <th>
-                            <div class="ui-fluid">
-                                <input pInputText type="text"
-                                    (input)="dt.filter($event.target.value, 'stock', 'contains')"
-                                    placeholder="Search by razon social">
-                            </div>
-                        </th>
-                        <th>
-                            <div class="ui-fluid">
-                                <input pInputText type="text"
-                                    (input)="dt.filter($event.target.value, 'price','contains')"
-                                    placeholder="Search by email">
-                            </div>
-                        </th>
-                        <th>
-                            <div class="ui-fluid">
-                                <input pInputText type="text"
-                                    (input)="dt.filter($event.target.value, 'status','startsWith')"
-                                    placeholder="Search by status">
-                            </div>
-                        </th>
-                        <th style="width: 8em;">
-
                         </th>
                     </tr>
                 </ng-template>
@@ -70,8 +37,8 @@
                         <td>{{product.stock }}</td>
                         <td>{{product.price }}</td>
                         <td style="text-align: center;">
-                            <div [class]="product.status=='1'?'active-badge':'inactive-badge'">
-                                <span>{{product.status=='1'?'Activo':'Inactivo'}}</span>
+                            <div [class]="product.status=='A'?'active-badge':'inactive-badge'">
+                                <span>{{product.status=='A'?'Activo':'Inactivo'}}</span>
                             </div>
                         </td>
                         <td>
