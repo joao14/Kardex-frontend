@@ -41,7 +41,7 @@
             <li *ngIf="typerol=='ADMIN'"> <a routerLink="/sales" routerLinkActive="active" style="font-size: 14px;"
                     (click)="activeMenu('VENTAS')"
                     [class]="activeMenuItem=='VENTAS'?'is-active':'no-active'">
-                    <i class="fa fa-fw fa-pencil-square-o"
+                    <i class="fa fa-money"
                         [ngStyle]="{'color':activeMenuItem === 'VENTAS'? 'white': '#828282'}"></i>
                     <span>{{ 'Ventas' | translate }} </span>
                 </a>

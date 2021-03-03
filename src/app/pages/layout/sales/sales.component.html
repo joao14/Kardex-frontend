@@ -3,32 +3,76 @@
         <div class="card no-margin">
             <h1>Venta de productos</h1>
             <p-toast></p-toast>
-            <p-toolbar>
-                <div class="p-toolbar-group-left">
-                    <button pButton label="Compra" icon="pi pi-plus" class="ui-button-success"></button>
-                </div>
-            </p-toolbar>
-            <p-fieldset [legend]="'Información de la factura' | translate">
-                <div class="ui-g form-group ui-fluid">
-                    <div class="ui-g-12 ui-md-3">
-                        <label class="lbl">{{'Producto' | translate }}</label>
-                        <p-dropdown [options]="products" optionLabel="name" [filter]="true" placeholder="Seleccione">
-                        </p-dropdown>
+            <form [formGroup]="saleForm" (ngSubmit)="save()">
+                <p-toolbar>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton label="Finalizar" icon="pi pi-check" class="ui-button-help btn_enviar"
+                            type="submit"></button>
                     </div>
-                    <div class="ui-g-12 ui-md-3">
-                        <label class="lbl">{{'Cantidad' | translate }}</label>
-                        <input type="text" pInputText />
+                </p-toolbar>
+                <p-fieldset [legend]="'Información de la factura' | translate">
+                    <div class="ui-g form-group ui-fluid">
+                        <div class="ui-g-12 ui-md-3">
+                            <label class="lbl">{{'Producto' | translate }}</label>
+                            <p-dropdown [options]="products" optionLabel="name" [filter]="true"
+                                formControlName="product"
+                                [ngClass]="{ 'is-invalid': submittedSale && f.product.errors }" class="form-control"
+                                placeholder="Seleccione">
+                            </p-dropdown>
+                            <div *ngIf="submittedSale && f.product.errors" class="invalid-feedback">
+                                <div *ngIf="f.product.errors.required">{{'Producto es requerido' | translate}}</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label class="lbl">{{'Cantidad' | translate }}</label>
+                            <input type="text" pInputText formControlName="stock" pKeyFilter="num"
+                                (focusout)="calculate()"
+                                [ngClass]="{ 'is-invalid': submittedSale && f.stock.errors }" class="form-control" />
+                            <div *ngIf="submittedSale && f.stock.errors" class="invalid-feedback">
+                                <div *ngIf="f.stock.errors.required">{{'Cantidad es requerido' | translate}}</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label class="lbl">{{'Identificación' | translate }}</label>
+                            <input type="text" pInputText formControlName="identification" pKeyFilter="int"
+                                [ngClass]="{ 'is-invalid': submittedSale && f.identification.errors }"
+                                class="form-control" />
+                            <div *ngIf="submittedSale && f.identification.errors" class="invalid-feedback">
+                                <div *ngIf="f.identification.errors.required">{{'Identificación es requerido' |
+                                    translate}}</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label class="lbl">{{'Nombre' | translate }}</label>
+                            <input type="text" pInputText formControlName="name"
+                                [ngClass]="{ 'is-invalid': submittedSale && f.name.errors }" class="form-control" />
+                            <div *ngIf="submittedSale && f.name.errors" class="invalid-feedback">
+                                <div *ngIf="f.name.errors.required">{{'Nombre es requerido' | translate}}</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label class="lbl">{{'E-mail' | translate }}</label>
+                            <input type="text" pInputText formControlName="mail" pKeyFilter="email"
+                                [ngClass]="{ 'is-invalid': submittedSale && f.mail.errors }" class="form-control" />
+                            <div *ngIf="submittedSale && f.mail.errors" class="invalid-feedback">
+                                <div *ngIf="f.mail.errors.required">{{'E-mail es requerido' | translate}}</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label class="lbl">{{'Teléfono' | translate }}</label>
+                            <input type="text" pInputText formControlName="phone" pKeyFilter="pnum" 
+                                [ngClass]="{ 'is-invalid': submittedSale && f.phone.errors }" class="form-control" />
+                            <div *ngIf="submittedSale && f.phone.errors" class="invalid-feedback">
+                                <div *ngIf="f.phone.errors.required">{{'Teléfono es requerido' | translate}}</div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                            <label class="lbl">{{'Total' | translate }}</label>
+                            <input type="text" pInputText formControlName="total" readOnly placeholder="0.0"/>                           
+                        </div>
                     </div>
-                    <div class="ui-g-12 ui-md-3">
-                        <label class="lbl">{{'Identificación' | translate }}</label>
-                        <input type="text" pInputText />
-                    </div>
-                    <div class="ui-g-12 ui-md-3">
-                        <label class="lbl">{{'Nombre' | translate }}</label>
-                        <input type="text" pInputText />
-                    </div>
-                </div>
-            </p-fieldset>
+                </p-fieldset>
+            </form>
         </div>
     </div>
 </div>

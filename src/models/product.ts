@@ -4,4 +4,4 @@ export interface Product {
     stock: string,
     price: string,
     status: string
-}
+} 

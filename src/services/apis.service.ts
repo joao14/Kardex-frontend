@@ -149,6 +149,22 @@ export class ApisService {
         });
     }
 
+    public sales(sale: any, token: string): Promise<any> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': token
+        })
+
+
+        return new Promise<any>((resolve, reject) => {
+            this.http.post<any>(environment.sale, sale, { headers: headers}).toPromise().then(product => {
+                resolve(product);
+            }).catch(error => {
+                reject(error);
+            })
+        });
+    }
+
 
     httpPost(url, body) {
         const header = {

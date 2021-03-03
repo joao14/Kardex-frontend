@@ -1,5 +1,5 @@
 const IP: string = "http://localhost:"
-const PUERTO: string = "8081"
+const PUERTO: string = "8082"
 
 const URL: string = IP + PUERTO;
 
@@ -10,5 +10,6 @@ export const environment = {
     add: URL + '/api/kardex/v1/register/product',
     update: URL + '/api/kardex/v1/update/product',
     delete: URL + '/api/kardex/v1/delete/product', 
-    users: URL + '/api/kardex/v1/users',   
+    users: URL + '/api/kardex/v1/users', 
+    sale: URL + '/api/kardex/v1/sale/finish'
 };

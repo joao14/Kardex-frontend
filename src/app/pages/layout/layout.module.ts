@@ -27,7 +27,6 @@ import { RouterModule } from '@angular/router';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { MessageModule, AutoCompleteModule, CardModule, SplitButtonModule, SelectButtonModule, ConfirmDialogModule, CalendarModule, DynamicDialogModule, DialogModule, VirtualScrollerModule, CarouselModule, DataViewModule, FieldsetModule, ProgressBarModule, ChartModule, BreadcrumbModule } from 'primeng';
-import { DragdropDirective } from 'src/app/directive/dragdrop.directive';
 
 // in app.module.ts   
 import { NgxDropzoneModule } from 'ngx-dropzone';
@@ -80,8 +79,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
         BreadComponent,
         MenuComponent,
         TopbarComponent,
-        PanelComponent,
-        DragdropDirective,    
+        PanelComponent,    
         
     ], providers: [
         MenuService,

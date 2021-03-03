@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { CustomTranslateLoader } from './custom-translate-loader';
 import { SharedModule } from 'primeng/primeng';
-import { RegisterModule } from './pages/register/register.module';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -26,7 +25,6 @@ import { AppRoutingModule } from './app-routing.module';
         AppRoutingModule,
         SharedModule,
         BrowserAnimationsModule,
-        RegisterModule,
         NgxDropzoneModule,
         TranslateModule.forRoot({
             loader: {

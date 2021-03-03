@@ -28,8 +28,7 @@ export class ProductComponent implements OnInit {
 
   getProducts() {
     this.products = [];
-    this.api.products(localStorage.getItem("token")).then((data) => {
-      console.log(data);
+    this.api.products(localStorage.getItem("token")).then((data) => {    
       if (data.code == '200') {
         this.products = data.data;
       }
@@ -46,16 +45,12 @@ export class ProductComponent implements OnInit {
     this.router.navigate(['/editproduct']);
   }
 
-  edit(product: Product) {
-    console.log('Editando V1');
-    console.log(product);
-    /*this.router.navigate(['/editproduct', { state: { product: JSON.stringify(product) } }]);*/
+  edit(product: Product) {       
     this.router.navigate(['/editproduct'], { queryParams: { product: JSON.stringify(product) } });
   }
 
   async remove(product: Product) {
-    await this.api.deleteproduct(product.id, localStorage.getItem('token')).then(async (data) => {
-      console.log(data);
+    await this.api.deleteproduct(product.id, localStorage.getItem('token')).then(async (data) => {     
       if (data.code == '200') {
         await this.getProducts();
         this.messageService.add({ severity: 'success', summary: 'Kardex', detail: 'Producto eliminado correctamente' });

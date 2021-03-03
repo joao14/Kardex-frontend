@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ApisService } from 'src/services/apis.service';
 import { Router } from '@angular/router';
-import { flower } from 'src/models/flower';
 import { UtilService } from 'src/services/util.service';
 import { user } from 'src/models/user';
 import * as moment from 'moment';
